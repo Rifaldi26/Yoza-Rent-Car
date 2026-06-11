@@ -3,34 +3,34 @@ $groups = [
     [
         'label' => null,
         'items' => [
-            ['route'=>'admin.dashboard','icon'=>'chart-bar','label'=>'Beranda',
+            ['route'=>'admin.dashboard','icon'=>'chart-bar','label'=> __('Beranda'),
              'active'=> request()->routeIs('admin.dashboard')],
         ],
     ],
     [
-        'label' => 'Operasional',
+        'label' => __('Operasional'),
         'items' => [
-            ['route'=>'admin.pemesanan.index','icon'=>'calendar','label'=>'Pemesanan',
+            ['route'=>'admin.pemesanan.index','icon'=>'calendar','label'=> __('Pemesanan'),
              'active'=> request()->routeIs('admin.pemesanan.*')],
-            ['route'=>'admin.mobil.index',   'icon'=>'car',     'label'=>'Armada Mobil',
+            ['route'=>'admin.mobil.index',   'icon'=>'car',     'label'=> __('Armada Mobil'),
              'active'=> request()->routeIs('admin.mobil.*')],
-            ['route'=>'admin.user.index',    'icon'=>'users',   'label'=>'Pengguna',
+            ['route'=>'admin.user.index',    'icon'=>'users',   'label'=> __('Pengguna'),
              'active'=> request()->routeIs('admin.user.*')],
         ],
     ],
     [
-        'label' => 'Penjualan',
+        'label' => __('Penjualan'),
         'items' => [
-            ['route'=>'admin.laporan.index',  'icon'=>'trending-up','label'=>'Laporan',
+            ['route'=>'admin.laporan.index',  'icon'=>'trending-up','label'=> __('Laporan'),
              'active'=> request()->routeIs('admin.laporan.*')],
-            ['route'=>'admin.pembukuan.index','icon'=>'book-open', 'label'=>'Pembukuan',
+            ['route'=>'admin.pembukuan.index','icon'=>'book-open', 'label'=> __('Pembukuan'),
              'active'=> request()->routeIs('admin.pembukuan.*')],
         ],
     ],
     [
         'label'  => null,
         'items' => [
-            ['route'=>'admin.chat.index','icon'=>'chat', 'label'  => 'Chat',
+            ['route'=>'admin.chat.index','icon'=>'chat', 'label' => __('Chat'),
              'active'=> request()->routeIs('admin.chat.*')],
         ],
     ],
@@ -45,11 +45,12 @@ $groups = [
         </div>
         <div class="leading-tight">
             <p class="text-sm font-bold text-gray-900">Yoza Rent Car</p>
-            <p class="text-[10px] font-semibold uppercase tracking-widest text-gray-400">Panel Admin</p>
+            <p class="text-[10px] font-semibold uppercase tracking-widest text-gray-400">{{ __('Panel Admin') }}</p>
         </div>
     </div>
     <button @click="drawerOpen = false"
-            class="grid h-8 w-8 place-items-center rounded-lg hover:bg-gray-100 transition-colors">
+            class="grid h-8 w-8 place-items-center rounded-lg hover:bg-gray-100 transition-colors"
+            :aria-label="__('Tutup menu')">
         <x-icon name="x" class="w-5 h-5 text-gray-500" />
     </button>
 </div>
@@ -79,3 +80,4 @@ $groups = [
             </div>
         </div>
     @endforeach
+</nav>

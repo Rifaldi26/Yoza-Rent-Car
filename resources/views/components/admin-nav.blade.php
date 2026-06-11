@@ -1,33 +1,33 @@
 @php
 $groups = [
     [
-        'label' => 'Beranda',
+        'label' => __('Beranda'),
         'single' => true,
         'route'  => 'admin.dashboard',
         'icon'   => 'chart-bar',
         'active' => request()->routeIs('admin.dashboard'),
     ],
     [
-        'label'  => 'Operasional',
+        'label'  => __('Operasional'),
         'single' => false,
         'active' => request()->routeIs('admin.pemesanan.*','admin.mobil.*','admin.user.*'),
         'items'  => [
-            ['route'=>'admin.pemesanan.index','icon'=>'calendar','label'=>'Pemesanan'],
-            ['route'=>'admin.mobil.index',    'icon'=>'car',     'label'=>'Armada Mobil'],
-            ['route'=>'admin.user.index',     'icon'=>'users',   'label'=>'Pengguna'],
+            ['route'=>'admin.pemesanan.index','icon'=>'calendar','label'=> __('Pemesanan')],
+            ['route'=>'admin.mobil.index',    'icon'=>'car',     'label'=> __('Armada Mobil')],
+            ['route'=>'admin.user.index',     'icon'=>'users',   'label'=> __('Pengguna')],
         ],
     ],
     [
-        'label'  => 'Penjualan',
+        'label'  => __('Penjualan'),
         'single' => false,
         'active' => request()->routeIs('admin.laporan.*','admin.pembukuan.*'),
         'items'  => [
-            ['route'=>'admin.laporan.index',   'icon'=>'trending-up','label'=>'Laporan'],
-            ['route'=>'admin.pembukuan.index', 'icon'=>'book-open', 'label'=>'Pembukuan'],
+            ['route'=>'admin.laporan.index',   'icon'=>'trending-up','label'=> __('Laporan')],
+            ['route'=>'admin.pembukuan.index', 'icon'=>'book-open', 'label'=> __('Pembukuan')],
         ],
     ],
     [
-        'label'  => 'Chat',
+        'label'  => __('Chat'),
         'single' => true,
         'route'  =>'admin.chat.index',
         'icon'   =>'chat',

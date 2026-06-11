@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Dasbor')
+@section('title', __('Dasbor'))
 
 @section('content')
 
@@ -8,16 +8,16 @@
 <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
     <div>
         <h1 class="text-2xl font-bold tracking-tight text-gray-900">
-            Selamat datang kembali
+            {{ __('Selamat datang kembali') }}
         </h1>
         <p class="mt-1 text-sm text-gray-500">
-            {{ now()->translatedFormat('l, d F Y') }} &mdash; Berikut ringkasan operasional hari ini.
+            {{ now()->translatedFormat('l, d F Y') }} &mdash; {{ __('Berikut ringkasan operasional hari ini.') }}
         </p>
     </div>
     <span class="inline-flex w-fit items-center gap-1.5 rounded-full border border-green-200
                  bg-green-50 px-3 py-1 text-xs font-medium text-green-700">
         <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500"></span>
-        Sistem aktif
+        {{ __('Sistem aktif') }}
     </span>
 </div>
 
@@ -26,7 +26,7 @@
 
     <div class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
         <div class="flex items-start justify-between">
-            <p class="text-xs font-medium text-gray-500">Pendapatan Bulan Ini</p>
+            <p class="text-xs font-medium text-gray-500">{{ __('Pendapatan Bulan Ini') }}</p>
             <div class="grid h-8 w-8 place-items-center rounded-lg bg-blue-50 text-blue-600">
                 <x-icon name="trending-up" class="w-4 h-4" />
             </div>
@@ -36,13 +36,13 @@
         </p>
         <p class="mt-1 inline-flex items-center gap-0.5 text-xs font-medium text-green-600">
             <x-icon name="trending-up" class="w-3 h-3" />
-            Bulan berjalan
+            {{ __('Bulan berjalan') }}
         </p>
     </div>
 
     <div class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
         <div class="flex items-start justify-between">
-            <p class="text-xs font-medium text-gray-500">Menunggu Konfirmasi</p>
+            <p class="text-xs font-medium text-gray-500">{{ __('Menunggu Konfirmasi') }}</p>
             <div class="grid h-8 w-8 place-items-center rounded-lg bg-orange-50 text-orange-600">
                 <x-icon name="clock" class="w-4 h-4" />
             </div>
@@ -51,15 +51,15 @@
             {{ $stats['menunggu_konfirmasi'] }}
         </p>
         @if($stats['menunggu_konfirmasi'] > 0)
-            <p class="mt-1 text-xs font-medium text-orange-600">Perlu tindakan segera</p>
+            <p class="mt-1 text-xs font-medium text-orange-600">{{ __('Perlu tindakan segera') }}</p>
         @else
-            <p class="mt-1 text-xs font-medium text-gray-400">Tidak ada antrian</p>
+            <p class="mt-1 text-xs font-medium text-gray-400">{{ __('Tidak ada antrian') }}</p>
         @endif
     </div>
 
     <div class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
         <div class="flex items-start justify-between">
-            <p class="text-xs font-medium text-gray-500">Armada Tersedia</p>
+            <p class="text-xs font-medium text-gray-500">{{ __('Armada Tersedia') }}</p>
             <div class="grid h-8 w-8 place-items-center rounded-lg bg-green-50 text-green-600">
                 <x-icon name="car" class="w-4 h-4" />
             </div>
@@ -70,19 +70,19 @@
         </p>
         <p class="mt-1 inline-flex items-center gap-1.5 text-xs font-medium text-gray-500">
             <span class="h-2 w-2 rounded-full bg-yellow-400"></span>
-            {{ $stats['mobil_perawatan'] }} dalam perawatan
+            {{ $stats['mobil_perawatan'] }} {{ __('dalam perawatan') }}
         </p>
     </div>
 
     <div class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
         <div class="flex items-start justify-between">
-            <p class="text-xs font-medium text-gray-500">Total Pelanggan</p>
+            <p class="text-xs font-medium text-gray-500">{{ __('Total Pelanggan') }}</p>
             <div class="grid h-8 w-8 place-items-center rounded-lg bg-purple-50 text-purple-600">
                 <x-icon name="users" class="w-4 h-4" />
             </div>
         </div>
         <p class="mt-3 text-xl font-bold text-gray-900 sm:text-2xl">{{ $stats['total_user'] }}</p>
-        <p class="mt-1 text-xs font-medium text-gray-400">Pengguna terdaftar</p>
+        <p class="mt-1 text-xs font-medium text-gray-400">{{ __('Pengguna terdaftar') }}</p>
     </div>
 
 </div>
@@ -93,10 +93,10 @@
     {{-- Tabel Pemesanan --}}
     <div class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm lg:col-span-2">
         <div class="mb-4 flex items-center justify-between">
-            <h2 class="text-sm font-semibold text-gray-900">Pemesanan Terbaru</h2>
+            <h2 class="text-sm font-semibold text-gray-900">{{ __('Pemesanan Terbaru') }}</h2>
             <a href="{{ route('admin.pemesanan.index') }}"
                class="text-xs font-medium text-blue-600 hover:underline">
-                Lihat semua
+                {{ __('Lihat semua') }}
             </a>
         </div>
 
@@ -105,8 +105,8 @@
                 <div class="grid h-12 w-12 place-items-center rounded-full bg-gray-100 mb-3">
                     <x-icon name="check-circle" class="w-6 h-6 text-gray-400" />
                 </div>
-                <p class="text-sm font-medium text-gray-900">Tidak ada antrian</p>
-                <p class="text-xs text-gray-500 mt-1">Semua pemesanan sudah diproses.</p>
+                <p class="text-sm font-medium text-gray-900">{{ __('Tidak ada antrian') }}</p>
+                <p class="text-xs text-gray-500 mt-1">{{ __('Semua pemesanan sudah diproses.') }}</p>
             </div>
         @else
             <div class="overflow-x-auto">
@@ -114,11 +114,11 @@
                     <thead>
                         <tr class="border-b border-gray-200 text-left text-xs font-medium
                                    uppercase tracking-wider text-gray-500">
-                            <th class="py-2 pr-3">ID</th>
-                            <th class="py-2 pr-3">Pelanggan</th>
-                            <th class="py-2 pr-3 hidden md:table-cell">Mobil</th>
-                            <th class="py-2 pr-3">Status</th>
-                            <th class="py-2 pr-3 text-right">Total</th>
+                            <th class="py-2 pr-3">{{ __('ID') }}</th>
+                            <th class="py-2 pr-3">{{ __('Pelanggan') }}</th>
+                            <th class="py-2 pr-3 hidden md:table-cell">{{ __('Mobil') }}</th>
+                            <th class="py-2 pr-3">{{ __('Status') }}</th>
+                            <th class="py-2 pr-3 text-right">{{ __('Total') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -164,14 +164,14 @@
 
     {{-- Status Armada --}}
     <div class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
-        <h2 class="mb-4 text-sm font-semibold text-gray-900">Status Armada</h2>
+        <h2 class="mb-4 text-sm font-semibold text-gray-900">{{ __('Status Armada') }}</h2>
 
         @php
         $total        = max($stats['total_mobil'], 1);
         $fleet = [
-            ['label'=>'Tersedia',  'count'=>$stats['mobil_tersedia'],  'color'=>'bg-green-500',  'pct'=> round($stats['mobil_tersedia']/$total*100)],
-            ['label'=>'Disewa',    'count'=>$stats['mobil_disewa'],    'color'=>'bg-blue-600',   'pct'=> round($stats['mobil_disewa']/$total*100)],
-            ['label'=>'Perawatan', 'count'=>$stats['mobil_perawatan'], 'color'=>'bg-yellow-400', 'pct'=> round($stats['mobil_perawatan']/$total*100)],
+            ['label'=> __('Tersedia'),  'count'=>$stats['mobil_tersedia'],  'color'=>'bg-green-500',  'pct'=> round($stats['mobil_tersedia']/$total*100)],
+            ['label'=> __('Disewa'),    'count'=>$stats['mobil_disewa'],    'color'=>'bg-blue-600',   'pct'=> round($stats['mobil_disewa']/$total*100)],
+            ['label'=> __('Perawatan'), 'count'=>$stats['mobil_perawatan'], 'color'=>'bg-yellow-400', 'pct'=> round($stats['mobil_perawatan']/$total*100)],
         ];
         @endphp
 
@@ -194,7 +194,7 @@
 
         <a href="{{ route('admin.mobil.index') }}"
            class="mt-5 flex items-center gap-1 text-xs font-medium text-blue-600 hover:underline">
-            Kelola armada
+            {{ __('Kelola armada') }}
             <x-icon name="chevron-right" class="w-3 h-3" />
         </a>
     </div>
