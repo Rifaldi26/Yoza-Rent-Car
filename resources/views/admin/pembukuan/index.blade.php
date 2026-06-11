@@ -30,6 +30,8 @@
         <p class="mt-1 text-2xl font-bold tabular-nums text-gray-900">
             Rp {{ number_format($ringkasan['total_pendapatan'], 0, ',', '.') }}
         </p>
+        <p class="mt-1 text-2xl font-bold tabular-nums text-gray-900">
+            Rp {{ number_format($ringkasan['total_pendapatan'], 0, ',', '.') }}
     </div>
     <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
         <div class="mb-3 grid h-10 w-10 place-items-center rounded-lg bg-yellow-100 text-yellow-600">
