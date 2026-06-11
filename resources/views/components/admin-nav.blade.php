@@ -20,10 +20,10 @@ $groups = [
     [
         'label'  => 'Penjualan',
         'single' => false,
-        'active' => request()->routeIs('admin.laporan.*','admin.akuntansi.*'),
+        'active' => request()->routeIs('admin.laporan.*','admin.pembukuan.*'),
         'items'  => [
             ['route'=>'admin.laporan.index',   'icon'=>'trending-up','label'=>'Laporan'],
-            ['route'=>'admin.akuntansi.index', 'icon'=>'book-open', 'label'=>'Akuntansi'],
+            ['route'=>'admin.pembukuan.index', 'icon'=>'book-open', 'label'=>'Pembukuan'],
         ],
     ],
     [

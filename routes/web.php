@@ -7,7 +7,7 @@ use App\Http\Controllers\Admin\MobilController          as AdminMobil;
 use App\Http\Controllers\Admin\PemesananController      as AdminPemesanan;
 use App\Http\Controllers\Admin\UserController           as AdminUser;
 use App\Http\Controllers\Admin\LaporanController        as AdminLaporan;
-use App\Http\Controllers\Admin\AkuntansiController      as AdminAkuntansi;
+use App\Http\Controllers\Admin\PembukuanController      as AdminPembukuan;
 use App\Http\Controllers\Admin\NotifikasiController     as AdminNotifikasi;
 use App\Http\Controllers\Admin\ChatController           as AdminChat;
 use App\Http\Controllers\Admin\PageController           as AdminPage;
@@ -117,15 +117,15 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->name('admin.')->group(
     Route::get('/laporan/chart-data', [AdminLaporan::class, 'chartData'])->name('laporan.chart-data');
     Route::get('/laporan/export-excel', [LaporanController::class, 'exportExcel'])->name('laporan.export-excel');
 
-    // ── Akuntansi ─────────────────────────────────────────────
+    // ── Pembukuan ─────────────────────────────────────────────
     // Statis sebelum dinamis
-    Route::get('/akuntansi', [AdminAkuntansi::class, 'index'])->name('akuntansi.index');
-    Route::get('/akuntansi/jurnal', [AdminAkuntansi::class, 'jurnal'])->name('akuntansi.jurnal');
-    Route::get('/akuntansi/laporan', [AdminAkuntansi::class, 'laporan'])->name('akuntansi.laporan');
-    Route::get('/akuntansi/export', [AdminAkuntansi::class, 'export'])->name('akuntansi.export');
-    Route::post('/akuntansi/pengeluaran', [AdminAkuntansi::class, 'pengeluaran'])->name('akuntansi.pengeluaran');
-    Route::get('/akuntansi/{account}/edit', [AdminAkuntansi::class, 'edit'])->name('akuntansi.edit');
-    Route::put('/akuntansi/{account}', [AdminAkuntansi::class, 'update'])->name('akuntansi.update');
+    Route::get('/pembukuan', [AdminPembukuan::class, 'index'])->name('pembukuan.index');
+    Route::get('/pembukuan/jurnal', [AdminPembukuan::class, 'jurnal'])->name('pembukuan.jurnal');
+    Route::get('/pembukuan/laporan', [AdminPembukuan::class, 'laporan'])->name('pembukuan.laporan');
+    Route::get('/pembukuan/export', [AdminPembukuan::class, 'export'])->name('pembukuan.export');
+    Route::post('/pembukuan/pengeluaran', [AdminPembukuan::class, 'pengeluaran'])->name('pembukuan.pengeluaran');
+    Route::get('/pembukuan/{account}/edit', [AdminPembukuan::class, 'edit'])->name('pembukuan.edit');
+    Route::put('/pembukuan/{account}', [AdminPembukuan::class, 'update'])->name('pembukuan.update');
 
     // ── Notifikasi (admin) ────────────────────────────────────
     Route::get('/notifikasi/unread-count', [AdminNotifikasi::class, 'unreadCount'])->name('notifikasi.unread-count');
@@ -164,6 +164,13 @@ Route::get('/kebijakan-privasi', function () {
         'updated_at' => now()]);
     return view('pages.privacy', compact('page'));
 })->name('privacy');
+
+use App\Http\Controllers\LocaleController;
+
+// Tambahkan route ini:
+Route::get('/locale/{locale}', [LocaleController::class, 'switch'])
+    ->name('locale.switch')
+    ->where('locale', 'id|en');
 
 // ── Breeze auth routes (login, register, dll) ─────────────────
 require __DIR__.'/auth.php';

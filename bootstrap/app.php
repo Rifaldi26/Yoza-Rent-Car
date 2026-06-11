@@ -19,6 +19,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'email.verified.custom'=> \App\Http\Middleware\EnsureEmailVerified::class,
         ]);
 
+            $middleware->web(append: [
+            \App\Http\Middleware\SetLocale::class,
+        ]);
+
         // Kecualikan webhook Midtrans dari CSRF
         $middleware->validateCsrfTokens(except: [
             'payment/webhook',

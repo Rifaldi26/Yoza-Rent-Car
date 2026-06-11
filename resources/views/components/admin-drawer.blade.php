@@ -23,8 +23,8 @@ $groups = [
         'items' => [
             ['route'=>'admin.laporan.index',  'icon'=>'trending-up','label'=>'Laporan',
              'active'=> request()->routeIs('admin.laporan.*')],
-            ['route'=>'admin.akuntansi.index','icon'=>'book-open', 'label'=>'Akuntansi',
-             'active'=> request()->routeIs('admin.akuntansi.*')],
+            ['route'=>'admin.pembukuan.index','icon'=>'book-open', 'label'=>'Pembukuan',
+             'active'=> request()->routeIs('admin.pembukuan.*')],
         ],
     ],
     [

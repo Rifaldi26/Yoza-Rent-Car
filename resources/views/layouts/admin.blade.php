@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" class="h-full">
+<html lang="{{ app()->getLocale() }}" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +11,7 @@
     @stack('styles')
 </head>
 <body class="min-h-screen bg-gray-50 font-inter antialiased"
-      x-data="{ drawerOpen: false, lang: localStorage.getItem('de_lang') || 'id' }">
+      x-data="{ drawerOpen: false }">
 
     {{-- ── Top Bar ──────────────────────────────────────────── --}}
     <header class="sticky top-0 z-40 border-b border-gray-200 bg-white/95 backdrop-blur
@@ -58,15 +58,21 @@
                 </div>
 
                 {{-- Language Toggle --}}
-                <button
-                    @click="lang = lang === 'id' ? 'en' : 'id'; localStorage.setItem('de_lang', lang)"
-                    class="inline-flex items-center gap-1 rounded-lg border border-gray-200 bg-white
-                           px-2.5 py-1.5 text-xs font-semibold tracking-wide hover:bg-gray-50 transition-colors"
-                >
-                    <span :class="lang === 'id' ? 'text-blue-600' : 'text-gray-400'">ID</span>
-                    <span class="text-gray-300">|</span>
-                    <span :class="lang === 'en' ? 'text-blue-600' : 'text-gray-400'">EN</span>
-                </button>
+                {{-- Ganti button Alpine lama dengan ini: --}}
+<div class="inline-flex items-center gap-1 rounded-lg border border-gray-200 bg-white
+            px-2.5 py-1.5 text-xs font-semibold">
+    <a href="{{ route('locale.switch', 'id') }}"
+       class="{{ app()->getLocale() === 'id' ? 'text-blue-600' : 'text-gray-400 hover:text-gray-700' }}
+              transition-colors">
+        ID
+    </a>
+    <span class="text-gray-300">|</span>
+    <a href="{{ route('locale.switch', 'en') }}"
+       class="{{ app()->getLocale() === 'en' ? 'text-blue-600' : 'text-gray-400 hover:text-gray-700' }}
+              transition-colors">
+        EN
+    </a>
+</div>
 
                 {{-- Notification Bell --}}
                 <div class="relative" x-data="{ open: false }">
