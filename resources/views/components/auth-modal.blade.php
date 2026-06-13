@@ -276,6 +276,18 @@
                         </button>
                     </div>
                 </div>
+                <div class="space-y-1">
+    <label class="block text-xs font-medium text-[#18213a]">Konfirmasi Kata Sandi</label>
+    <input type="password"
+           name="password_confirmation"
+           placeholder="Ulangi kata sandi"
+           autocomplete="new-password"
+           required
+           class="h-10 w-full rounded-xl border border-[#e5e9f2] bg-[#f4f6fb]
+                  px-3 text-sm outline-none placeholder:text-[#aab0bf]
+                  focus:border-[#3b6fd4] focus:ring-2 focus:ring-[#3b6fd4]/20
+                  transition-colors">
+</div>
 
                 <button type="submit"
                         class="flex h-10 w-full items-center justify-center rounded-xl bg-[#3b6fd4]
