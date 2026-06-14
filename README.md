@@ -1,59 +1,184 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Yoza Rent Car
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikasi manajemen rental mobil berbasis web. Memungkinkan pelanggan menelusuri armada, memesan kendaraan, dan melakukan pembayaran; serta memberikan panel admin untuk mengelola pemesanan, konfirmasi pembayaran, dan laporan keuangan.
 
-## About Laravel
+## Teknologi
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+| Layer      | Teknologi                              |
+|------------|----------------------------------------|
+| Backend    | PHP 8.2, Laravel 12, Laravel Breeze    |
+| Frontend   | Tailwind CSS v3, Alpine.js v3, Vite    |
+| Realtime   | Laravel Reverb (WebSocket)             |
+| Database   | MySQL 8 (production), SQLite (test)    |
+| Queue      | Redis + Supervisor (production)        |
+| Auth       | Session + Google OAuth (Socialite)     |
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Fitur Utama
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Katalog mobil dengan filter ketersediaan dan favorit
+- Pemesanan dengan pengecekan konflik tanggal otomatis
+- Alur pembayaran via WhatsApp (cash, transfer, QRIS, EDC)
+- Notifikasi in-app dan email transaksional
+- Chat realtime antara pelanggan dan admin
+- Panel admin: manajemen armada, pemesanan, laporan, pembukuan double-entry
+- Ekspor laporan ke Excel dan PDF
+- Dukungan bahasa Indonesia / Inggris (i18n)
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Cara Setup Lokal
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Prasyarat
 
-## Laravel Sponsors
+- PHP 8.2+
+- Composer
+- Node.js 20+ & npm
+- SQLite (untuk development) atau MySQL 8
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Langkah instalasi
 
-### Premium Partners
+```bash
+# 1. Clone repositori
+git clone https://github.com/username/yoza-rent-car.git
+cd yoza-rent-car
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+# 2. Install dependensi PHP
+composer install
 
-## Contributing
+# 3. Salin dan isi file konfigurasi
+cp .env.example .env
+php artisan key:generate
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+# 4. Jalankan migrasi dan seed data awal
+php artisan migrate --seed
 
-## Code of Conduct
+# 5. Install dependensi frontend dan build aset
+npm install
+npm run build
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# 6. Buat symlink storage
+php artisan storage:link
+```
 
-## Security Vulnerabilities
+### Menjalankan server development
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+composer dev
+```
 
-## License
+Perintah ini menjalankan empat proses sekaligus: server PHP, queue listener, log viewer (Pail), dan Vite dev server.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Konfigurasi wajib di .env
+
+```dotenv
+# Nomor WhatsApp admin (format: 62xxxxxxxx)
+PAYMENT_WA_NUMBER=628xxxxxxxxx
+
+# Rekening transfer
+PAYMENT_TRANSFER_BANK=BCA
+PAYMENT_TRANSFER_REKENING=1234567890
+PAYMENT_TRANSFER_ATAS_NAMA="Nama Pemilik"
+
+# Google OAuth
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+GOOGLE_REDIRECT_URI=http://localhost:8000/auth/google/callback
+
+# Mail (gunakan log untuk dev, SMTP untuk production)
+MAIL_MAILER=log
+MAIL_FROM_ADDRESS=noreply@yozarentcar.com
+MAIL_FROM_NAME="Yoza Rent Car"
+```
+
+---
+
+## Menjalankan Test
+
+```bash
+# Jalankan semua test
+php artisan test
+
+# Dengan laporan coverage
+php artisan test --coverage
+
+# Hanya unit test
+php artisan test --testsuite=Unit
+
+# Hanya feature test
+php artisan test --testsuite=Feature
+```
+
+Target coverage minimum: **70%** pada alur bisnis kritis.
+
+---
+
+## Arsitektur Kode
+
+```
+app/
+├── Console/Commands/       # Perintah artisan terjadwal
+├── Enums/                  # StatusPemesanan, StatusPayment, StatusMobil
+├── Events/                 # PesanTerkirim (Reverb broadcasting)
+├── Exceptions/             # PemesananException, PaymentException
+├── Exports/                # Excel export (Maatwebsite)
+├── Http/
+│   ├── Controllers/
+│   │   ├── Admin/          # Panel admin
+│   │   ├── Auth/           # Autentikasi (Breeze + Google)
+│   │   └── User/           # Panel pelanggan
+│   ├── Middleware/         # IsAdmin, SetLocale, EnsureEmailVerified
+│   └── Requests/           # Form Request per domain
+├── Jobs/                   # KirimEmailPemesanan, SendRentalReminder
+├── Mail/                   # Mailable untuk setiap event pemesanan
+├── Models/                 # Eloquent models
+├── Policies/               # PemesananPolicy, MobilPolicy
+├── Providers/              # AppServiceProvider
+└── Services/               # PemesananService, PaymentService, NotifikasiService
+
+resources/views/
+├── admin/                  # Tampilan panel admin
+├── components/             # Blade components (icon, button, input, dll)
+├── emails/                 # Template email transaksional
+├── layouts/                # Layout utama (app, admin, guest)
+├── pdf/                    # Template PDF invoice dan laporan
+└── user/                   # Tampilan panel pelanggan
+```
+
+### Konvensi
+
+- **Controller**: hanya menerima input, memanggil Service, mengembalikan response.
+- **Service**: seluruh logika bisnis. Dapat di-mock dalam pengujian.
+- **Model**: relasi, scope, cast, dan helper sederhana. Tidak ada kiriman email atau notifikasi.
+- **Form Request**: seluruh validasi. Tidak ada `$request->validate()` di Controller.
+- **Policy**: seluruh otorisasi. Tidak ada pemeriksaan `$user->isAdmin()` di Controller.
+
+---
+
+## Deployment Production
+
+Lihat [docs/deployment.md](docs/deployment.md) untuk panduan lengkap setup VPS, Nginx, Supervisor, CI/CD, dan monitoring.
+
+### Checklist cepat sebelum go-live
+
+```bash
+# Konfigurasi production
+APP_ENV=production
+APP_DEBUG=false
+
+# Optimasi
+php artisan optimize
+php artisan storage:link
+
+# Jalankan migrasi
+php artisan migrate --force
+```
+
+---
+
+## Changelog
+
+Lihat [CHANGELOG.md](CHANGELOG.md).
+
+## Lisensi
+
+Hak cipta © 2026 Yoza Rent Car. Seluruh hak dilindungi.
