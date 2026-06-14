@@ -4,6 +4,7 @@ use App\Http\Middleware\EnsureEmailVerified;
 use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\SetLocale;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 
@@ -16,6 +17,14 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
 
+        $middleware->trustProxies(
+            at: '*',
+            headers: Request::HEADER_X_FORWARDED_FOR |
+                     Request::HEADER_X_FORWARDED_HOST |
+                     Request::HEADER_X_FORWARDED_PORT |
+                     Request::HEADER_X_FORWARDED_PROTO
+        );
+
         // Alias middleware
         $middleware->alias([
             'is_admin' => IsAdmin::class,
@@ -26,7 +35,6 @@ return Application::configure(basePath: dirname(__DIR__))
             SetLocale::class,
         ]);
 
-        // Kecualikan webhook Midtrans dari CSRF
         $middleware->validateCsrfTokens(except: [
             'payment/webhook',
         ]);

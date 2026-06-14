@@ -174,6 +174,13 @@ Route::get('/locale/{locale}', [LocaleController::class, 'switch'])
     ->name('locale.switch')
     ->where('locale', 'id|en');
 
+    Route::get('/check-signature', function () {
+    return response()->json([
+        'url' => request()->fullUrl(),
+        'valid_signature' => request()->hasValidSignature(),
+    ]);
+});
+
 // ── Breeze auth routes (login, register, dll) ─────────────────
 require __DIR__.'/auth.php';
 
