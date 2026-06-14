@@ -16,8 +16,8 @@ class Payment extends Model
     ];
 
     protected $casts = [
-        'amount'     => 'decimal:2',
-        'paid_at'    => 'datetime',
+        'amount' => 'decimal:2',
+        'paid_at' => 'datetime',
         'wa_sent_at' => 'datetime',
     ];
 
@@ -39,12 +39,12 @@ class Payment extends Model
 
     public function labelStatus(): string
     {
-        return match($this->status) {
-            'pending'              => 'Menunggu Pembayaran',
-            'menunggu_konfirmasi'  => 'Menunggu Konfirmasi Admin',
-            'dikonfirmasi'         => 'Dikonfirmasi',
-            'dibatalkan'           => 'Dibatalkan',
-            default                => $this->status,
+        return match ($this->status) {
+            'pending' => 'Menunggu Pembayaran',
+            'menunggu_konfirmasi' => 'Menunggu Konfirmasi Admin',
+            'dikonfirmasi' => 'Dikonfirmasi',
+            'dibatalkan' => 'Dibatalkan',
+            default => $this->status,
         };
     }
 

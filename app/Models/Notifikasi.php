@@ -30,11 +30,11 @@ class Notifikasi extends Model
     {
         return static::create([
             'user_id' => $userId,
-            'judul'   => $judul,
-            'pesan'   => $pesan,
-            'tipe'    => $tipe,
-            'link'    => $link,
-            'dibaca'  => false,
+            'judul' => $judul,
+            'pesan' => $pesan,
+            'tipe' => $tipe,
+            'link' => $link,
+            'dibaca' => false,
         ]);
     }
 }

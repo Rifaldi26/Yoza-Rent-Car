@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Events\PesanTerkirim;
-use App\Models\Pesan;
+use App\Http\Controllers\Controller;
 use App\Models\Pemesanan;
+use App\Models\Pesan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,9 +20,9 @@ class ChatController extends Controller
         $userIds = Pesan::where('pengirim_id', $adminId)
             ->orWhere('penerima_id', $adminId)
             ->get(['pengirim_id', 'penerima_id'])
-            ->flatMap(fn($p) => [$p->pengirim_id, $p->penerima_id])  // ← flat array of IDs
+            ->flatMap(fn ($p) => [$p->pengirim_id, $p->penerima_id])  // ← flat array of IDs
             ->unique()
-            ->filter(fn($id) => $id !== $adminId)
+            ->filter(fn ($id) => $id !== $adminId)
             ->values();
 
         $users = User::whereIn('id', $userIds)
@@ -33,6 +33,7 @@ class ChatController extends Controller
                     ->where('penerima_id', $adminId)
                     ->where('dibaca', false)
                     ->count();
+
                 return $user;
             });
 
@@ -49,19 +50,19 @@ class ChatController extends Controller
             ->where('dibaca', false)
             ->update(['dibaca' => true]);
 
-        return response()->json($pesans->map(fn($p) => [
-            'id'           => $p->id,
-            'pengirim_id'  => $p->pengirim_id,
-            'isi'          => $p->isi,
-            'waktu'        => $p->created_at->format('H:i'),
-            'pemesanan'    => $p->pemesanan ? [
-                'id'              => $p->pemesanan->id,
-                'nama_mobil'      => $p->pemesanan->mobil->nama ?? '-',
-                'tanggal_mulai'   => $p->pemesanan->tanggal_mulai->format('d M Y'),
+        return response()->json($pesans->map(fn ($p) => [
+            'id' => $p->id,
+            'pengirim_id' => $p->pengirim_id,
+            'isi' => $p->isi,
+            'waktu' => $p->created_at->format('H:i'),
+            'pemesanan' => $p->pemesanan ? [
+                'id' => $p->pemesanan->id,
+                'nama_mobil' => $p->pemesanan->mobil->nama ?? '-',
+                'tanggal_mulai' => $p->pemesanan->tanggal_mulai->format('d M Y'),
                 'tanggal_selesai' => $p->pemesanan->tanggal_selesai->format('d M Y'),
-                'status'          => $p->pemesanan->labelStatus(),
-                'total_harga'     => number_format($p->pemesanan->total_harga, 0, ',', '.'),
-                'url'             => route('admin.pemesanan.show', $p->pemesanan->id),
+                'status' => $p->pemesanan->labelStatus(),
+                'total_harga' => number_format($p->pemesanan->total_harga, 0, ',', '.'),
+                'url' => route('admin.pemesanan.show', $p->pemesanan->id),
             ] : null,
         ]));
     }
@@ -69,7 +70,7 @@ class ChatController extends Controller
     public function kirim(Request $request, User $lawan)
     {
         $request->validate([
-            'isi'          => 'required|string|max:2000',
+            'isi' => 'required|string|max:2000',
             'pemesanan_id' => 'nullable|exists:pemesanans,id',
         ]);
 
@@ -79,26 +80,26 @@ class ChatController extends Controller
                 ->where('user_id', $lawan->id)
                 ->exists();
 
-            if (!$valid) {
+            if (! $valid) {
                 return response()->json(['error' => 'Pemesanan tidak valid.'], 422);
             }
         }
 
         $pesan = Pesan::create([
-            'pengirim_id'  => Auth::id(),
-            'penerima_id'  => $lawan->id,
-            'isi'          => $request->isi,
+            'pengirim_id' => Auth::id(),
+            'penerima_id' => $lawan->id,
+            'isi' => $request->isi,
             'pemesanan_id' => $request->pemesanan_id,
         ]);
 
         broadcast(new PesanTerkirim($pesan))->toOthers();
 
         return response()->json([
-            'id'          => $pesan->id,
+            'id' => $pesan->id,
             'pengirim_id' => $pesan->pengirim_id,
-            'isi'         => $pesan->isi,
-            'waktu'       => $pesan->created_at->format('H:i'),
-            'pemesanan'   => null,
+            'isi' => $pesan->isi,
+            'waktu' => $pesan->created_at->format('H:i'),
+            'pemesanan' => null,
         ], 201);
     }
 

@@ -23,7 +23,8 @@ class KirimEmailPemesanan implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public int $tries   = 3;
+    public int $tries = 3;
+
     public int $backoff = 60; // detik antar retry
 
     public function __construct(
@@ -37,20 +38,20 @@ class KirimEmailPemesanan implements ShouldQueue
         $email = $this->pemesanan->user->email;
 
         try {
-            match($this->event) {
-                'dibuat'              => Mail::to($email)->send(new PemesananDibuat($this->pemesanan)),
+            match ($this->event) {
+                'dibuat' => Mail::to($email)->send(new PemesananDibuat($this->pemesanan)),
                 'menunggu_konfirmasi' => $this->kirimMenungguKonfirmasi(), // GANTI dari 'dibayar'
-                'dikonfirmasi'        => Mail::to($email)->send(new PemesananDikonfirmasi($this->pemesanan)),
-                'ditolak'             => Mail::to($email)->send(new PemesananDitolak($this->pemesanan)),
-                'selesai'             => Mail::to($email)->send(new PemesananSelesai($this->pemesanan)),
-                'dibatalkan'          => Mail::to($email)->send(new PemesananDibatalkan($this->pemesanan)),
-                default               => Log::warning("Event tidak dikenal: {$this->event}"),
+                'dikonfirmasi' => Mail::to($email)->send(new PemesananDikonfirmasi($this->pemesanan)),
+                'ditolak' => Mail::to($email)->send(new PemesananDitolak($this->pemesanan)),
+                'selesai' => Mail::to($email)->send(new PemesananSelesai($this->pemesanan)),
+                'dibatalkan' => Mail::to($email)->send(new PemesananDibatalkan($this->pemesanan)),
+                default => Log::warning("Event tidak dikenal: {$this->event}"),
             };
 
             Log::info("Email '{$this->event}' terkirim ke {$email} untuk pemesanan #{$this->pemesanan->id}");
 
         } catch (\Exception $e) {
-            Log::error("Gagal kirim email '{$this->event}' ke {$email}: " . $e->getMessage());
+            Log::error("Gagal kirim email '{$this->event}' ke {$email}: ".$e->getMessage());
             throw $e; // lempar ulang agar queue retry
         }
     }
@@ -73,7 +74,7 @@ class KirimEmailPemesanan implements ShouldQueue
         // Email ke pelanggan
         Mail::to($this->pemesanan->user->email)
             ->send(new PemesananDibayar($this->pemesanan));
-    
+
         // Email ke semua admin
         User::where('role', 'admin')->each(function ($admin) {
             Mail::to($admin->email)
@@ -84,6 +85,6 @@ class KirimEmailPemesanan implements ShouldQueue
     public function failed(\Throwable $exception): void
     {
         Log::error("Job KirimEmailPemesanan gagal permanen untuk pemesanan #{$this->pemesanan->id}: "
-            . $exception->getMessage());
+            .$exception->getMessage());
     }
 }

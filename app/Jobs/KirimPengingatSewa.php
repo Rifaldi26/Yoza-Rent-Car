@@ -33,7 +33,7 @@ class KirimPengingatSewa implements ShouldQueue
 
                 Log::info("Pengingat H-1 terkirim ke {$pemesanan->user->email} untuk pemesanan #{$pemesanan->id}");
             } catch (\Exception $e) {
-                Log::error("Gagal kirim pengingat H-1 pemesanan #{$pemesanan->id}: " . $e->getMessage());
+                Log::error("Gagal kirim pengingat H-1 pemesanan #{$pemesanan->id}: ".$e->getMessage());
             }
         }
     }

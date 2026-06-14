@@ -12,6 +12,7 @@ class PageController extends Controller
     public function index()
     {
         $pages = Page::all();
+
         return view('admin.pages.index', compact('pages'));
     }
 
@@ -19,6 +20,7 @@ class PageController extends Controller
     public function edit($slug)
     {
         $page = Page::where('slug', $slug)->firstOrFail();
+
         return view('admin.pages.edit', compact('page'));
     }
 
@@ -26,14 +28,14 @@ class PageController extends Controller
     public function update(Request $request, $slug)
     {
         $page = Page::where('slug', $slug)->firstOrFail();
-    
+
         $content = ['sections' => $request->input('sections', [])];
-    
+
         $page->update([
-            'title'   => $request->title,
+            'title' => $request->title,
             'content' => json_encode($content, JSON_UNESCAPED_UNICODE),
         ]);
-    
+
         return redirect()->route('admin.pages.index')->with('success', 'Halaman berhasil diperbarui.');
     }
 }

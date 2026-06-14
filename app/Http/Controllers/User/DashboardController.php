@@ -13,14 +13,14 @@ class DashboardController extends Controller
         $user = Auth::user();
 
         $stats = [
-            'total_pemesanan'  => Pemesanan::where('user_id', $user->id)->count(),
-            'aktif'            => Pemesanan::where('user_id', $user->id)
-                                    ->whereIn('status', ['dikonfirmasi', 'menunggu_konfirmasi_admin'])
-                                    ->count(),
-            'selesai'          => Pemesanan::where('user_id', $user->id)
-                                    ->where('status', 'selesai')->count(),
-            'pending'          => Pemesanan::where('user_id', $user->id)
-                                    ->where('status', 'pending')->count(),
+            'total_pemesanan' => Pemesanan::where('user_id', $user->id)->count(),
+            'aktif' => Pemesanan::where('user_id', $user->id)
+                ->whereIn('status', ['dikonfirmasi', 'menunggu_konfirmasi_admin'])
+                ->count(),
+            'selesai' => Pemesanan::where('user_id', $user->id)
+                ->where('status', 'selesai')->count(),
+            'pending' => Pemesanan::where('user_id', $user->id)
+                ->where('status', 'pending')->count(),
         ];
 
         $pemesanan_terbaru = Pemesanan::with(['mobil', 'payment'])

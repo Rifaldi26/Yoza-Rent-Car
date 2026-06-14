@@ -30,9 +30,9 @@ class ExpireStaleBookings extends Command
 
     public function handle(): int
     {
-        $isDryRun       = $this->option('dry-run');
-        $expiryHours    = (int) config('rental.payment_expiry_hours', 24);
-        $cutoff         = Carbon::now()->subHours($expiryHours);
+        $isDryRun = $this->option('dry-run');
+        $expiryHours = (int) config('rental.payment_expiry_hours', 24);
+        $cutoff = Carbon::now()->subHours($expiryHours);
 
         $pemesanans = Pemesanan::with(['user', 'mobil'])
             ->where('status', 'pending')
@@ -41,6 +41,7 @@ class ExpireStaleBookings extends Command
 
         if ($pemesanans->isEmpty()) {
             $this->components->info('Tidak ada pemesanan yang perlu dikadaluarsakan.');
+
             return self::SUCCESS;
         }
 
@@ -77,7 +78,7 @@ class ExpireStaleBookings extends Command
                         userId : $pemesanan->user_id,
                         judul  : 'Pemesanan Kadaluarsa',
                         pesan  : "Pemesanan #{$pemesanan->id} untuk {$pemesanan->mobil->nama} "
-                                 . 'telah kadaluarsa karena pembayaran tidak diselesaikan tepat waktu.',
+                                 .'telah kadaluarsa karena pembayaran tidak diselesaikan tepat waktu.',
                         tipe   : 'warning',
                         link   : route('pemesanan.index'),
                     );

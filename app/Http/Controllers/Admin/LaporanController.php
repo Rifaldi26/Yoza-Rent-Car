@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\PemesananExport;
 use App\Http\Controllers\Controller;
 use App\Models\Mobil;
 use App\Models\Payment;
 use App\Models\Pemesanan;
-use App\Exports\PemesananExport;
-use App\Exports\LaporanExport;
-use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class LaporanController extends Controller
 {
@@ -20,18 +19,18 @@ class LaporanController extends Controller
         $ringkasan = [
             'total_pendapatan' => Payment::where('status', 'dikonfirmasi')
                 ->whereYear('paid_at', $tahun)->sum('amount'),
-            'total_selesai'    => Pemesanan::where('status', 'selesai')
+            'total_selesai' => Pemesanan::where('status', 'selesai')
                 ->whereYear('updated_at', $tahun)->count(),
-            'total_pending'    => Pemesanan::where('status', 'pending')->count(),
+            'total_pending' => Pemesanan::where('status', 'pending')->count(),
             'total_dibatalkan' => Pemesanan::where('status', 'dibatalkan')
                 ->whereYear('updated_at', $tahun)->count(),
         ];
 
         $topMobil = Mobil::withCount([
-                'pemesanans as total_sewa' => fn($q) => $q->where('status', 'selesai'),
-            ])
+            'pemesanans as total_sewa' => fn ($q) => $q->where('status', 'selesai'),
+        ])
             ->withSum([
-                'pemesanans as total_pendapatan' => fn($q) => $q->where('status', 'selesai'),
+                'pemesanans as total_pendapatan' => fn ($q) => $q->where('status', 'selesai'),
             ], 'total_harga')
             ->orderByDesc('total_sewa')
             ->take(5)
@@ -45,11 +44,10 @@ class LaporanController extends Controller
         $tahun = $request->get('tahun', now()->year);
 
         // Pendapatan per bulan
-        $pendapatan = collect(range(1, 12))->map(fn($bulan) =>
-            Payment::where('status', 'dikonfirmasi')
-                ->whereYear('paid_at', $tahun)
-                ->whereMonth('paid_at', $bulan)
-                ->sum('amount')
+        $pendapatan = collect(range(1, 12))->map(fn ($bulan) => Payment::where('status', 'dikonfirmasi')
+            ->whereYear('paid_at', $tahun)
+            ->whereMonth('paid_at', $bulan)
+            ->sum('amount')
         );
 
         // Distribusi status pemesanan
@@ -60,7 +58,7 @@ class LaporanController extends Controller
 
         return response()->json([
             'pendapatan_per_bulan' => $pendapatan,
-            'status_distribusi'    => $statusCounts,
+            'status_distribusi' => $statusCounts,
         ]);
     }
 

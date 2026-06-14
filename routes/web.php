@@ -1,25 +1,25 @@
 <?php
 
-use App\Models\Page;
-use App\Http\Controllers\Auth\GoogleController;
-use App\Http\Controllers\Admin\DashboardController      as AdminDashboard;
-use App\Http\Controllers\Admin\MobilController          as AdminMobil;
-use App\Http\Controllers\Admin\PemesananController      as AdminPemesanan;
-use App\Http\Controllers\Admin\UserController           as AdminUser;
-use App\Http\Controllers\Admin\LaporanController        as AdminLaporan;
-use App\Http\Controllers\Admin\PembukuanController      as AdminPembukuan;
-use App\Http\Controllers\Admin\NotifikasiController     as AdminNotifikasi;
-use App\Http\Controllers\Admin\ChatController           as AdminChat;
-use App\Http\Controllers\Admin\PageController           as AdminPage;
-use App\Http\Controllers\User\DashboardController       as UserDashboard;
-use App\Http\Controllers\User\MobilController           as UserMobil;
-use App\Http\Controllers\User\PemesananController       as UserPemesanan;
-use App\Http\Controllers\User\PaymentController;
-use App\Http\Controllers\User\FavoritController;
-use App\Http\Controllers\User\NotifikasiController      as UserNotifikasi;
-use App\Http\Controllers\User\ChatController            as UserChat;
-use App\Http\Controllers\User\ProfilController;
+use App\Http\Controllers\Admin\ChatController as AdminChat;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use App\Http\Controllers\Admin\LaporanController;
+use App\Http\Controllers\Admin\LaporanController as AdminLaporan;
+use App\Http\Controllers\Admin\MobilController as AdminMobil;
+use App\Http\Controllers\Admin\NotifikasiController as AdminNotifikasi;
+use App\Http\Controllers\Admin\PageController as AdminPage;
+use App\Http\Controllers\Admin\PembukuanController as AdminPembukuan;
+use App\Http\Controllers\Admin\PemesananController as AdminPemesanan;
+use App\Http\Controllers\Admin\UserController as AdminUser;
+use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\User\ChatController as UserChat;
+use App\Http\Controllers\User\DashboardController as UserDashboard;
+use App\Http\Controllers\User\FavoritController;
+use App\Http\Controllers\User\MobilController as UserMobil;
+use App\Http\Controllers\User\NotifikasiController as UserNotifikasi;
+use App\Http\Controllers\User\PaymentController;
+use App\Http\Controllers\User\PemesananController as UserPemesanan;
+use App\Http\Controllers\User\ProfilController;
+use App\Models\Page;
 use Illuminate\Support\Facades\Route;
 
 // ══════════════════════════════════════════════════════════════
@@ -146,22 +146,24 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->name('admin.')->group(
 });
 
 // Redirect halaman login/register ke home — modal akan terbuka via ?modal=login
-Route::get('login',    fn() => redirect('/?modal=login'))->name('login');
+Route::get('login', fn () => redirect('/?modal=login'))->name('login');
 
 // Route untuk Syarat & Ketentuan dan Kebijakan Privasi
 Route::get('/syarat-dan-ketentuan', function () {
     $page = Page::where('slug', 'terms')->first() ?? new Page([
-        'title'      => 'Syarat dan Ketentuan', 
-        'content'    => 'Konten belum tersedia.', 
+        'title' => 'Syarat dan Ketentuan',
+        'content' => 'Konten belum tersedia.',
         'updated_at' => now()]);
+
     return view('pages.terms', compact('page'));
 })->name('terms');
 
 Route::get('/kebijakan-privasi', function () {
     $page = Page::where('slug', 'privacy')->first() ?? new Page([
-        'title'      => 'Pemberitahuan Privasi', 
-        'content'    => 'Konten belum tersedia.', 
+        'title' => 'Pemberitahuan Privasi',
+        'content' => 'Konten belum tersedia.',
         'updated_at' => now()]);
+
     return view('pages.privacy', compact('page'));
 })->name('privacy');
 

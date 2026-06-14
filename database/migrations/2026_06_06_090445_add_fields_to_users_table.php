@@ -10,18 +10,18 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-{
-    Schema::table('users', function (Blueprint $table) {
-        $table->string('no_hp')->nullable()->after('email');
-        $table->string('google_id')->nullable()->after('no_hp');
-        $table->enum('role', ['admin', 'user'])->default('user')->after('google_id');
-    });
-}
+    {
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('no_hp')->nullable()->after('email');
+            $table->string('google_id')->nullable()->after('no_hp');
+            $table->enum('role', ['admin', 'user'])->default('user')->after('google_id');
+        });
+    }
 
-public function down(): void
-{
-    Schema::table('users', function (Blueprint $table) {
-        $table->dropColumn(['no_hp', 'google_id', 'role']);
-    });
-}
+    public function down(): void
+    {
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn(['no_hp', 'google_id', 'role']);
+        });
+    }
 };

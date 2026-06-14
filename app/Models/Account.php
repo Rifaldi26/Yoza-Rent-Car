@@ -15,7 +15,7 @@ class Account extends Model
     ];
 
     protected $casts = [
-        'balance'   => 'decimal:2',
+        'balance' => 'decimal:2',
         'is_system' => 'boolean',
     ];
 

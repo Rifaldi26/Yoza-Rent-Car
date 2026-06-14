@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Middleware\EnsureEmailVerified;
+use App\Http\Middleware\IsAdmin;
+use App\Http\Middleware\SetLocale;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -15,12 +18,12 @@ return Application::configure(basePath: dirname(__DIR__))
 
         // Alias middleware
         $middleware->alias([
-            'is_admin'             => \App\Http\Middleware\IsAdmin::class,
-            'email.verified.custom'=> \App\Http\Middleware\EnsureEmailVerified::class,
+            'is_admin' => IsAdmin::class,
+            'email.verified.custom' => EnsureEmailVerified::class,
         ]);
 
-            $middleware->web(append: [
-            \App\Http\Middleware\SetLocale::class,
+        $middleware->web(append: [
+            SetLocale::class,
         ]);
 
         // Kecualikan webhook Midtrans dari CSRF

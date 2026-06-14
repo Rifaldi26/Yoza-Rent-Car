@@ -11,7 +11,7 @@ class EnsureEmailVerified
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && !Auth::user()->hasVerifiedEmail()) {
+        if (Auth::check() && ! Auth::user()->hasVerifiedEmail()) {
             return redirect()->route('verification.notice')
                 ->with('warning', 'Silakan verifikasi email Anda terlebih dahulu.');
         }

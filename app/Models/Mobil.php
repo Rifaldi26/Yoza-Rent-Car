@@ -19,8 +19,8 @@ class Mobil extends Model
     ];
 
     protected $casts = [
-        'harga_per_hari'      => 'decimal:2',
-        'biaya_supir_per_hari'=> 'decimal:2',
+        'harga_per_hari' => 'decimal:2',
+        'biaya_supir_per_hari' => 'decimal:2',
     ];
 
     // ── Helpers ───────────────────────────────────────────
@@ -31,13 +31,13 @@ class Mobil extends Model
 
     public function adaSupir(): bool
     {
-        return !is_null($this->biaya_supir_per_hari);
+        return ! is_null($this->biaya_supir_per_hari);
     }
 
     public function fotoUrl(): string
     {
         return $this->foto
-            ? asset('storage/' . $this->foto)
+            ? asset('storage/'.$this->foto)
             : asset('images/mobil-default.png');
     }
 

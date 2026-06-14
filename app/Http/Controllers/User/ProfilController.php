@@ -20,22 +20,22 @@ class ProfilController extends Controller
         $user = Auth::user();
 
         $validated = $request->validate([
-            'name'                 => 'required|string|max:255',
-            'no_hp'                => 'nullable|string|max:20',
-            'email'                => ['required', 'email', Rule::unique('users')->ignore($user->id)],
-            'password'             => 'nullable|min:8|confirmed',
-            'current_password'     => $request->password ? 'required' : 'nullable',
+            'name' => 'required|string|max:255',
+            'no_hp' => 'nullable|string|max:20',
+            'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
+            'password' => 'nullable|min:8|confirmed',
+            'current_password' => $request->password ? 'required' : 'nullable',
         ]);
 
         // Verifikasi password lama jika ingin ganti password
         if ($request->password) {
-            if (!Hash::check($request->current_password, $user->password)) {
+            if (! Hash::check($request->current_password, $user->password)) {
                 return back()->withErrors(['current_password' => 'Password saat ini tidak sesuai.']);
             }
             $user->password = Hash::make($request->password);
         }
 
-        $user->name  = $validated['name'];
+        $user->name = $validated['name'];
         $user->email = $validated['email'];
         $user->no_hp = $validated['no_hp'] ?? null;
         $user->save();

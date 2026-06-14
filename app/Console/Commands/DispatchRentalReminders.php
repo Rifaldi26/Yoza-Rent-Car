@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Jobs\SendRentalReminder;
 use App\Models\Pemesanan;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 
 /**
@@ -30,9 +31,9 @@ class DispatchRentalReminders extends Command
     public function handle(): int
     {
         $intervals = $this->reminderIntervals();
-        $isDryRun  = $this->option('dry-run');
-        $today     = Carbon::today();
-        $total     = 0;
+        $isDryRun = $this->option('dry-run');
+        $today = Carbon::today();
+        $total = 0;
 
         if ($isDryRun) {
             $this->components->warn('Mode dry-run aktif — tidak ada job yang didispatch.');
@@ -91,7 +92,7 @@ class DispatchRentalReminders extends Command
     /**
      * Query pemesanan dikonfirmasi yang tanggal mulainya tepat di $targetDate.
      */
-    private function queryPemesanan(Carbon $targetDate): \Illuminate\Database\Eloquent\Collection
+    private function queryPemesanan(Carbon $targetDate): Collection
     {
         return Pemesanan::with(['user', 'mobil'])
             ->where('status', 'dikonfirmasi')

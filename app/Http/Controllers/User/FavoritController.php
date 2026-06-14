@@ -12,6 +12,7 @@ class FavoritController extends Controller
     public function index()
     {
         $mobils = Auth::user()->mobilFavorit()->latest('favorits.created_at')->get();
+
         return view('user.favorit.index', compact('mobils'));
     }
 
@@ -28,7 +29,7 @@ class FavoritController extends Controller
             $status = false;
         } else {
             Favorit::create([
-                'user_id'  => $user->id,
+                'user_id' => $user->id,
                 'mobil_id' => $mobil->id,
             ]);
             $status = true;

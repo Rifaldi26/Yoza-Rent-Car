@@ -59,7 +59,7 @@ class AppServiceProvider extends ServiceProvider
         VerifyEmail::toMailUsing(function ($notifiable, $url) {
             return (new MailMessage)
                 ->subject('Verifikasi Email — Yoza Rent Car')
-                ->greeting('Halo, ' . $notifiable->name . '!')
+                ->greeting('Halo, '.$notifiable->name.'!')
                 ->line('Klik tombol di bawah untuk memverifikasi alamat email Anda.')
                 ->action('Verifikasi Email', $url)
                 ->line('Jika Anda tidak mendaftar di Yoza Rent Car, abaikan email ini.')

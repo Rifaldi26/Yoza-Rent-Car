@@ -4,18 +4,15 @@ namespace App\Exports;
 
 use App\Models\Pemesanan;
 use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class PemesananExport implements
-    FromCollection,
-    WithHeadings,
-    ShouldAutoSize,
-    WithStyles
+class PemesananExport implements FromCollection, ShouldAutoSize, WithHeadings, WithStyles
 {
     protected $tahun;
+
     protected $status;
 
     public function __construct($tahun, $status = null)
@@ -28,8 +25,7 @@ class PemesananExport implements
     {
         return Pemesanan::with(['user', 'mobil', 'payment'])
             ->whereYear('created_at', $this->tahun)
-            ->when($this->status, fn($q) =>
-                $q->where('status', $this->status)
+            ->when($this->status, fn ($q) => $q->where('status', $this->status)
             )
             ->get()
             ->map(function ($p) {
@@ -40,7 +36,7 @@ class PemesananExport implements
                     $p->mobil->nama,
                     $p->tanggal_mulai->format('d/m/Y'),
                     $p->tanggal_selesai->format('d/m/Y'),
-                    $p->durasi() . ' Hari',
+                    $p->durasi().' Hari',
                     $p->opsi_supir ? 'Dengan Supir' : 'Lepas Kunci',
                     $p->total_harga,
                     ucfirst($p->status),
@@ -74,13 +70,13 @@ class PemesananExport implements
             1 => [
                 'font' => [
                     'bold' => true,
-                    'color' => ['rgb' => 'FFFFFF']
+                    'color' => ['rgb' => 'FFFFFF'],
                 ],
                 'fill' => [
                     'fillType' => 'solid',
-                    'startColor' => ['rgb' => '2563EB']
-                ]
-            ]
+                    'startColor' => ['rgb' => '2563EB'],
+                ],
+            ],
         ];
     }
 }

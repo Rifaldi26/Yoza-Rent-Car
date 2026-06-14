@@ -32,18 +32,18 @@ class GoogleController extends Controller
 
         if ($user) {
             // Update google_id jika belum tersimpan
-            if (!$user->google_id) {
+            if (! $user->google_id) {
                 $user->update(['google_id' => $googleUser->getId()]);
             }
         } else {
             // Buat akun baru
             $user = User::create([
-                'name'              => $googleUser->getName(),
-                'email'             => $googleUser->getEmail(),
-                'google_id'         => $googleUser->getId(),
-                'role'              => 'user',
+                'name' => $googleUser->getName(),
+                'email' => $googleUser->getEmail(),
+                'google_id' => $googleUser->getId(),
+                'role' => 'user',
                 'email_verified_at' => now(), // Google sudah verifikasi email
-                'password'          => bcrypt(str()->random(24)),
+                'password' => bcrypt(str()->random(24)),
             ]);
         }
 

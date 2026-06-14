@@ -6,8 +6,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pemesanan;
-use App\Services\PemesananService;
 use App\Services\PaymentService;
+use App\Services\PemesananService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -25,7 +25,7 @@ final class PemesananController extends Controller
 {
     public function __construct(
         private readonly PemesananService $pemesananService,
-        private readonly PaymentService   $paymentService,
+        private readonly PaymentService $paymentService,
     ) {}
 
     public function index(Request $request): View
@@ -36,7 +36,7 @@ final class PemesananController extends Controller
             ->when($request->tahun, fn ($q) => $q->whereYear('created_at', $request->tahun))
             ->when($request->search, function ($q) use ($request) {
                 $q->whereHas('user', fn ($u) => $u->where('name', 'like', "%{$request->search}%"))
-                  ->orWhereHas('mobil', fn ($m) => $m->where('nama', 'like', "%{$request->search}%"));
+                    ->orWhereHas('mobil', fn ($m) => $m->where('nama', 'like', "%{$request->search}%"));
             })
             ->latest()
             ->paginate(15)

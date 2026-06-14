@@ -41,7 +41,7 @@ return new class extends Migration
             $table->string('midtrans_transaction_id')->nullable();
             $table->string('payment_method', 100)->nullable();
             $table->json('midtrans_payload')->nullable();
-            $table->enum('status', ['pending','paid','expired','failed','refunded'])
+            $table->enum('status', ['pending', 'paid', 'expired', 'failed', 'refunded'])
                 ->default('pending')->change();
         });
     }

@@ -23,7 +23,8 @@ final class PemesananFlowTest extends TestCase
 {
     use RefreshDatabase;
 
-    private User  $user;
+    private User $user;
+
     private Mobil $mobil;
 
     protected function setUp(): void
@@ -32,11 +33,11 @@ final class PemesananFlowTest extends TestCase
 
         $this->user = User::factory()->create([
             'email_verified_at' => now(),
-            'role'              => 'user',
+            'role' => 'user',
         ]);
 
         $this->mobil = Mobil::factory()->create([
-            'status'         => 'tersedia',
+            'status' => 'tersedia',
             'harga_per_hari' => 300_000,
         ]);
     }
@@ -48,18 +49,18 @@ final class PemesananFlowTest extends TestCase
         Bus::fake();
 
         $response = $this->actingAs($this->user)->post(route('pemesanan.store'), [
-            'mobil_id'        => $this->mobil->id,
-            'tanggal_mulai'   => now()->addDay()->toDateString(),
+            'mobil_id' => $this->mobil->id,
+            'tanggal_mulai' => now()->addDay()->toDateString(),
             'tanggal_selesai' => now()->addDays(3)->toDateString(),
-            'opsi_supir'      => false,
+            'opsi_supir' => false,
         ]);
 
         $response->assertRedirect();
         $this->assertDatabaseHas('pemesanans', [
-            'user_id'    => $this->user->id,
-            'mobil_id'   => $this->mobil->id,
-            'status'     => StatusPemesanan::Pending->value,
-            'total_harga'=> 600_000,
+            'user_id' => $this->user->id,
+            'mobil_id' => $this->mobil->id,
+            'status' => StatusPemesanan::Pending->value,
+            'total_harga' => 600_000,
         ]);
 
         Bus::assertDispatched(KirimEmailPemesanan::class);
@@ -70,10 +71,10 @@ final class PemesananFlowTest extends TestCase
         Bus::fake();
 
         $this->actingAs($this->user)->post(route('pemesanan.store'), [
-            'mobil_id'        => $this->mobil->id,
-            'tanggal_mulai'   => now()->addDay()->toDateString(),
+            'mobil_id' => $this->mobil->id,
+            'tanggal_mulai' => now()->addDay()->toDateString(),
             'tanggal_selesai' => now()->addDays(4)->toDateString(), // 3 hari
-            'opsi_supir'      => false,
+            'opsi_supir' => false,
         ]);
 
         $pemesanan = Pemesanan::latest()->first();
@@ -85,8 +86,8 @@ final class PemesananFlowTest extends TestCase
         $this->mobil->update(['status' => 'disewa']);
 
         $response = $this->actingAs($this->user)->post(route('pemesanan.store'), [
-            'mobil_id'        => $this->mobil->id,
-            'tanggal_mulai'   => now()->addDay()->toDateString(),
+            'mobil_id' => $this->mobil->id,
+            'tanggal_mulai' => now()->addDay()->toDateString(),
             'tanggal_selesai' => now()->addDays(3)->toDateString(),
         ]);
 
@@ -101,16 +102,16 @@ final class PemesananFlowTest extends TestCase
 
         // Pemesanan pertama
         Pemesanan::factory()->create([
-            'mobil_id'        => $this->mobil->id,
-            'tanggal_mulai'   => now()->addDays(2)->toDateString(),
+            'mobil_id' => $this->mobil->id,
+            'tanggal_mulai' => now()->addDays(2)->toDateString(),
             'tanggal_selesai' => now()->addDays(5)->toDateString(),
-            'status'          => StatusPemesanan::Dikonfirmasi->value,
+            'status' => StatusPemesanan::Dikonfirmasi->value,
         ]);
 
         // Coba pesan tanggal yang sama/tumpang tindih
         $response = $this->actingAs($this->user)->post(route('pemesanan.store'), [
-            'mobil_id'        => $this->mobil->id,
-            'tanggal_mulai'   => now()->addDays(3)->toDateString(),
+            'mobil_id' => $this->mobil->id,
+            'tanggal_mulai' => now()->addDays(3)->toDateString(),
             'tanggal_selesai' => now()->addDays(6)->toDateString(),
         ]);
 
@@ -120,8 +121,8 @@ final class PemesananFlowTest extends TestCase
     public function test_tanggal_mulai_tidak_boleh_di_masa_lalu(): void
     {
         $response = $this->actingAs($this->user)->post(route('pemesanan.store'), [
-            'mobil_id'        => $this->mobil->id,
-            'tanggal_mulai'   => now()->subDay()->toDateString(),
+            'mobil_id' => $this->mobil->id,
+            'tanggal_mulai' => now()->subDay()->toDateString(),
             'tanggal_selesai' => now()->addDay()->toDateString(),
         ]);
 
@@ -135,9 +136,9 @@ final class PemesananFlowTest extends TestCase
         Bus::fake();
 
         $pemesanan = Pemesanan::factory()->create([
-            'user_id'  => $this->user->id,
+            'user_id' => $this->user->id,
             'mobil_id' => $this->mobil->id,
-            'status'   => StatusPemesanan::Pending->value,
+            'status' => StatusPemesanan::Pending->value,
         ]);
 
         $this->actingAs($this->user)
@@ -153,9 +154,9 @@ final class PemesananFlowTest extends TestCase
     public function test_user_tidak_dapat_membatalkan_pemesanan_yang_sudah_dikonfirmasi(): void
     {
         $pemesanan = Pemesanan::factory()->create([
-            'user_id'  => $this->user->id,
+            'user_id' => $this->user->id,
             'mobil_id' => $this->mobil->id,
-            'status'   => StatusPemesanan::Dikonfirmasi->value,
+            'status' => StatusPemesanan::Dikonfirmasi->value,
         ]);
 
         $this->actingAs($this->user)
@@ -172,9 +173,9 @@ final class PemesananFlowTest extends TestCase
 
     public function test_user_tidak_dapat_mengakses_pemesanan_milik_orang_lain(): void
     {
-        $userLain  = User::factory()->create(['email_verified_at' => now()]);
+        $userLain = User::factory()->create(['email_verified_at' => now()]);
         $pemesanan = Pemesanan::factory()->create([
-            'user_id'  => $userLain->id,
+            'user_id' => $userLain->id,
             'mobil_id' => $this->mobil->id,
         ]);
 

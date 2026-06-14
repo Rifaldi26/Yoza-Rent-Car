@@ -88,7 +88,7 @@ class SendRentalReminder implements ShouldQueue
             userId : $this->pemesanan->user_id,
             judul  : "Pengingat Sewa — {$this->pemesanan->mobil->nama}",
             pesan  : "Sewa kendaraan Anda untuk {$this->pemesanan->mobil->nama} dimulai {$label} "
-                     . "({$this->pemesanan->tanggal_mulai->isoFormat('D MMM Y')}).",
+                     ."({$this->pemesanan->tanggal_mulai->isoFormat('D MMM Y')}).",
             tipe   : 'info',
             link   : route('pemesanan.show', $this->pemesanan),
         );

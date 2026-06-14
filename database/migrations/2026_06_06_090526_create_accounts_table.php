@@ -10,20 +10,20 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-{
-    Schema::create('accounts', function (Blueprint $table) {
-        $table->id();
-        $table->string('kode', 20)->unique();
-        $table->string('nama');
-        $table->enum('tipe', ['aset', 'pendapatan', 'pengeluaran', 'liabilitas']);
-        $table->decimal('balance', 12, 2)->default(0);
-        $table->boolean('is_system')->default(false);
-        $table->timestamps();
-    });
-}
+    {
+        Schema::create('accounts', function (Blueprint $table) {
+            $table->id();
+            $table->string('kode', 20)->unique();
+            $table->string('nama');
+            $table->enum('tipe', ['aset', 'pendapatan', 'pengeluaran', 'liabilitas']);
+            $table->decimal('balance', 12, 2)->default(0);
+            $table->boolean('is_system')->default(false);
+            $table->timestamps();
+        });
+    }
 
-public function down(): void
-{
-    Schema::dropIfExists('accounts');
-}
+    public function down(): void
+    {
+        Schema::dropIfExists('accounts');
+    }
 };

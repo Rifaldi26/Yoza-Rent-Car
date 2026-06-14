@@ -27,12 +27,14 @@ class NotifikasiController extends Controller
     {
         abort_if($notifikasi->user_id !== Auth::id(), 403);
         $notifikasi->update(['dibaca' => true]);
+
         return response()->json(['success' => true]);
     }
 
     public function hapusSemua()
     {
         Notifikasi::where('user_id', Auth::id())->delete();
+
         return back()->with('success', 'Semua notifikasi dihapus.');
     }
 }

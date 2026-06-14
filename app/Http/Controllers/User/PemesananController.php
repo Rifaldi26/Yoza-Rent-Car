@@ -12,6 +12,7 @@ use App\Services\PemesananService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 /**
@@ -63,7 +64,7 @@ final class PemesananController extends Controller
             return redirect()
                 ->route('payment.checkout', $pemesanan)
                 ->with('success', 'Pemesanan berhasil dibuat. Selesaikan pembayaran Anda.');
-        } catch (\Illuminate\Validation\ValidationException $e) {
+        } catch (ValidationException $e) {
             return back()->withErrors($e->errors());
         }
     }

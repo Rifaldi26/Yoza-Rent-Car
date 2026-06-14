@@ -7,6 +7,7 @@ namespace Tests\Unit\Services;
 use App\Enums\StatusPemesanan;
 use App\Models\Mobil;
 use App\Models\Pemesanan;
+use App\Models\User;
 use App\Services\NotifikasiService;
 use App\Services\PemesananService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -23,7 +24,8 @@ final class PemesananServiceTest extends TestCase
 {
     use RefreshDatabase;
 
-    private PemesananService  $service;
+    private PemesananService $service;
+
     private NotifikasiService $notifikasiService;
 
     protected function setUp(): void
@@ -56,7 +58,7 @@ final class PemesananServiceTest extends TestCase
     public function test_hitung_harga_dengan_supir(): void
     {
         $mobil = Mobil::factory()->create([
-            'harga_per_hari'       => 200_000,
+            'harga_per_hari' => 200_000,
             'biaya_supir_per_hari' => 100_000,
         ]);
 
@@ -74,7 +76,7 @@ final class PemesananServiceTest extends TestCase
     public function test_opsi_supir_tidak_diterapkan_jika_mobil_tidak_punya_supir(): void
     {
         $mobil = Mobil::factory()->create([
-            'harga_per_hari'       => 200_000,
+            'harga_per_hari' => 200_000,
             'biaya_supir_per_hari' => null, // tidak ada supir
         ]);
 
@@ -95,10 +97,10 @@ final class PemesananServiceTest extends TestCase
         $mobil = Mobil::factory()->create();
 
         Pemesanan::factory()->create([
-            'mobil_id'        => $mobil->id,
-            'tanggal_mulai'   => '2026-07-10',
+            'mobil_id' => $mobil->id,
+            'tanggal_mulai' => '2026-07-10',
             'tanggal_selesai' => '2026-07-15',
-            'status'          => StatusPemesanan::Dikonfirmasi->value,
+            'status' => StatusPemesanan::Dikonfirmasi->value,
         ]);
 
         // Tumpang tindih di tengah
@@ -112,10 +114,10 @@ final class PemesananServiceTest extends TestCase
         $mobil = Mobil::factory()->create();
 
         Pemesanan::factory()->create([
-            'mobil_id'        => $mobil->id,
-            'tanggal_mulai'   => '2026-07-10',
+            'mobil_id' => $mobil->id,
+            'tanggal_mulai' => '2026-07-10',
             'tanggal_selesai' => '2026-07-15',
-            'status'          => StatusPemesanan::Dikonfirmasi->value,
+            'status' => StatusPemesanan::Dikonfirmasi->value,
         ]);
 
         // Tanggal setelah pemesanan selesai
@@ -129,10 +131,10 @@ final class PemesananServiceTest extends TestCase
         $mobil = Mobil::factory()->create();
 
         Pemesanan::factory()->create([
-            'mobil_id'        => $mobil->id,
-            'tanggal_mulai'   => '2026-07-10',
+            'mobil_id' => $mobil->id,
+            'tanggal_mulai' => '2026-07-10',
             'tanggal_selesai' => '2026-07-15',
-            'status'          => StatusPemesanan::Kadaluarsa->value,
+            'status' => StatusPemesanan::Kadaluarsa->value,
         ]);
 
         // Seharusnya tidak konflik karena status kadaluarsa
@@ -143,14 +145,14 @@ final class PemesananServiceTest extends TestCase
 
     public function test_mobil_tidak_tersedia_melempar_validation_exception(): void
     {
-        $user  = \App\Models\User::factory()->create(['email_verified_at' => now()]);
+        $user = User::factory()->create(['email_verified_at' => now()]);
         $mobil = Mobil::factory()->create(['status' => 'disewa']);
 
         $this->expectException(ValidationException::class);
 
         $this->service->buat([
-            'mobil_id'        => $mobil->id,
-            'tanggal_mulai'   => now()->addDay()->toDateString(),
+            'mobil_id' => $mobil->id,
+            'tanggal_mulai' => now()->addDay()->toDateString(),
             'tanggal_selesai' => now()->addDays(3)->toDateString(),
         ], $user->id);
     }
@@ -161,7 +163,7 @@ final class PemesananServiceTest extends TestCase
     {
         $this->expectException(\DomainException::class);
 
-        $user      = \App\Models\User::factory()->create();
+        $user = User::factory()->create();
         $pemesanan = Pemesanan::factory()->create([
             'status' => StatusPemesanan::Dikonfirmasi->value,
         ]);

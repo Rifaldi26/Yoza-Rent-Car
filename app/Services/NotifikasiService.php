@@ -19,19 +19,19 @@ final class NotifikasiService
      * Kirim notifikasi ke satu pengguna.
      */
     public function kirimKePengguna(
-        int     $userId,
-        string  $judul,
-        string  $pesan,
-        string  $tipe = 'info',
+        int $userId,
+        string $judul,
+        string $pesan,
+        string $tipe = 'info',
         ?string $link = null,
     ): Notifikasi {
         return Notifikasi::create([
             'user_id' => $userId,
-            'judul'   => $judul,
-            'pesan'   => $pesan,
-            'tipe'    => $tipe,
-            'link'    => $link,
-            'dibaca'  => false,
+            'judul' => $judul,
+            'pesan' => $pesan,
+            'tipe' => $tipe,
+            'link' => $link,
+            'dibaca' => false,
         ]);
     }
 
@@ -39,10 +39,10 @@ final class NotifikasiService
      * Kirim notifikasi yang sama ke banyak pengguna sekaligus.
      */
     public function kirimKeBanyak(
-        array   $userIds,
-        string  $judul,
-        string  $pesan,
-        string  $tipe = 'info',
+        array $userIds,
+        string $judul,
+        string $pesan,
+        string $tipe = 'info',
         ?string $link = null,
     ): void {
         foreach ($userIds as $userId) {

@@ -4,16 +4,12 @@ namespace App\Exports;
 
 use App\Models\Pemesanan;
 use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class LaporanExport implements
-    FromCollection,
-    WithHeadings,
-    ShouldAutoSize,
-    WithStyles
+class LaporanExport implements FromCollection, ShouldAutoSize, WithHeadings, WithStyles
 {
     protected $tahun;
 
@@ -69,13 +65,13 @@ class LaporanExport implements
             1 => [
                 'font' => [
                     'bold' => true,
-                    'color' => ['rgb' => 'FFFFFF']
+                    'color' => ['rgb' => 'FFFFFF'],
                 ],
                 'fill' => [
                     'fillType' => 'solid',
-                    'startColor' => ['rgb' => '2563EB']
-                ]
-            ]
+                    'startColor' => ['rgb' => '2563EB'],
+                ],
+            ],
         ];
     }
 }

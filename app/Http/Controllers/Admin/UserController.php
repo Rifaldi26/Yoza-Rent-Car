@@ -20,6 +20,7 @@ class UserController extends Controller
     public function show(User $user)
     {
         $user->load(['pemesanans.mobil', 'pemesanans.payment']);
+
         return view('admin.user.show', compact('user'));
     }
 }

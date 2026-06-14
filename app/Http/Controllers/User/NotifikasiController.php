@@ -42,12 +42,14 @@ class NotifikasiController extends Controller
     {
         abort_if($notifikasi->user_id !== Auth::id(), 403);
         $notifikasi->delete();
+
         return back()->with('success', 'Notifikasi dihapus.');
     }
 
     public function hapusSemua()
     {
         Notifikasi::where('user_id', Auth::id())->delete();
+
         return back()->with('success', 'Semua notifikasi dihapus.');
     }
 }

@@ -13,6 +13,7 @@ class MobilController extends Controller
     public function index()
     {
         $mobils = Mobil::latest()->paginate(10);
+
         return view('admin.mobil.index', compact('mobils'));
     }
 
@@ -24,14 +25,14 @@ class MobilController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nama'                 => 'required|string|max:255',
-            'merek'                => 'required|string|max:255',
-            'tahun'                => 'required|integer|min:1990|max:' . (date('Y') + 1),
-            'plat_nomor'           => 'required|string|max:20|unique:mobils',
-            'harga_per_hari'       => 'required|numeric|min:0',
+            'nama' => 'required|string|max:255',
+            'merek' => 'required|string|max:255',
+            'tahun' => 'required|integer|min:1990|max:'.(date('Y') + 1),
+            'plat_nomor' => 'required|string|max:20|unique:mobils',
+            'harga_per_hari' => 'required|numeric|min:0',
             'biaya_supir_per_hari' => 'nullable|numeric|min:0',
-            'deskripsi'            => 'nullable|string',
-            'foto'                 => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'deskripsi' => 'nullable|string',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
         if ($request->hasFile('foto')) {
@@ -52,14 +53,14 @@ class MobilController extends Controller
     public function update(Request $request, Mobil $mobil)
     {
         $validated = $request->validate([
-            'nama'                 => 'required|string|max:255',
-            'merek'                => 'required|string|max:255',
-            'tahun'                => 'required|integer|min:1990|max:' . (date('Y') + 1),
-            'plat_nomor'           => 'required|string|max:20|unique:mobils,plat_nomor,' . $mobil->id,
-            'harga_per_hari'       => 'required|numeric|min:0',
+            'nama' => 'required|string|max:255',
+            'merek' => 'required|string|max:255',
+            'tahun' => 'required|integer|min:1990|max:'.(date('Y') + 1),
+            'plat_nomor' => 'required|string|max:20|unique:mobils,plat_nomor,'.$mobil->id,
+            'harga_per_hari' => 'required|numeric|min:0',
             'biaya_supir_per_hari' => 'nullable|numeric|min:0',
-            'deskripsi'            => 'nullable|string',
-            'foto'                 => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'deskripsi' => 'nullable|string',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
         if ($request->hasFile('foto')) {
@@ -99,10 +100,10 @@ class MobilController extends Controller
 
     public function toggleStatus(Mobil $mobil)
     {
-        $status = match($mobil->status) {
-            'tersedia'  => 'perawatan',
+        $status = match ($mobil->status) {
+            'tersedia' => 'perawatan',
             'perawatan' => 'tersedia',
-            default     => $mobil->status, // 'disewa' tidak bisa di-toggle manual
+            default => $mobil->status, // 'disewa' tidak bisa di-toggle manual
         };
 
         if ($mobil->status === 'disewa') {

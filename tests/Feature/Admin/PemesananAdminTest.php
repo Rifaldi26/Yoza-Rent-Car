@@ -21,8 +21,10 @@ final class PemesananAdminTest extends TestCase
 {
     use RefreshDatabase;
 
-    private User  $admin;
-    private User  $user;
+    private User $admin;
+
+    private User $user;
+
     private Mobil $mobil;
 
     protected function setUp(): void
@@ -30,12 +32,12 @@ final class PemesananAdminTest extends TestCase
         parent::setUp();
 
         $this->admin = User::factory()->create([
-            'role'              => 'admin',
+            'role' => 'admin',
             'email_verified_at' => now(),
         ]);
 
         $this->user = User::factory()->create([
-            'role'              => 'user',
+            'role' => 'user',
             'email_verified_at' => now(),
         ]);
 
@@ -68,9 +70,9 @@ final class PemesananAdminTest extends TestCase
         Bus::fake();
 
         $pemesanan = Pemesanan::factory()->create([
-            'user_id'  => $this->user->id,
+            'user_id' => $this->user->id,
             'mobil_id' => $this->mobil->id,
-            'status'   => StatusPemesanan::MenungguKonfirmasiAdmin->value,
+            'status' => StatusPemesanan::MenungguKonfirmasiAdmin->value,
         ]);
 
         $this->actingAs($this->admin)
@@ -95,7 +97,7 @@ final class PemesananAdminTest extends TestCase
     {
         $pemesanan = Pemesanan::factory()->create([
             'mobil_id' => $this->mobil->id,
-            'status'   => StatusPemesanan::Pending->value,
+            'status' => StatusPemesanan::Pending->value,
         ]);
 
         $this->actingAs($this->admin)
@@ -110,9 +112,9 @@ final class PemesananAdminTest extends TestCase
         Bus::fake();
 
         $pemesanan = Pemesanan::factory()->create([
-            'user_id'  => $this->user->id,
+            'user_id' => $this->user->id,
             'mobil_id' => $this->mobil->id,
-            'status'   => StatusPemesanan::MenungguKonfirmasiAdmin->value,
+            'status' => StatusPemesanan::MenungguKonfirmasiAdmin->value,
         ]);
 
         $this->actingAs($this->admin)
@@ -132,9 +134,9 @@ final class PemesananAdminTest extends TestCase
         Bus::fake();
 
         $pemesanan = Pemesanan::factory()->create([
-            'user_id'  => $this->user->id,
+            'user_id' => $this->user->id,
             'mobil_id' => $this->mobil->id,
-            'status'   => StatusPemesanan::Dikonfirmasi->value,
+            'status' => StatusPemesanan::Dikonfirmasi->value,
         ]);
 
         $this->mobil->update(['status' => StatusMobil::Disewa->value]);

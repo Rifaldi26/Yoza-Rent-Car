@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Account;
 use App\Models\JournalEntry;
-use App\Models\Pemesanan;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
@@ -19,10 +18,8 @@ class PembukuanController extends Controller
             ->get();
 
         $ringkasan = [
-            'total_pendapatan' => JournalEntry::whereHas('account', fn($q) =>
-                $q->where('tipe', 'pendapatan'))->sum('credit'),
-            'total_pengeluaran' => JournalEntry::whereHas('account', fn($q) =>
-                $q->where('tipe', 'pengeluaran'))->sum('debit'),
+            'total_pendapatan' => JournalEntry::whereHas('account', fn ($q) => $q->where('tipe', 'pendapatan'))->sum('credit'),
+            'total_pengeluaran' => JournalEntry::whereHas('account', fn ($q) => $q->where('tipe', 'pengeluaran'))->sum('debit'),
             'saldo_kas' => Account::where('kode', '1-001')->value('balance') ?? 0,
         ];
 
@@ -34,9 +31,9 @@ class PembukuanController extends Controller
     public function jurnal(Request $request)
     {
         $entries = JournalEntry::with(['account', 'pemesanan.user', 'payment'])
-            ->when($request->tanggal_dari, fn($q) => $q->whereDate('date', '>=', $request->tanggal_dari))
-            ->when($request->tanggal_sampai, fn($q) => $q->whereDate('date', '<=', $request->tanggal_sampai))
-            ->when($request->account_id, fn($q) => $q->where('account_id', $request->account_id))
+            ->when($request->tanggal_dari, fn ($q) => $q->whereDate('date', '>=', $request->tanggal_dari))
+            ->when($request->tanggal_sampai, fn ($q) => $q->whereDate('date', '<=', $request->tanggal_sampai))
+            ->when($request->account_id, fn ($q) => $q->where('account_id', $request->account_id))
             ->latest('date')
             ->paginate(20)
             ->withQueryString();
@@ -55,44 +52,49 @@ class PembukuanController extends Controller
         $pendapatan = Account::where('tipe', 'pendapatan')
             ->with(['journalEntries' => function ($q) use ($tahun, $bulan) {
                 $q->whereYear('date', $tahun);
-                if ($bulan) $q->whereMonth('date', $bulan);
+                if ($bulan) {
+                    $q->whereMonth('date', $bulan);
+                }
             }])
             ->orderBy('kode')
             ->get()
-            ->map(fn($a) => [
-                'kode'  => $a->kode,
-                'nama'  => $a->nama,
+            ->map(fn ($a) => [
+                'kode' => $a->kode,
+                'nama' => $a->nama,
                 'total' => $a->journalEntries->sum('credit'),
             ]);
 
         $pengeluaran = Account::where('tipe', 'pengeluaran')
             ->with(['journalEntries' => function ($q) use ($tahun, $bulan) {
                 $q->whereYear('date', $tahun);
-                if ($bulan) $q->whereMonth('date', $bulan);
+                if ($bulan) {
+                    $q->whereMonth('date', $bulan);
+                }
             }])
             ->orderBy('kode')
             ->get()
-            ->map(fn($a) => [
-                'kode'  => $a->kode,
-                'nama'  => $a->nama,
+            ->map(fn ($a) => [
+                'kode' => $a->kode,
+                'nama' => $a->nama,
                 'total' => $a->journalEntries->sum('debit'),
             ]);
 
-        $totalPendapatan  = $pendapatan->sum('total');
+        $totalPendapatan = $pendapatan->sum('total');
         $totalPengeluaran = $pengeluaran->sum('total');
-        $labaRugi         = $totalPendapatan - $totalPengeluaran;
+        $labaRugi = $totalPendapatan - $totalPengeluaran;
 
         // Arus Kas per bulan
         $arusKas = collect(range(1, 12))->map(function ($bln) use ($tahun) {
-            $masuk  = JournalEntry::whereHas('account', fn($q) => $q->where('kode', '1-001'))
+            $masuk = JournalEntry::whereHas('account', fn ($q) => $q->where('kode', '1-001'))
                 ->whereYear('date', $tahun)->whereMonth('date', $bln)->sum('debit');
-            $keluar = JournalEntry::whereHas('account', fn($q) => $q->where('tipe', 'pengeluaran'))
+            $keluar = JournalEntry::whereHas('account', fn ($q) => $q->where('tipe', 'pengeluaran'))
                 ->whereYear('date', $tahun)->whereMonth('date', $bln)->sum('debit');
+
             return [
-                'bulan'  => $bln,
-                'masuk'  => $masuk,
+                'bulan' => $bln,
+                'masuk' => $masuk,
                 'keluar' => $keluar,
-                'neto'   => $masuk - $keluar,
+                'neto' => $masuk - $keluar,
             ];
         });
 
@@ -106,10 +108,10 @@ class PembukuanController extends Controller
     public function pengeluaran(Request $request)
     {
         $validated = $request->validate([
-            'account_id'  => 'required|exists:accounts,id',
-            'amount'      => 'required|numeric|min:1',
+            'account_id' => 'required|exists:accounts,id',
+            'amount' => 'required|numeric|min:1',
             'description' => 'required|string|max:500',
-            'date'        => 'required|date',
+            'date' => 'required|date',
         ]);
 
         $account = Account::findOrFail($validated['account_id']);
@@ -122,20 +124,20 @@ class PembukuanController extends Controller
 
         // Debit akun pengeluaran
         JournalEntry::create([
-            'account_id'  => $account->id,
-            'debit'       => $validated['amount'],
-            'credit'      => 0,
+            'account_id' => $account->id,
+            'debit' => $validated['amount'],
+            'credit' => 0,
             'description' => $validated['description'],
-            'date'        => $validated['date'],
+            'date' => $validated['date'],
         ]);
 
         // Kredit Kas
         JournalEntry::create([
-            'account_id'  => $kas->id,
-            'debit'       => 0,
-            'credit'      => $validated['amount'],
+            'account_id' => $kas->id,
+            'debit' => 0,
+            'credit' => $validated['amount'],
             'description' => "Kas keluar — {$validated['description']}",
-            'date'        => $validated['date'],
+            'date' => $validated['date'],
         ]);
 
         // Update balance
@@ -146,48 +148,49 @@ class PembukuanController extends Controller
     }
 
     // app/Http/Controllers/Admin/pembukuanController.php
-public function export(Request $request)
-{
-    $tahun = $request->get('tahun', now()->year);
+    public function export(Request $request)
+    {
+        $tahun = $request->get('tahun', now()->year);
 
-    $entries = JournalEntry::with('account')
-        ->whereYear('date', $tahun)
-        ->oldest('date')
-        ->get();
+        $entries = JournalEntry::with('account')
+            ->whereYear('date', $tahun)
+            ->oldest('date')
+            ->get();
 
-    // Reuse data dari method laporan()
-    $pendapatan = Account::where('tipe', 'pendapatan')
-        ->with(['journalEntries' => fn($q) => $q->whereYear('date', $tahun)])
-        ->orderBy('kode')->get()
-        ->map(fn($a) => [
-            'kode'  => $a->kode,
-            'nama'  => $a->nama,
-            'total' => $a->journalEntries->sum('credit'),
-        ]);
+        // Reuse data dari method laporan()
+        $pendapatan = Account::where('tipe', 'pendapatan')
+            ->with(['journalEntries' => fn ($q) => $q->whereYear('date', $tahun)])
+            ->orderBy('kode')->get()
+            ->map(fn ($a) => [
+                'kode' => $a->kode,
+                'nama' => $a->nama,
+                'total' => $a->journalEntries->sum('credit'),
+            ]);
 
-    $pengeluaran = Account::where('tipe', 'pengeluaran')
-        ->with(['journalEntries' => fn($q) => $q->whereYear('date', $tahun)])
-        ->orderBy('kode')->get()
-        ->map(fn($a) => [
-            'kode'  => $a->kode,
-            'nama'  => $a->nama,
-            'total' => $a->journalEntries->sum('debit'),
-        ]);
+        $pengeluaran = Account::where('tipe', 'pengeluaran')
+            ->with(['journalEntries' => fn ($q) => $q->whereYear('date', $tahun)])
+            ->orderBy('kode')->get()
+            ->map(fn ($a) => [
+                'kode' => $a->kode,
+                'nama' => $a->nama,
+                'total' => $a->journalEntries->sum('debit'),
+            ]);
 
-    $arusKas = collect(range(1, 12))->map(function ($bln) use ($tahun) {
-        $masuk  = JournalEntry::whereHas('account', fn($q) => $q->where('kode', '1-001'))
-            ->whereYear('date', $tahun)->whereMonth('date', $bln)->sum('debit');
-        $keluar = JournalEntry::whereHas('account', fn($q) => $q->where('tipe', 'pengeluaran'))
-            ->whereYear('date', $tahun)->whereMonth('date', $bln)->sum('debit');
-        return ['bulan' => $bln, 'masuk' => $masuk, 'keluar' => $keluar, 'neto' => $masuk - $keluar];
-    });
+        $arusKas = collect(range(1, 12))->map(function ($bln) use ($tahun) {
+            $masuk = JournalEntry::whereHas('account', fn ($q) => $q->where('kode', '1-001'))
+                ->whereYear('date', $tahun)->whereMonth('date', $bln)->sum('debit');
+            $keluar = JournalEntry::whereHas('account', fn ($q) => $q->where('tipe', 'pengeluaran'))
+                ->whereYear('date', $tahun)->whereMonth('date', $bln)->sum('debit');
 
-    $pdf = Pdf::loadView('pdf.laporan-pembukuan', compact(
-        'entries', 'pendapatan', 'pengeluaran', 'arusKas', 'tahun'
-    ))->setPaper('a4', 'landscape');
+            return ['bulan' => $bln, 'masuk' => $masuk, 'keluar' => $keluar, 'neto' => $masuk - $keluar];
+        });
 
-    return $pdf->download("laporan-pembukuan-{$tahun}.pdf");
-}
+        $pdf = Pdf::loadView('pdf.laporan-pembukuan', compact(
+            'entries', 'pendapatan', 'pengeluaran', 'arusKas', 'tahun'
+        ))->setPaper('a4', 'landscape');
+
+        return $pdf->download("laporan-pembukuan-{$tahun}.pdf");
+    }
 
     public function edit(Account $account)
     {

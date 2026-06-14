@@ -35,9 +35,9 @@ final class PaymentService
         $payment = Payment::updateOrCreate(
             ['pemesanan_id' => $pemesanan->id],
             [
-                'amount'     => $pemesanan->total_harga,
-                'metode'     => $metode,
-                'status'     => StatusPayment::MenungguKonfirmasi->value,
+                'amount' => $pemesanan->total_harga,
+                'metode' => $metode,
+                'status' => StatusPayment::MenungguKonfirmasi->value,
                 'wa_sent_at' => now(),
             ],
         );
@@ -88,7 +88,7 @@ final class PaymentService
         }
 
         $payment->update([
-            'status'  => StatusPayment::Dikonfirmasi->value,
+            'status' => StatusPayment::Dikonfirmasi->value,
             'paid_at' => now(),
         ]);
 
@@ -116,31 +116,31 @@ final class PaymentService
     public function bangunUrlWhatsApp(Pemesanan $pemesanan, string $metode): string
     {
         $template = config("payment.wa_template.{$metode}", '');
-        $config   = config("payment.metode.{$metode}", []);
+        $config = config("payment.metode.{$metode}", []);
 
         $labelDurasi = $pemesanan->adalah12Jam()
             ? 'Sewa 12 Jam'
-            : 'Sewa ' . $pemesanan->durasi() . ' Hari';
+            : 'Sewa '.$pemesanan->durasi().' Hari';
 
         $waktuInfo = ($pemesanan->adalah12Jam() && $pemesanan->waktu_mulai)
-            ? ' pukul ' . substr($pemesanan->waktu_mulai, 0, 5)
+            ? ' pukul '.substr($pemesanan->waktu_mulai, 0, 5)
             : '';
 
         $pesan = strtr($template, [
-            '{id}'              => $pemesanan->id,
-            '{nama}'            => $pemesanan->user->name,
-            '{mobil}'           => $pemesanan->mobil->nama,
-            '{durasi}'          => $labelDurasi,
-            '{tanggal_mulai}'   => $pemesanan->tanggal_mulai->format('d M Y'),
+            '{id}' => $pemesanan->id,
+            '{nama}' => $pemesanan->user->name,
+            '{mobil}' => $pemesanan->mobil->nama,
+            '{durasi}' => $labelDurasi,
+            '{tanggal_mulai}' => $pemesanan->tanggal_mulai->format('d M Y'),
             '{tanggal_selesai}' => $pemesanan->tanggal_selesai->format('d M Y'),
-            '{waktu_info}'      => $waktuInfo,
-            '{total}'           => number_format($pemesanan->total_harga, 0, ',', '.'),
-            '{bank}'            => $config['bank']      ?? '',
-            '{rekening}'        => $config['rekening']  ?? '',
-            '{atas_nama}'       => $config['atas_nama'] ?? '',
+            '{waktu_info}' => $waktuInfo,
+            '{total}' => number_format($pemesanan->total_harga, 0, ',', '.'),
+            '{bank}' => $config['bank'] ?? '',
+            '{rekening}' => $config['rekening'] ?? '',
+            '{atas_nama}' => $config['atas_nama'] ?? '',
         ]);
 
-        return 'https://wa.me/' . config('payment.wa_number')
-            . '?text=' . rawurlencode($pesan);
+        return 'https://wa.me/'.config('payment.wa_number')
+            .'?text='.rawurlencode($pesan);
     }
 }
