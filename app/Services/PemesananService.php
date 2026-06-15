@@ -10,7 +10,6 @@ use App\Jobs\KirimEmailPemesanan;
 use App\Models\Account;
 use App\Models\JournalEntry;
 use App\Models\Mobil;
-use App\Models\Notifikasi;
 use App\Models\Pemesanan;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -38,6 +37,15 @@ final class PemesananService
      * Membuat pemesanan baru setelah memvalidasi ketersediaan mobil
      * dan menghitung total harga secara otomatis.
      *
+     * Data yang didukung:
+     *   - mobil_id        : int (wajib)
+     *   - tanggal_mulai   : string date (wajib)
+     *   - tanggal_selesai : string date (wajib)
+     *   - waktu_mulai     : string time HH:MM (opsional, untuk sewa 12 jam)
+     *   - tipe_sewa       : 'harian' | '12_jam' (default: 'harian')
+     *   - opsi_supir      : bool (default: false)
+     *   - catatan         : string|null
+     *
      * @throws ValidationException bila mobil tidak tersedia atau ada konflik tanggal
      */
     public function buat(array $data, int $userId): Pemesanan
@@ -58,25 +66,37 @@ final class PemesananService
 
         $mulai = Carbon::parse($data['tanggal_mulai']);
         $selesai = Carbon::parse($data['tanggal_selesai']);
-        $durasi = $mulai->diffInDays($selesai);
+        $tipe = $data['tipe_sewa'] ?? 'harian';
         $opsiSupir = (bool) ($data['opsi_supir'] ?? false);
 
+        // Hitung durasi dan harga berdasarkan tipe sewa
+        if ($tipe === '12_jam') {
+            // Sewa 12 jam: tanggal_mulai == tanggal_selesai, harga = 50% harga per hari
+            $hargaSewa = (int) round($mobil->harga_per_hari * 0.5);
+            $durasi = 0;
+        } else {
+            $durasi = $mulai->diffInDays($selesai);
+            $hargaSewa = $durasi * $mobil->harga_per_hari;
+        }
+
         $biayaSupir = ($opsiSupir && $mobil->adaSupir())
-            ? $durasi * $mobil->biaya_supir_per_hari
+            ? max($durasi, 1) * $mobil->biaya_supir_per_hari
             : 0;
 
-        $totalHarga = ($durasi * $mobil->harga_per_hari) + $biayaSupir;
+        $totalHarga = $hargaSewa + $biayaSupir;
 
         $pemesanan = Pemesanan::create([
-            'user_id' => $userId,
-            'mobil_id' => $mobil->id,
-            'tanggal_mulai' => $data['tanggal_mulai'],
+            'user_id'         => $userId,
+            'mobil_id'        => $mobil->id,
+            'tanggal_mulai'   => $data['tanggal_mulai'],
             'tanggal_selesai' => $data['tanggal_selesai'],
-            'opsi_supir' => $opsiSupir,
-            'biaya_supir' => $biayaSupir > 0 ? $biayaSupir : null,
-            'total_harga' => $totalHarga,
-            'status' => StatusPemesanan::Pending->value,
-            'catatan' => $data['catatan'] ?? null,
+            'waktu_mulai'     => $tipe === '12_jam' ? ($data['waktu_mulai'] ?? null) : null,
+            'tipe_sewa'       => $tipe,
+            'opsi_supir'      => $opsiSupir,
+            'biaya_supir'     => $biayaSupir > 0 ? $biayaSupir : null,
+            'total_harga'     => $totalHarga,
+            'status'          => StatusPemesanan::Pending->value,
+            'catatan'         => $data['catatan'] ?? null,
         ]);
 
         $this->notifikasiService->kirimKePengguna(
@@ -220,34 +240,34 @@ final class PemesananService
         $paymentId = $pemesanan->payment?->id;
 
         JournalEntry::create([
-            'account_id' => $kas->id,
+            'account_id'   => $kas->id,
             'pemesanan_id' => $pemesanan->id,
-            'payment_id' => $paymentId,
-            'debit' => $pemesanan->total_harga,
-            'credit' => 0,
-            'description' => "Kas masuk — Pemesanan #{$pemesanan->id}",
-            'date' => $tanggal,
+            'payment_id'   => $paymentId,
+            'debit'        => $pemesanan->total_harga,
+            'credit'       => 0,
+            'description'  => "Kas masuk — Pemesanan #{$pemesanan->id}",
+            'date'         => $tanggal,
         ]);
 
         JournalEntry::create([
-            'account_id' => $pendapatanSewa->id,
+            'account_id'   => $pendapatanSewa->id,
             'pemesanan_id' => $pemesanan->id,
-            'payment_id' => $paymentId,
-            'debit' => 0,
-            'credit' => $hargaSewa,
-            'description' => "Pendapatan sewa — Pemesanan #{$pemesanan->id}",
-            'date' => $tanggal,
+            'payment_id'   => $paymentId,
+            'debit'        => 0,
+            'credit'       => $hargaSewa,
+            'description'  => "Pendapatan sewa — Pemesanan #{$pemesanan->id}",
+            'date'         => $tanggal,
         ]);
 
         if ($biayaSupir > 0 && $pendapatanSupir) {
             JournalEntry::create([
-                'account_id' => $pendapatanSupir->id,
+                'account_id'   => $pendapatanSupir->id,
                 'pemesanan_id' => $pemesanan->id,
-                'payment_id' => $paymentId,
-                'debit' => 0,
-                'credit' => $biayaSupir,
-                'description' => "Pendapatan jasa supir — Pemesanan #{$pemesanan->id}",
-                'date' => $tanggal,
+                'payment_id'   => $paymentId,
+                'debit'        => 0,
+                'credit'       => $biayaSupir,
+                'description'  => "Pendapatan jasa supir — Pemesanan #{$pemesanan->id}",
+                'date'         => $tanggal,
             ]);
         }
 
@@ -261,25 +281,38 @@ final class PemesananService
 
     // ── Hitung harga (untuk preview sebelum simpan) ───────────────────────
 
+    /**
+     * @param  string  $tipe  'harian' | '12_jam'
+     */
     public function hitungHarga(
         int $mobilId,
         string $tanggalMulai,
         string $tanggalSelesai,
         bool $opsiSupir = false,
+        string $tipe = 'harian',
     ): array {
         $mobil = Mobil::findOrFail($mobilId);
         $mulai = Carbon::parse($tanggalMulai);
         $selesai = Carbon::parse($tanggalSelesai);
-        $durasi = $mulai->diffInDays($selesai);
+
+        if ($tipe === '12_jam') {
+            $durasi = 0;
+            $hargaSewa = (int) round($mobil->harga_per_hari * 0.5);
+        } else {
+            $durasi = $mulai->diffInDays($selesai);
+            $hargaSewa = $durasi * $mobil->harga_per_hari;
+        }
+
         $biayaSupir = ($opsiSupir && $mobil->adaSupir())
-            ? $durasi * $mobil->biaya_supir_per_hari
+            ? max($durasi, 1) * $mobil->biaya_supir_per_hari
             : 0;
 
         return [
-            'durasi' => $durasi,
-            'harga_sewa' => $durasi * $mobil->harga_per_hari,
+            'tipe'       => $tipe,
+            'durasi'     => $durasi,
+            'harga_sewa' => $hargaSewa,
             'biaya_supir' => $biayaSupir,
-            'total_harga' => ($durasi * $mobil->harga_per_hari) + $biayaSupir,
+            'total_harga' => $hargaSewa + $biayaSupir,
         ];
     }
 }

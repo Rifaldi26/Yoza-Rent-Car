@@ -73,7 +73,11 @@ final class PemesananController extends Controller
     {
         $this->authorize('view', $pemesanan);
 
-        $pemesanan->load(['mobil', 'payment', 'journalEntries']);
+        // Load semua relasi yang dibutuhkan view show:
+        // - mobil        : foto, harga, spesifikasi
+        // - payment      : status, metode, wa_sent_at, paid_at
+        // (journalEntries tidak ditampilkan ke user — hanya untuk admin)
+        $pemesanan->load(['mobil', 'payment']);
 
         return view('user.pemesanan.show', compact('pemesanan'));
     }

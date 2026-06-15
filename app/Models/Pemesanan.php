@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\StatusPemesanan;
 use Illuminate\Database\Eloquent\Model;
 
 class Pemesanan extends Model
@@ -11,6 +12,8 @@ class Pemesanan extends Model
         'mobil_id',
         'tanggal_mulai',
         'tanggal_selesai',
+        'waktu_mulai',    // ← BARU: waktu HH:MM untuk sewa 12 jam
+        'tipe_sewa',      // ← BARU: 'harian' | '12_jam'
         'opsi_supir',
         'biaya_supir',
         'total_harga',
@@ -27,58 +30,75 @@ class Pemesanan extends Model
     ];
 
     // ── Helpers ───────────────────────────────────────────
+
+    /**
+     * Jumlah hari sewa. Untuk sewa 12 jam mengembalikan 0,
+     * gunakan adalah12Jam() untuk membedakannya.
+     */
     public function durasi(): int
     {
         return $this->tanggal_mulai->diffInDays($this->tanggal_selesai);
     }
 
+    /**
+     * Kembalikan true bila ini adalah sewa 12 jam (half-day).
+     * Prioritaskan kolom tipe_sewa; fallback ke pengecekan durasi
+     * untuk kompatibilitas data lama.
+     */
+    public function adalah12Jam(): bool
+    {
+        // Jika kolom tipe_sewa sudah diisi, gunakan itu sebagai sumber kebenaran
+        if (isset($this->attributes['tipe_sewa'])) {
+            return $this->tipe_sewa === '12_jam';
+        }
+
+        // Fallback: durasi 0 berarti tanggal mulai == tanggal selesai
+        return $this->durasi() === 0;
+    }
+
+    // ── Delegasi ke Enum (hilangkan duplikasi) ────────────
+
+    public function statusEnum(): StatusPemesanan
+    {
+        return StatusPemesanan::from($this->status);
+    }
+
+    /** @deprecated Gunakan $pemesanan->statusEnum()->label() */
+    public function labelStatus(): string
+    {
+        return $this->statusEnum()->label();
+    }
+
+    /** @deprecated Gunakan $pemesanan->statusEnum()->warnaBadge() */
+    public function warnaBadgeStatus(): string
+    {
+        return $this->statusEnum()->warnaBadge();
+    }
+
+    // ── State shortcuts ───────────────────────────────────
+
     public function isPending(): bool
     {
-        return $this->status === 'pending';
+        return $this->status === StatusPemesanan::Pending->value;
     }
 
     public function isDikonfirmasi(): bool
     {
-        return $this->status === 'dikonfirmasi';
+        return $this->status === StatusPemesanan::Dikonfirmasi->value;
     }
 
     public function isSelesai(): bool
     {
-        return $this->status === 'selesai';
+        return $this->status === StatusPemesanan::Selesai->value;
     }
 
     public function isBisaDibatalkan(): bool
     {
-        return $this->status === 'pending';
-    }
-
-    public function labelStatus(): string
-    {
-        return match ($this->status) {
-            'pending' => 'Menunggu Pembayaran',
-            'menunggu_konfirmasi_admin' => 'Menunggu Konfirmasi',
-            'dikonfirmasi' => 'Dikonfirmasi',
-            'selesai' => 'Selesai',
-            'dibatalkan' => 'Dibatalkan',
-            'kadaluarsa' => 'Kadaluarsa',
-            default => $this->status,
-        };
-    }
-
-    public function warnaBadgeStatus(): string
-    {
-        return match ($this->status) {
-            'pending' => 'bg-yellow-100 text-yellow-800',
-            'menunggu_konfirmasi_admin' => 'bg-blue-100 text-blue-800',
-            'dikonfirmasi' => 'bg-green-100 text-green-800',
-            'selesai' => 'bg-gray-100 text-gray-800',
-            'dibatalkan' => 'bg-red-100 text-red-800',
-            'kadaluarsa' => 'bg-orange-100 text-orange-800',
-            default => 'bg-gray-100 text-gray-800',
-        };
+        return $this->statusEnum()->bisaDibatalkan();
     }
 
     // ── Relasi ────────────────────────────────────────────
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -104,10 +124,11 @@ class Pemesanan extends Model
         return $this->hasMany(Pesan::class);
     }
 
-    // ── Scope ─────────────────────────────────────────────
+    // ── Scopes ────────────────────────────────────────────
+
     public function scopeAktif($query)
     {
-        return $query->whereIn('status', ['pending', 'menunggu_konfirmasi_admin', 'dikonfirmasi']);
+        return $query->whereIn('status', StatusPemesanan::aktif());
     }
 
     public function scopeBulan($query, int $bulan, int $tahun)
@@ -116,16 +137,12 @@ class Pemesanan extends Model
             ->whereYear('created_at', $tahun);
     }
 
-    public function adalah12Jam(): bool
-    {
-        return $this->durasi() === 0 || $this->durasi() < 1;
-    }
+    // ── Cek konflik ketersediaan ──────────────────────────
 
-    // Cek apakah ada konflik tanggal untuk mobil tertentu
     public static function adaKonflik(int $mobilId, string $mulai, string $selesai, ?int $excludeId = null): bool
     {
         return static::where('mobil_id', $mobilId)
-            ->whereIn('status', ['pending', 'menunggu_konfirmasi_admin', 'dikonfirmasi'])
+            ->whereIn('status', StatusPemesanan::aktif())
             ->when($excludeId, fn ($q) => $q->where('id', '!=', $excludeId))
             ->where(function ($q) use ($mulai, $selesai) {
                 $q->whereBetween('tanggal_mulai', [$mulai, $selesai])

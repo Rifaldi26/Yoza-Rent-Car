@@ -46,9 +46,13 @@
             <div class="flex-1 min-w-0">
                 <p class="font-semibold text-[#18213a]">{{ $p->mobil->nama }}</p>
                 <p class="text-sm text-[#7a8499]">
-                    {{ $p->tanggal_mulai->format('d M Y') }} &ndash;
-                    {{ $p->tanggal_selesai->format('d M Y') }}
-                    &middot; {{ $p->durasi() }} hari
+                    {{ $p->tanggal_mulai->format('d M Y') }}
+                    @if(!$p->adalah12Jam())
+                        &ndash; {{ $p->tanggal_selesai->format('d M Y') }}
+                        &middot; {{ $p->durasi() }} hari
+                    @else
+                        &middot; Sewa 12 Jam
+                    @endif
                 </p>
                 <p class="text-xs text-[#7a8499]">{{ $p->opsi_supir ? 'Dengan Supir' : 'Self-Drive' }}</p>
             </div>
