@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Tambah Mobil')
+@section('title', __('Tambah Mobil'))
 
 @section('content')
 
@@ -7,11 +7,11 @@
     <a href="{{ route('admin.mobil.index') }}"
        class="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-700 transition-colors">
         <x-icon name="arrow-left" class="w-4 h-4" />
-        Kembali ke Armada
+        {{ __('Kembali ke Armada') }}
     </a>
 </div>
 
-<x-page-header title="Tambah Mobil Baru" />
+<x-page-header title="{{ __('Tambah Mobil Baru') }}" />
 
 <form method="POST" action="{{ route('admin.mobil.store') }}" enctype="multipart/form-data">
 @csrf
@@ -20,31 +20,31 @@
     {{-- Form Utama --}}
     <div class="lg:col-span-2 space-y-4">
         <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-            <h3 class="text-sm font-semibold text-gray-900 mb-4">Informasi Kendaraan</h3>
+            <h3 class="text-sm font-semibold text-gray-900 mb-4">{{ __('Informasi Kendaraan') }}</h3>
             <div class="grid gap-4 sm:grid-cols-2">
-                <x-input name="nama" label="Nama / Model" placeholder="Toyota Avanza" required />
-                <x-input name="merek" label="Merek" placeholder="Toyota" required />
-                <x-input name="tahun" label="Tahun" type="number" placeholder="2023" required />
-                <x-input name="plat_nomor" label="Plat Nomor" placeholder="B 1234 ABC" required />
+                <x-input name="nama" label="{{ __('Nama / Model') }}" placeholder="Toyota Avanza" required />
+                <x-input name="merek" label="{{ __('Merek') }}" placeholder="Toyota" required />
+                <x-input name="tahun" label="{{ __('Tahun') }}" type="number" placeholder="2023" required />
+                <x-input name="plat_nomor" label="{{ __('Plat Nomor') }}" placeholder="B 1234 ABC" required />
             </div>
         </div>
 
         <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-            <h3 class="text-sm font-semibold text-gray-900 mb-4">Harga & Opsi</h3>
+            <h3 class="text-sm font-semibold text-gray-900 mb-4">{{ __('Harga & Opsi') }}</h3>
             <div class="grid gap-4 sm:grid-cols-2">
-                <x-input name="harga_per_hari" label="Harga per Hari (Rp)"
+                <x-input name="harga_per_hari" label="{{ __('Harga per Hari (Rp)') }}"
                     type="number" placeholder="350000" prefix="Rp" required />
-                <x-input name="biaya_supir_per_hari" label="Biaya Supir per Hari (Rp)"
-                    type="number" placeholder="Kosongkan jika tidak ada"
+                <x-input name="biaya_supir_per_hari" label="{{ __('Biaya Supir per Hari (Rp)') }}"
+                    type="number" placeholder="{{ __('Kosongkan jika tidak ada') }}"
                     prefix="Rp"
-                    helper="Isi jika kendaraan mendukung opsi dengan supir" />
+                    helper="{{ __('Isi jika kendaraan mendukung opsi dengan supir') }}" />
             </div>
         </div>
 
         <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-            <h3 class="text-sm font-semibold text-gray-900 mb-4">Deskripsi</h3>
-            <x-textarea name="deskripsi" label="Deskripsi Kendaraan"
-                placeholder="Kondisi, fitur, kapasitas, dll."
+            <h3 class="text-sm font-semibold text-gray-900 mb-4">{{ __('Deskripsi') }}</h3>
+            <x-textarea name="deskripsi" label="{{ __('Deskripsi Kendaraan') }}"
+                placeholder="{{ __('Kondisi, fitur, kapasitas, dll.') }}"
                 rows="4" />
         </div>
     </div>
@@ -52,7 +52,7 @@
     {{-- Upload Foto + Submit --}}
     <div class="space-y-4">
         <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-            <h3 class="text-sm font-semibold text-gray-900 mb-4">Foto Kendaraan</h3>
+            <h3 class="text-sm font-semibold text-gray-900 mb-4">{{ __('Foto Kendaraan') }}</h3>
             <div x-data="{ preview: null }"
                  class="flex flex-col items-center justify-center gap-3">
                 <div class="relative w-full">
@@ -61,8 +61,8 @@
                                 border-dashed border-gray-200 bg-gray-50 text-gray-400">
                         <div class="text-center">
                             <x-icon name="upload" class="w-8 h-8 mx-auto mb-2" />
-                            <p class="text-xs">Klik untuk upload</p>
-                            <p class="text-[10px] mt-0.5">JPG, PNG, WebP max 2MB</p>
+                            <p class="text-xs">{{ __('Klik untuk upload') }}</p>
+                            <p class="text-[10px] mt-0.5">{{ __('JPG, PNG, WebP max 2MB') }}</p>
                         </div>
                     </div>
                     <img x-show="preview" :src="preview"
@@ -75,7 +75,7 @@
                        class="w-full cursor-pointer rounded-lg border border-gray-200 px-3 py-2
                               text-center text-sm font-medium text-gray-600
                               hover:bg-gray-50 transition-colors">
-                    Pilih Foto
+                    {{ __('Pilih Foto') }}
                 </label>
             </div>
         </div>
@@ -85,13 +85,13 @@
                     class="flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600
                            py-2.5 text-sm font-medium text-white hover:bg-blue-700 transition-colors">
                 <x-icon name="plus" class="w-4 h-4" />
-                Simpan Mobil
+                {{ __('Simpan Mobil') }}
             </button>
             <a href="{{ route('admin.mobil.index') }}"
                class="mt-2 flex w-full items-center justify-center rounded-lg border
                       border-gray-200 py-2.5 text-sm font-medium text-gray-600
                       hover:bg-gray-50 transition-colors">
-                Batal
+                {{ __('Batal') }}
             </a>
         </div>
     </div>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Yoza Rent Car') — Rental Mobil Terpercaya</title>
+    <title>@yield('title', 'Yoza Rent Car') — {{ __('Rental Mobil Terpercaya') }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -21,7 +21,7 @@
             <button @click="drawerOpen = true"
                     class="inline-flex h-9 w-9 items-center justify-center rounded-lg border
                            border-[#e5e9f2] md:hidden"
-                    aria-label="Buka menu">
+                    aria-label="{{ __('Buka menu') }}">
                 <x-icon name="menu" class="w-5 h-5 text-[#18213a]" />
             </button>
 
@@ -50,7 +50,7 @@
                           {{ request()->routeIs('home')
                               ? 'bg-[#eef2fb] text-[#3b6fd4]'
                               : 'text-[#7a8499] hover:bg-[#f1f4fa] hover:text-[#18213a]' }}">
-                    Katalog
+                    {{ __('Katalog') }}
                 </a>
                 @auth
                 <a href="{{ route('pemesanan.index') }}"
@@ -58,14 +58,18 @@
                           {{ request()->routeIs('pemesanan.*')
                               ? 'bg-[#eef2fb] text-[#3b6fd4]'
                               : 'text-[#7a8499] hover:bg-[#f1f4fa] hover:text-[#18213a]' }}">
+<<<<<<< Updated upstream
                     Pemesanan
+=======
+                    {{ __('Pemesanan Saya') }}
+>>>>>>> Stashed changes
                 </a>
                 <a href="{{ route('favorit.index') }}"
                    class="rounded-lg px-3 py-1.5 text-sm font-medium transition-colors
                           {{ request()->routeIs('favorit.*')
                               ? 'bg-[#eef2fb] text-[#3b6fd4]'
                               : 'text-[#7a8499] hover:bg-[#f1f4fa] hover:text-[#18213a]' }}">
-                    Favorit
+                    {{ __('Favorit') }}
                 </a>
                 <a href="{{ route('chat.index') }}"
                    class="rounded-lg px-3 py-1.5 text-sm font-medium transition-colors
@@ -134,18 +138,27 @@
                                 </p>
                                 <p class="text-xs text-[#7a8499] truncate">{{ auth()->user()->email }}</p>
                             </div>
+<<<<<<< Updated upstream
+=======
+                            <a href="{{ route('dashboard') }}"
+                               class="flex items-center gap-2 px-4 py-2.5 text-sm text-[#18213a]
+                                      hover:bg-[#f1f4fa] transition-colors">
+                                <x-icon name="chart-bar" class="w-4 h-4 text-[#7a8499]" />
+                                {{ __('Dashboard') }}
+                            </a>
+>>>>>>> Stashed changes
                             <a href="{{ route('profil.edit') }}"
                                class="flex items-center gap-2 px-4 py-2.5 text-sm text-[#18213a]
                                       hover:bg-[#f1f4fa] transition-colors">
                                 <x-icon name="user" class="w-4 h-4 text-[#7a8499]" />
-                                Profil Saya
+                                {{ __('Profil Saya') }}
                             </a>
                             <!-- @if(auth()->user()->isAdmin())
                                 <a href="{{ route('admin.dashboard') }}"
                                    class="flex items-center gap-2 px-4 py-2.5 text-sm text-[#3b6fd4]
                                           hover:bg-[#eef2fb] transition-colors">
                                     <x-icon name="shield" class="w-4 h-4" />
-                                    Panel Admin
+                                    {{ __('Panel Admin') }}
                                 </a>
                             @endif -->
                             <div class="border-t border-[#e5e9f2] mt-1 pt-1">
@@ -155,7 +168,7 @@
                                             class="flex w-full items-center gap-2 px-4 py-2.5 text-sm
                                                    text-red-600 hover:bg-red-50 transition-colors">
                                         <x-icon name="logout" class="w-4 h-4" />
-                                        Keluar
+                                        {{ __('Keluar') }}
                                     </button>
                                 </form>
                             </div>
@@ -165,11 +178,11 @@
                 @else
                     <button @click="$dispatch('open-login')"
                             class="rounded-lg border border-[#e5e9f2] bg-white px-3 py-1.5 text-sm font-medium text-[#18213a] hover:bg-[#f1f4fa] transition-colors">
-                        Masuk
+                        {{ __('Masuk') }}
                     </button>
                     <button @click="$dispatch('open-register')"
                             class="rounded-lg bg-[#3b6fd4] px-3 py-1.5 text-sm font-medium text-white hover:bg-[#2e5bb8] transition-colors">
-                        Daftar
+                        {{ __('Daftar') }}
                     </button>
                 @endauth
             </div>
@@ -195,12 +208,22 @@
             </div>
 
             <nav class="space-y-0.5 p-3">
+<<<<<<< Updated upstream
+=======
+                <a href="{{ route('home') }}" @click="drawerOpen=false"
+                   class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium
+                          {{ request()->routeIs('home') ? 'bg-[#eef2fb] text-[#3b6fd4]'
+                          : 'text-[#18213a] hover:bg-[#f1f4fa]' }}">
+                    <x-icon name="home" class="w-4 h-4" />
+                    {{ __('Katalog Mobil') }}
+                </a>
+>>>>>>> Stashed changes
                 @auth
                     <a href="{{ route('dashboard') }}" @click="drawerOpen=false"
                        class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium
                               text-[#18213a] hover:bg-[#f1f4fa]">
                         <x-icon name="chart-bar" class="w-4 h-4" />
-                        Dashboard
+                        {{ __('Dashboard') }}
                     </a>
                 @endauth
                 <a href="{{ route('home') }}" @click="drawerOpen=false"
@@ -215,26 +238,35 @@
                        class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium
                               text-[#18213a] hover:bg-[#f1f4fa]">
                         <x-icon name="calendar" class="w-4 h-4" />
-                        Pemesanan Saya
+                        {{ __('Pemesanan Saya') }}
                     </a>
                     <a href="{{ route('favorit.index') }}" @click="drawerOpen=false"
                        class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium
                               text-[#18213a] hover:bg-[#f1f4fa]">
                         <x-icon name="heart" class="w-4 h-4" />
-                        Favorit
+                        {{ __('Favorit') }}
                     </a>
+<<<<<<< Updated upstream
+=======
+                    <a href="{{ route('notifikasi.index') }}" @click="drawerOpen=false"
+                       class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium
+                              text-[#18213a] hover:bg-[#f1f4fa]">
+                        <x-icon name="bell" class="w-4 h-4" />
+                        {{ __('Notifikasi') }}
+                    </a>
+>>>>>>> Stashed changes
                     <a href="{{ route('chat.index') }}" @click="drawerOpen=false"
                        class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium
                               text-[#18213a] hover:bg-[#f1f4fa]">
                         <x-icon name="chat" class="w-4 h-4" />
-                        Chat
+                        {{ __('Chat') }}
                     </a>
                     <div class="border-t border-[#e5e9f2] pt-2 mt-2">
                         <a href="{{ route('profil.edit') }}" @click="drawerOpen=false"
                            class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium
                                   text-[#18213a] hover:bg-[#f1f4fa]">
                             <x-icon name="user" class="w-4 h-4" />
-                            Profil Saya
+                            {{ __('Profil Saya') }}
                         </a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -242,18 +274,18 @@
                                     class="flex w-full items-center gap-3 rounded-lg px-3 py-2.5
                                            text-sm font-medium text-red-600 hover:bg-red-50">
                                 <x-icon name="logout" class="w-4 h-4" />
-                                Keluar
+                                {{ __('Keluar') }}
                             </button>
                         </form>
                     </div>
                 @else
                     <button @click="$dispatch('open-login')"
                             class="rounded-lg border border-[#e5e9f2] bg-white px-3 py-1.5 text-sm font-medium text-[#18213a] hover:bg-[#f1f4fa] transition-colors">
-                        Masuk
+                        {{ __('Masuk') }}
                     </button>
                     <button @click="$dispatch('open-register')"
                             class="rounded-lg bg-[#3b6fd4] px-3 py-1.5 text-sm font-medium text-white hover:bg-[#2e5bb8] transition-colors">
-                        Daftar
+                        {{ __('Daftar') }}
                     </button>
                 @endauth
             </nav>
@@ -286,11 +318,11 @@
                 bg-white/95 backdrop-blur md:hidden">
         @php
         $bnav = [
-            ['route' => 'home',              'icon' => 'home',     'label' => 'Katalog'],
-            ['route' => 'pemesanan.index',   'icon' => 'calendar', 'label' => 'Pesan'],
-            ['route' => 'favorit.index',     'icon' => 'heart',    'label' => 'Favorit'],
-            ['route' => 'chat.index',        'icon' => 'chat',     'label' => 'Chat'],
-            ['route' => 'notifikasi.index',  'icon' => 'bell',     'label' => 'Notif'],
+            ['route' => 'home',              'icon' => 'home',     'label' => __('Katalog')],
+            ['route' => 'pemesanan.index',   'icon' => 'calendar', 'label' => __('Pesan')],
+            ['route' => 'favorit.index',     'icon' => 'heart',    'label' => __('Favorit')],
+            ['route' => 'chat.index',        'icon' => 'chat',     'label' => __('Chat')],
+            ['route' => 'notifikasi.index',  'icon' => 'bell',     'label' => __('Notif')],
         ];
         @endphp
         <ul class="mx-auto grid max-w-7xl grid-cols-5">

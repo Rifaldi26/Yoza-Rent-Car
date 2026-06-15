@@ -1,12 +1,12 @@
 @extends('layouts.app')
-@section('title', 'Notifikasi')
+@section('title', __('Notifikasi'))
 
 @section('content')
 <div class="mx-auto max-w-2xl px-4 py-8">
     <div class="mb-6 flex items-center justify-between">
         <div>
-            <h1 class="text-2xl font-bold text-[#18213a]">Notifikasi</h1>
-            <p class="mt-1 text-sm text-[#7a8499]">Aktivitas dan pembaruan pesanan Anda.</p>
+            <h1 class="text-2xl font-bold text-[#18213a]">{{ __('Notifikasi') }}</h1>
+            <p class="mt-1 text-sm text-[#7a8499]">{{ __('Aktivitas dan pembaruan pesanan Anda.') }}</p>
         </div>
         @if($notifikasis->total() > 0)
         <form method="POST" action="{{ route('notifikasi.hapus-semua') }}">
@@ -14,7 +14,7 @@
             <button type="submit"
                     class="rounded-lg border border-[#e5e9f2] bg-white px-3 py-1.5 text-xs
                            font-medium text-[#7a8499] hover:bg-[#f1f4fa] transition-colors">
-                Hapus Semua
+                {{ __('Hapus Semua') }}
             </button>
         </form>
         @endif
@@ -49,14 +49,14 @@
                 @csrf @method('PATCH')
                 <button type="submit"
                         class="text-xs text-[#3b6fd4] hover:underline whitespace-nowrap flex-shrink-0">
-                    Baca
+                    {{ __('Baca') }}
                 </button>
             </form>
             @endif
         </div>
         @empty
-            <x-empty-state icon="bell" title="Tidak ada notifikasi"
-                description="Semua notifikasi akan muncul di sini." />
+            <x-empty-state icon="bell" title="{{ __('Tidak ada notifikasi') }}"
+                description="{{ __('Semua notifikasi akan muncul di sini.') }}" />
         @endforelse
 
         @if($notifikasis->hasPages())

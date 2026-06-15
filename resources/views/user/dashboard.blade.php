@@ -7,19 +7,19 @@
     {{-- Welcome --}}
     <div class="mb-6">
         <h1 class="text-2xl font-bold text-[#18213a]">
-            Halo, {{ auth()->user()->name }}
+            {{ __('Halo') }}, {{ auth()->user()->name }}
         </h1>
-        <p class="mt-1 text-sm text-[#7a8499]">Pantau semua aktivitas sewa Anda di sini.</p>
+        <p class="mt-1 text-sm text-[#7a8499]">{{ __('Pantau semua aktivitas sewa Anda di sini.') }}</p>
     </div>
 
     {{-- Stat Cards --}}
     <div class="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 mb-6">
         @php
         $cards = [
-            ['label' => 'Total Pemesanan', 'value' => $stats['total_pemesanan'], 'icon' => 'calendar', 'color' => 'blue'],
-            ['label' => 'Aktif',           'value' => $stats['aktif'],           'icon' => 'check-circle','color' => 'green'],
-            ['label' => 'Selesai',         'value' => $stats['selesai'],         'icon' => 'star',      'color' => 'purple'],
-            ['label' => 'Menunggu Bayar',  'value' => $stats['pending'],         'icon' => 'clock',     'color' => 'orange'],
+            ['label' => __('Total Pemesanan'), 'value' => $stats['total_pemesanan'], 'icon' => 'calendar', 'color' => 'blue'],
+            ['label' => __('Aktif'),           'value' => $stats['aktif'],           'icon' => 'check-circle','color' => 'green'],
+            ['label' => __('Selesai'),         'value' => $stats['selesai'],         'icon' => 'star',      'color' => 'purple'],
+            ['label' => __('Menunggu Bayar'),  'value' => $stats['pending'],         'icon' => 'clock',     'color' => 'orange'],
         ];
         $colorMap = [
             'blue'   => 'bg-[#eef2fb] text-[#3b6fd4]',
@@ -46,20 +46,20 @@
         {{-- Pemesanan Terbaru --}}
         <div class="lg:col-span-2 rounded-xl border border-[#e5e9f2] bg-white p-4 shadow-sm">
             <div class="mb-4 flex items-center justify-between">
-                <h2 class="text-sm font-semibold text-[#18213a]">Pemesanan Terbaru</h2>
+                <h2 class="text-sm font-semibold text-[#18213a]">{{ __('Pemesanan Terbaru') }}</h2>
                 <a href="{{ route('pemesanan.index') }}"
-                   class="text-xs font-medium text-[#3b6fd4] hover:underline">Lihat semua</a>
+                   class="text-xs font-medium text-[#3b6fd4] hover:underline">{{ __('Lihat semua') }}</a>
             </div>
 
             @if($pemesanan_terbaru->isEmpty())
-                <x-empty-state icon="calendar" title="Belum ada pemesanan"
-                    description="Mulai sewa mobil pertama Anda sekarang.">
+                <x-empty-state icon="calendar" title="{{ __('Belum ada pemesanan') }}"
+                    description="{{ __('Mulai sewa mobil pertama Anda sekarang.') }}">
                     <x-slot:action>
                         <a href="{{ route('home') }}"
                            class="inline-flex items-center gap-1.5 rounded-lg bg-[#3b6fd4] px-4 py-2
                                   text-sm font-medium text-white hover:bg-[#2e5bb8] transition-colors">
                             <x-icon name="car" class="w-4 h-4" />
-                            Lihat Katalog
+                            {{ __('Lihat Katalog') }}
                         </a>
                     </x-slot:action>
                 </x-empty-state>
@@ -89,8 +89,8 @@
                             </div>
                             <div class="mt-1 flex items-center justify-between">
                                 <p class="text-xs text-[#7a8499]">
-                                    {{ $p->opsi_supir ? '+ Supir' : 'Self-Drive' }}
-                                    &middot; {{ $p->durasi() }} hari
+                                {{ $p->opsi_supir ? __('+ Supir') : __('Self-Drive') }}
+                                &middot; {{ $p->durasi() }} {{ __('hari') }}
                                 </p>
                                 <p class="text-sm font-bold text-[#18213a]">
                                     Rp {{ number_format($p->total_harga, 0, ',', '.') }}
@@ -108,14 +108,14 @@
         {{-- Aksi Cepat --}}
         <div class="space-y-4">
             <div class="rounded-xl border border-[#e5e9f2] bg-white p-4 shadow-sm">
-                <h3 class="text-sm font-semibold text-[#18213a] mb-3">Aksi Cepat</h3>
+                <h3 class="text-sm font-semibold text-[#18213a] mb-3">{{ __('Aksi Cepat') }}</h3>
                 <div class="grid grid-cols-2 gap-2">
                     @php
                     $quickActions = [
-                        ['href' => route('home'),              'icon' => 'car',      'label' => 'Sewa Mobil'],
-                        ['href' => route('pemesanan.index'),   'icon' => 'calendar', 'label' => 'Riwayat'],
-                        ['href' => route('favorit.index'),     'icon' => 'heart',    'label' => 'Favorit'],
-                        ['href' => route('chat.index'),        'icon' => 'chat',     'label' => 'Chat Admin'],
+                        ['href' => route('home'),              'icon' => 'car',      'label' => __('Sewa Mobil')],
+                        ['href' => route('pemesanan.index'),   'icon' => 'calendar', 'label' => __('Riwayat')],
+                        ['href' => route('favorit.index'),     'icon' => 'heart',    'label' => __('Favorit')],
+                        ['href' => route('chat.index'),        'icon' => 'chat',     'label' => __('Chat Admin')],
                     ];
                     @endphp
                     @foreach($quickActions as $qa)
@@ -136,9 +136,9 @@
             {{-- Notifikasi Terbaru --}}
             <div class="rounded-xl border border-[#e5e9f2] bg-white p-4 shadow-sm">
                 <div class="mb-3 flex items-center justify-between">
-                    <h3 class="text-sm font-semibold text-[#18213a]">Notifikasi</h3>
+                    <h3 class="text-sm font-semibold text-[#18213a]">{{ __('Notifikasi') }}</h3>
                     <a href="{{ route('notifikasi.index') }}"
-                       class="text-xs text-[#3b6fd4] hover:underline">Semua</a>
+                       class="text-xs text-[#3b6fd4] hover:underline">{{ __('Semua') }}</a>
                 </div>
                 @php
                     $notifs = auth()->user()->notifikasis()
@@ -160,7 +160,7 @@
                     </div>
                 </div>
                 @empty
-                    <p class="py-4 text-center text-xs text-[#7a8499]">Tidak ada notifikasi</p>
+                    <p class="py-4 text-center text-xs text-[#7a8499]">{{ __('Tidak ada notifikasi') }}</p>
                 @endforelse
             </div>
         </div>

@@ -8,7 +8,7 @@
         
         {{-- Tanggal Otomatis --}}
         <p class="mt-2 text-center text-[#7a8499]">
-            Terakhir diperbarui : {{ $page->updated_at->translatedFormat('j F Y') }}
+            {{ __('Terakhir diperbarui') }} : {{ $page->updated_at->translatedFormat('j F Y') }}
         </p>
         
         @php $content = json_decode($page->content, true); @endphp

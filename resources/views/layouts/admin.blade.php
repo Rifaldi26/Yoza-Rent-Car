@@ -22,7 +22,7 @@
             <button @click="drawerOpen = true"
                     class="inline-flex h-9 w-9 items-center justify-center rounded-lg border
                            border-gray-200 text-gray-700 md:hidden"
-                    aria-label="Buka menu">
+                    aria-label="{{ __('Buka menu') }}">
                 <x-icon name="menu" class="w-5 h-5" />
             </button>
 
@@ -34,7 +34,7 @@
                 <div class="hidden flex-col leading-tight sm:flex">
                     <span class="text-sm font-bold text-gray-900">Yoza Rent Car</span>
                     <span class="text-[10px] font-semibold uppercase tracking-widest text-gray-400">
-                        Panel Admin
+                        {{ __('Panel Admin') }}
                     </span>
                 </div>
             </a>
@@ -51,7 +51,7 @@
                 <div class="relative hidden lg:block">
                     <x-icon name="search"
                         class="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-                    <input type="text" placeholder="Cari..."
+                    <input type="text" placeholder="{{ __('Cari...') }}"
                            class="h-9 w-56 rounded-lg border border-gray-200 bg-gray-50 pl-8 pr-3 text-sm
                                   outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-200
                                   transition-colors">
@@ -93,9 +93,9 @@
                                 bg-white shadow-lg z-50"
                          x-cloak>
                         <div class="flex items-center justify-between border-b border-gray-100 px-4 py-3">
-                            <span class="text-sm font-semibold text-gray-900">Notifikasi</span>
+                            <span class="text-sm font-semibold text-gray-900">{{ __('Notifikasi') }}</span>
                             <a href="{{ route('admin.notifikasi.index') }}"
-                               class="text-xs text-blue-600 hover:underline">Lihat semua</a>
+                               class="text-xs text-blue-600 hover:underline">{{ __('Lihat semua') }}</a>
                         </div>
                         <div class="max-h-72 divide-y divide-gray-50 overflow-y-auto">
                             @forelse(auth()->user()->notifikasis()->latest()->take(4)->get() as $notif)
@@ -124,7 +124,7 @@
                                 </a>
                             @empty
                                 <div class="px-4 py-8 text-center text-sm text-gray-400">
-                                    Tidak ada notifikasi
+                                    {{ __('Tidak ada notifikasi') }}
                                 </div>
                             @endforelse
                         </div>
@@ -159,7 +159,7 @@
                                     class="flex w-full items-center gap-2 px-4 py-2.5 text-sm
                                            text-red-600 hover:bg-red-50 transition-colors">
                                 <x-icon name="logout" class="w-4 h-4" />
-                                Keluar
+                                {{ __('Keluar') }}
                             </button>
                         </form>
                     </div>
@@ -205,11 +205,11 @@
         <ul class="mx-auto grid max-w-7xl grid-cols-5">
             @php
             $bottomNav = [
-                ['route' => 'admin.dashboard',      'icon' => 'chart-bar',  'label' => 'Dasbor'],
-                ['route' => 'admin.pemesanan.index', 'icon' => 'calendar',   'label' => 'Pesan'],
-                ['route' => 'admin.mobil.index',     'icon' => 'car',        'label' => 'Mobil'],
-                ['route' => 'admin.chat.index',      'icon' => 'chat',       'label' => 'Chat'],
-                ['route' => 'admin.notifikasi.index','icon' => 'bell',       'label' => 'Notif'],
+                ['route' => 'admin.dashboard',      'icon' => 'chart-bar',  'label' => __('Dasbor')],
+                ['route' => 'admin.pemesanan.index', 'icon' => 'calendar',   'label' => __('Pemesanan')],
+                ['route' => 'admin.mobil.index',     'icon' => 'car',        'label' => __('Mobil')],
+                ['route' => 'admin.chat.index',      'icon' => 'chat',       'label' => __('Chat')],
+                ['route' => 'admin.notifikasi.index','icon' => 'bell',       'label' => __('Notifikasi')],
             ];
             @endphp
             @foreach($bottomNav as $item)

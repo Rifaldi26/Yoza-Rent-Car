@@ -1,9 +1,9 @@
 @extends('layouts.admin')
-@section('title', 'Pemesanan')
+@section('title', __('Pemesanan'))
 
 @section('content')
 
-<x-page-header title="Pemesanan" description="Kelola semua pemesanan dari pelanggan.">
+<x-page-header title="{{ __('Pemesanan') }}" description="{{ __('Kelola semua pemesanan dari pelanggan.') }}">
     <x-slot:actions>
     </x-slot:actions>
 </x-page-header>
@@ -11,12 +11,12 @@
 {{-- Status Tabs --}}
 @php
 $tabs = [
-    ''                          => 'Semua',
-    'pending'                   => 'Menunggu Bayar',
-    'menunggu_konfirmasi_admin' => 'Menunggu Konfirmasi',
-    'dikonfirmasi'              => 'Dikonfirmasi',
-    'selesai'                   => 'Selesai',
-    'dibatalkan'                => 'Dibatalkan',
+    ''                          => __('Semua'),
+    'pending'                   => __('Menunggu Bayar'),
+    'menunggu_konfirmasi_admin' => __('Menunggu Konfirmasi'),
+    'dikonfirmasi'              => __('Dikonfirmasi'),
+    'selesai'                   => __('Selesai'),
+    'dibatalkan'                => __('Dibatalkan'),
 ];
 $active = request('status', '');
 @endphp
@@ -39,13 +39,13 @@ $active = request('status', '');
         <table class="w-full text-sm">
             <thead class="bg-gray-50">
                 <tr class="text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                    <th class="px-4 py-3">ID</th>
-                    <th class="px-4 py-3">Pelanggan</th>
-                    <th class="px-4 py-3">Mobil</th>
-                    <th class="px-4 py-3 hidden lg:table-cell">Tanggal</th>
-                    <th class="px-4 py-3">Status</th>
-                    <th class="px-4 py-3 text-right">Total</th>
-                    <th class="px-4 py-3 text-right">Aksi</th>
+                    <th class="px-4 py-3">{{ __('ID') }}</th>
+                    <th class="px-4 py-3">{{ __('Pelanggan') }}</th>
+                    <th class="px-4 py-3">{{ __('Mobil') }}</th>
+                    <th class="px-4 py-3 hidden lg:table-cell">{{ __('Tanggal') }}</th>
+                    <th class="px-4 py-3">{{ __('Status') }}</th>
+                    <th class="px-4 py-3 text-right">{{ __('Total') }}</th>
+                    <th class="px-4 py-3 text-right">{{ __('Aksi') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -56,7 +56,7 @@ $active = request('status', '');
                     <td class="px-4 py-3">
                         <div class="font-medium text-gray-900">{{ $p->mobil->nama }}</div>
                         <div class="text-xs text-gray-400">
-                            {{ $p->opsi_supir ? '+ Supir' : 'Self-Drive' }}
+                            {{ $p->opsi_supir ? __('+ Supir') : __('Self-Drive') }}
                         </div>
                     </td>
                     <td class="px-4 py-3 text-gray-500 hidden lg:table-cell whitespace-nowrap">
@@ -83,8 +83,8 @@ $active = request('status', '');
                 @empty
                 <tr>
                     <td colspan="7">
-                        <x-empty-state icon="calendar" title="Tidak ada pemesanan"
-                            description="Belum ada pemesanan dengan status ini." />
+                        <x-empty-state icon="calendar" title="{{ __('Tidak ada pemesanan') }}"
+                            description="{{ __('Belum ada pemesanan dengan status ini.') }}" />
                     </td>
                 </tr>
                 @endforelse

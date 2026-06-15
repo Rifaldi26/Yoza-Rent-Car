@@ -1,21 +1,21 @@
 @extends('layouts.app')
-@section('title', 'Favorit')
+@section('title', __('Favorit'))
 
 @section('content')
 <div class="mx-auto max-w-7xl px-4 py-8">
     <div class="mb-6">
-        <h1 class="text-2xl font-bold text-[#18213a]">Favorit Saya</h1>
-        <p class="mt-1 text-sm text-[#7a8499]">{{ $mobils->count() }} kendaraan tersimpan.</p>
+        <h1 class="text-2xl font-bold text-[#18213a]">{{ __('Favorit Saya') }}</h1>
+        <p class="mt-1 text-sm text-[#7a8499]">{{ $mobils->count() }} {{ __('kendaraan tersimpan') }}.</p>
     </div>
 
     @if($mobils->isEmpty())
-        <x-empty-state icon="heart" title="Belum ada favorit"
-            description="Simpan mobil favorit Anda agar mudah ditemukan lagi.">
+        <x-empty-state icon="heart" title="{{ __('Belum ada favorit') }}"
+            description="{{ __('Simpan mobil favorit Anda agar mudah ditemukan lagi.') }}">
             <x-slot:action>
                 <a href="{{ route('home') }}"
                    class="inline-flex items-center gap-1.5 rounded-lg bg-[#3b6fd4] px-4 py-2
                           text-sm font-medium text-white hover:bg-[#2e5bb8] transition-colors">
-                    Jelajahi Katalog
+                    {{ __('Jelajahi Katalog') }}
                 </a>
             </x-slot:action>
         </x-empty-state>
@@ -37,13 +37,13 @@
                     <p class="text-xs text-[#7a8499]">{{ $mobil->merek }} &middot; {{ $mobil->tahun }}</p>
                     <div class="mt-3 flex items-center justify-between border-t border-[#e5e9f2] pt-3">
                         <p class="text-sm font-bold text-[#3b6fd4]">
-                            Rp {{ number_format($mobil->harga_per_hari, 0, ',', '.') }}<span class="text-xs font-normal text-[#7a8499]">/hr</span>
+                            Rp {{ number_format($mobil->harga_per_hari, 0, ',', '.') }}<span class="text-xs font-normal text-[#7a8499]">{{ __('/hari') }}</span>
                         </p>
                         <div class="flex items-center gap-1.5">
                             <a href="{{ route('mobil.show', $mobil) }}"
                                class="rounded-lg bg-[#3b6fd4] px-3 py-1.5 text-xs font-medium
                                       text-white hover:bg-[#2e5bb8] transition-colors">
-                                Detail
+                                {{ __('Detail') }}
                             </a>
                             <form method="POST" action="{{ route('favorit.toggle', $mobil) }}">
                                 @csrf

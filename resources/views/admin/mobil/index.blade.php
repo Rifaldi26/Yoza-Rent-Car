@@ -1,15 +1,15 @@
 @extends('layouts.admin')
-@section('title', 'Armada Mobil')
+@section('title', __('Armada Mobil'))
 
 @section('content')
 
-<x-page-header title="Armada Mobil" description="Daftar armada dan ketersediaan.">
+<x-page-header title="{{ __('Armada Mobil') }}" description="{{ __('Daftar armada dan ketersediaan.') }}">
     <x-slot:actions>
         <a href="{{ route('admin.mobil.create') }}"
            class="inline-flex items-center gap-1.5 rounded-lg bg-blue-600 px-3 py-1.5
                   text-sm font-medium text-white hover:bg-blue-700 transition-colors">
             <x-icon name="plus" class="w-4 h-4" />
-            Tambah
+            {{ __('Tambah') }}
         </a>
     </x-slot:actions>
 </x-page-header>
@@ -53,7 +53,7 @@
                 @if($mobil->adaSupir())
                     <span class="inline-flex items-center gap-1">
                         <x-icon name="check-circle" class="w-3.5 h-3.5 text-green-500" />
-                        Ada supir
+                        {{ __('Ada supir') }}
                     </span>
                 @endif
             </div>
@@ -61,7 +61,7 @@
             {{-- Harga + Aksi --}}
             <div class="mt-3 flex items-end justify-between border-t border-gray-100 pt-3">
                 <div>
-                    <p class="text-xs text-gray-400">/ hari</p>
+                    <p class="text-xs text-gray-400">{{ __('/ hari') }}</p>
                     <p class="text-base font-bold text-blue-600">
                         Rp {{ number_format($mobil->harga_per_hari, 0, ',', '.') }}
                     </p>
@@ -78,7 +78,7 @@
                         <button type="submit"
                                 class="inline-flex h-8 w-8 items-center justify-center rounded-lg border
                                        border-gray-200 text-gray-500 hover:bg-gray-100 transition-colors"
-                                title="Toggle status">
+                                title="{{ __('Toggle status') }}">
                             <x-icon name="clock" class="w-3.5 h-3.5" />
                         </button>
                     </form>
@@ -94,23 +94,23 @@
     </div>
 
     {{-- Modal Hapus per mobil --}}
-    <x-modal id="hapus-{{ $mobil->id }}" title="Hapus Mobil" size="sm">
+    <x-modal id="hapus-{{ $mobil->id }}" title="{{ __('Hapus Mobil') }}" size="sm">
         <p class="text-sm text-gray-600">
-            Yakin ingin menghapus <strong>{{ $mobil->nama }}</strong>?
-            Tindakan ini tidak dapat dibatalkan.
+            {!! __('Yakin ingin menghapus <strong>:nama</strong>?', ['nama' => $mobil->nama]) !!}
+            {{ __('Tindakan ini tidak dapat dibatalkan.') }}
         </p>
         <x-slot:footer>
             <button @click="$dispatch('close-modal-hapus-{{ $mobil->id }}')"
                     class="rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium
                            text-gray-700 hover:bg-gray-50 transition-colors">
-                Batal
+                {{ __('Batal') }}
             </button>
             <form method="POST" action="{{ route('admin.mobil.destroy', $mobil) }}">
                 @csrf @method('DELETE')
                 <button type="submit"
                         class="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white
                                hover:bg-red-700 transition-colors">
-                    Hapus
+                    {{ __('Hapus') }}
                 </button>
             </form>
         </x-slot:footer>
@@ -118,14 +118,14 @@
 
     @empty
     <div class="sm:col-span-2 lg:col-span-3">
-        <x-empty-state icon="car" title="Belum ada kendaraan"
-            description="Tambah armada pertama Anda.">
+        <x-empty-state icon="car" title="{{ __('Belum ada kendaraan') }}"
+            description="{{ __('Tambah armada pertama Anda.') }}">
             <x-slot:action>
                 <a href="{{ route('admin.mobil.create') }}"
                    class="inline-flex items-center gap-1.5 rounded-lg bg-blue-600 px-4 py-2
                           text-sm font-medium text-white hover:bg-blue-700 transition-colors">
                     <x-icon name="plus" class="w-4 h-4" />
-                    Tambah Mobil
+                    {{ __('Tambah Mobil') }}
                 </a>
             </x-slot:action>
         </x-empty-state>

@@ -63,14 +63,14 @@
                         ? 'border-b-2 border-[#3b6fd4] text-[#3b6fd4] font-semibold'
                         : 'text-[#7a8499] hover:text-[#18213a]'"
                     class="mr-6 py-3 text-sm transition-colors">
-                Masuk
+                {{ __('Masuk') }}
             </button>
             <button @click="tab = 'register'"
                     :class="tab === 'register'
                         ? 'border-b-2 border-[#3b6fd4] text-[#3b6fd4] font-semibold'
                         : 'text-[#7a8499] hover:text-[#18213a]'"
                     class="py-3 text-sm transition-colors">
-                Daftar
+                {{ __('Daftar') }}
             </button>
         </div>
 
@@ -95,9 +95,9 @@
                 <input type="hidden" name="_form" value="login">
 
                 <div class="space-y-1">
-                    <label class="block text-xs font-medium text-[#18213a]">Email</label>
+                    <label class="block text-xs font-medium text-[#18213a]">{{ __('Email') }}</label>
                     <input type="email" name="email" value="{{ old('email') }}"
-                           placeholder="nama@email.com"
+                           placeholder="{{ __('nama@email.com') }}"
                            autocomplete="email"
                            required
                            class="h-10 w-full rounded-xl border border-[#e5e9f2] bg-[#f4f6fb] px-3
@@ -109,10 +109,10 @@
 
                 <div class="space-y-1">
                     <div class="flex items-center justify-between">
-                        <label class="block text-xs font-medium text-[#18213a]">Kata Sandi</label>
+                        <label class="block text-xs font-medium text-[#18213a]">{{ __('Kata Sandi') }}</label>
                         <a href="{{ route('password.request') }}"
                            class="text-xs text-[#3b6fd4] hover:underline">
-                            Lupa kata sandi?
+                            {{ __('Lupa kata sandi?') }}
                         </a>
                     </div>
                     <div class="relative" x-data="{ show: false }">
@@ -145,13 +145,13 @@
                 <div class="flex items-center gap-2">
                     <input type="checkbox" name="remember" id="remember"
                            class="h-4 w-4 rounded border-[#e5e9f2] text-[#3b6fd4] focus:ring-[#3b6fd4]">
-                    <label for="remember" class="text-xs text-[#7a8499]">Ingat saya</label>
+                    <label for="remember" class="text-xs text-[#7a8499]">{{ __('Ingat saya') }}</label>
                 </div>
 
                 <button type="submit"
                         class="flex h-10 w-full items-center justify-center rounded-xl bg-[#3b6fd4]
                                text-sm font-semibold text-white hover:bg-[#2e5bb8] transition-colors">
-                    Masuk
+                    {{ __('Masuk') }}
                 </button>
             </form>
 
@@ -161,7 +161,7 @@
                     <div class="w-full border-t border-[#e5e9f2]"></div>
                 </div>
                 <div class="relative flex justify-center">
-                    <span class="bg-white px-3 text-xs text-[#7a8499]">atau masuk dengan</span>
+                    <span class="bg-white px-3 text-xs text-[#7a8499]">{{ __('atau masuk dengan') }}</span>
                 </div>
             </div>
 
@@ -176,24 +176,24 @@
                     <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/>
                     <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                 </svg>
-                Lanjutkan dengan Google
+                {{ __('Lanjutkan dengan Google') }}
             </a>
 
             {{-- Footer Legal --}}
             <p class="mt-4 text-center text-[10px] leading-relaxed text-[#7a8499]">
-                Dengan melanjutkan, kamu menyetujui
+                {{ __('Dengan melanjutkan, kamu menyetujui') }}
                 <a href="{{ route('terms') }}"
                    target="_blank" rel="noopener"
                    class="text-[#3b6fd4] underline underline-offset-2 hover:text-[#2e5bb8]">
-                    Syarat &amp; Ketentuan
+                    {{ __('Syarat & Ketentuan') }}
                 </a>
-                ini dan kamu sudah diberitahu mengenai
+                {{ __('ini dan kamu sudah diberitahu mengenai') }}
                 <a href="{{ route('privacy') }}"
                    target="_blank" rel="noopener"
                    class="text-[#3b6fd4] underline underline-offset-2 hover:text-[#2e5bb8]">
-                    Pemberitahuan Privasi
+                    {{ __('Pemberitahuan Privasi') }}
                 </a>
-                kami.
+                {{ __('kami.') }}
             </p>
         </div>
 
@@ -211,9 +211,9 @@
                 <input type="hidden" name="_form" value="register">
 
                 <div class="space-y-1">
-                    <label class="block text-xs font-medium text-[#18213a]">Nama Lengkap</label>
+                    <label class="block text-xs font-medium text-[#18213a]">{{ __('Nama Lengkap') }}</label>
                     <input type="text" name="name" value="{{ old('name') }}"
-                           placeholder="Nama kamu"
+                           placeholder="{{ __('Nama kamu') }}"
                            autocomplete="name"
                            required
                            class="h-10 w-full rounded-xl border border-[#e5e9f2] bg-[#f4f6fb] px-3
@@ -224,9 +224,9 @@
                 </div>
 
                 <div class="space-y-1">
-                    <label class="block text-xs font-medium text-[#18213a]">Email</label>
+                    <label class="block text-xs font-medium text-[#18213a]">{{ __('Email') }}</label>
                     <input type="email" name="email" value="{{ old('email') }}"
-                           placeholder="nama@email.com"
+                           placeholder="{{ __('nama@email.com') }}"
                            autocomplete="email"
                            required
                            class="h-10 w-full rounded-xl border border-[#e5e9f2] bg-[#f4f6fb] px-3
@@ -237,7 +237,7 @@
                 </div>
 
                 <div class="space-y-1">
-                    <label class="block text-xs font-medium text-[#18213a]">Nomor HP</label>
+                    <label class="block text-xs font-medium text-[#18213a]">{{ __('Nomor HP') }}</label>
                     <div class="flex rounded-xl border border-[#e5e9f2] bg-[#f4f6fb] overflow-hidden
                                 focus-within:border-[#3b6fd4] focus-within:ring-2 focus-within:ring-[#3b6fd4]/20
                                 transition-colors">
@@ -252,11 +252,11 @@
                 </div>
 
                 <div class="space-y-1">
-                    <label class="block text-xs font-medium text-[#18213a]">Kata Sandi</label>
+                    <label class="block text-xs font-medium text-[#18213a]">{{ __('Kata Sandi') }}</label>
                     <div class="relative" x-data="{ show: false }">
                         <input :type="show ? 'text' : 'password'"
                                name="password"
-                               placeholder="Min. 8 karakter"
+                               placeholder="{{ __('Min. 8 karakter') }}"
                                autocomplete="new-password"
                                required
                                class="h-10 w-full rounded-xl border border-[#e5e9f2] bg-[#f4f6fb]
@@ -277,10 +277,10 @@
                     </div>
                 </div>
                 <div class="space-y-1">
-    <label class="block text-xs font-medium text-[#18213a]">Konfirmasi Kata Sandi</label>
+    <label class="block text-xs font-medium text-[#18213a]">{{ __('Konfirmasi Kata Sandi') }}</label>
     <input type="password"
            name="password_confirmation"
-           placeholder="Ulangi kata sandi"
+           placeholder="{{ __('Ulangi kata sandi') }}"
            autocomplete="new-password"
            required
            class="h-10 w-full rounded-xl border border-[#e5e9f2] bg-[#f4f6fb]
@@ -292,7 +292,7 @@
                 <button type="submit"
                         class="flex h-10 w-full items-center justify-center rounded-xl bg-[#3b6fd4]
                                text-sm font-semibold text-white hover:bg-[#2e5bb8] transition-colors">
-                    Buat Akun
+                    {{ __('Buat Akun') }}
                 </button>
             </form>
 
@@ -302,7 +302,7 @@
                     <div class="w-full border-t border-[#e5e9f2]"></div>
                 </div>
                 <div class="relative flex justify-center">
-                    <span class="bg-white px-3 text-xs text-[#7a8499]">atau daftar dengan</span>
+                    <span class="bg-white px-3 text-xs text-[#7a8499]">{{ __('atau daftar dengan') }}</span>
                 </div>
             </div>
 
@@ -317,24 +317,24 @@
                     <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/>
                     <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                 </svg>
-                Lanjutkan dengan Google
+                {{ __('Lanjutkan dengan Google') }}
             </a>
 
             {{-- Footer Legal --}}
             <p class="mt-4 text-center text-[10px] leading-relaxed text-[#7a8499]">
-                Dengan melanjutkan, kamu menyetujui
+                {{ __('Dengan melanjutkan, kamu menyetujui') }}
                 <a href="{{ route('terms') }}"
                    target="_blank" rel="noopener"
                    class="text-[#3b6fd4] underline underline-offset-2 hover:text-[#2e5bb8]">
-                    Syarat &amp; Ketentuan
+                    {{ __('Syarat & Ketentuan') }}
                 </a>
-                ini dan kamu sudah diberitahu mengenai
+                {{ __('ini dan kamu sudah diberitahu mengenai') }}
                 <a href="{{ route('privacy') }}"
                    target="_blank" rel="noopener"
                    class="text-[#3b6fd4] underline underline-offset-2 hover:text-[#2e5bb8]">
-                    Pemberitahuan Privasi
+                    {{ __('Pemberitahuan Privasi') }}
                 </a>
-                kami.
+                {{ __('kami.') }}
             </p>
         </div>
 

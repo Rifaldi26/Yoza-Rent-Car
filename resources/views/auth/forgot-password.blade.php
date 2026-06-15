@@ -1,5 +1,5 @@
 @extends('layouts.guest')
-@section('title', 'Lupa Kata Sandi')
+@section('title', __('Lupa Kata Sandi'))
 
 @section('content')
 <div class="w-full max-w-md">
@@ -11,11 +11,11 @@
                 <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/>
                 </svg>
-                Kembali ke beranda
+                {{ __('Kembali ke beranda') }}
             </a>
-            <h1 class="text-lg font-bold text-[#18213a]">Lupa Kata Sandi?</h1>
+            <h1 class="text-lg font-bold text-[#18213a]">{{ __('Lupa Kata Sandi?') }}</h1>
             <p class="mt-1 text-sm text-[#7a8499]">
-                Masukkan email terdaftar. Kami akan kirimkan link untuk mereset kata sandi kamu.
+                {{ __('Masukkan email terdaftar. Kami akan kirimkan link untuk mereset kata sandi kamu.') }}
             </p>
         </div>
 
@@ -31,9 +31,9 @@
                 @csrf
 
                 <div class="space-y-1">
-                    <label class="block text-xs font-medium text-[#18213a]">Email</label>
+                    <label class="block text-xs font-medium text-[#18213a]">{{ __('Email') }}</label>
                     <input type="email" name="email" value="{{ old('email') }}"
-                           placeholder="nama@email.com"
+                           placeholder="{{ __('nama@email.com') }}"
                            required autofocus
                            class="h-10 w-full rounded-xl border border-[#e5e9f2] bg-[#f4f6fb] px-3
                                   text-sm outline-none placeholder:text-[#aab0bf]
@@ -48,7 +48,7 @@
                 <button type="submit"
                         class="flex h-10 w-full items-center justify-center rounded-xl bg-[#3b6fd4]
                                text-sm font-semibold text-white hover:bg-[#2e5bb8] transition-colors">
-                    Kirim Link Reset
+                    {{ __('Kirim Link Reset') }}
                 </button>
             </form>
         </div>

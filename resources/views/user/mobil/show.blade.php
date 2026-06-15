@@ -8,7 +8,7 @@
         <a href="{{ route('home') }}"
            class="inline-flex items-center gap-1.5 text-sm text-[#7a8499] hover:text-[#18213a] transition-colors">
             <x-icon name="arrow-left" class="w-4 h-4" />
-            Kembali ke Katalog
+            {{ __('Kembali ke Katalog') }}
         </a>
     </div>
 
@@ -33,7 +33,7 @@
             {{-- Deskripsi --}}
             @if($mobil->deskripsi)
             <div class="rounded-2xl border border-[#e5e9f2] bg-white p-5">
-                <h3 class="text-sm font-semibold text-[#18213a] mb-2">Tentang Kendaraan</h3>
+                <h3 class="text-sm font-semibold text-[#18213a] mb-2">{{ __('Tentang Kendaraan') }}</h3>
                 <p class="text-sm text-[#7a8499] leading-relaxed">{{ $mobil->deskripsi }}</p>
             </div>
             @endif
@@ -58,18 +58,18 @@
 
                     <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
                         <div class="rounded-xl bg-[#f4f6fb] p-3">
-                            <p class="text-xs text-[#7a8499]">Plat Nomor</p>
+                            <p class="text-xs text-[#7a8499]">{{ __('Plat Nomor') }}</p>
                             <p class="mt-0.5 font-semibold text-[#18213a]">{{ $mobil->plat_nomor }}</p>
                         </div>
                         <div class="rounded-xl bg-[#f4f6fb] p-3">
-                            <p class="text-xs text-[#7a8499]">Harga / Hari</p>
+                            <p class="text-xs text-[#7a8499]">{{ __('Harga / Hari') }}</p>
                             <p class="mt-0.5 font-bold text-[#3b6fd4]">
                                 Rp {{ number_format($mobil->harga_per_hari, 0, ',', '.') }}
                             </p>
                         </div>
                         @if($mobil->adaSupir())
                         <div class="col-span-2 rounded-xl bg-[#eef2fb] p-3">
-                            <p class="text-xs text-[#3b6fd4] font-medium">Tersedia Opsi Supir</p>
+                            <p class="text-xs text-[#3b6fd4] font-medium">{{ __('Tersedia Opsi Supir') }}</p>
                             <p class="mt-0.5 font-semibold text-[#18213a]">
                                 + Rp {{ number_format($mobil->biaya_supir_per_hari, 0, ',', '.') }} / hari
                             </p>
@@ -86,18 +86,18 @@
                                           bg-[#3b6fd4] py-3 text-sm font-semibold text-white
                                           hover:bg-[#2e5bb8] transition-colors">
                                     <x-icon name="calendar" class="w-4 h-4" />
-                                    Sewa Sekarang
+                                    {{ __('Sewa Sekarang') }}
                                 </a>
                             @else
                                 <button @click="$dispatch('open-login')"
                                         class="flex w-full items-center justify-center gap-2 rounded-xl bg-[#3b6fd4] py-3 text-sm font-semibold text-white hover:bg-[#2e5bb8] transition-colors">
-                                    Masuk untuk Memesan
+                                    {{ __('Masuk untuk Memesan') }}
                                 </button>
                             @endauth
                         @else
                             <button disabled
                                     class="flex w-full items-center justify-center rounded-xl bg-gray-100 py-3 text-sm font-medium text-gray-400 cursor-not-allowed">
-                                Tidak Tersedia
+                                {{ __('Tidak Tersedia') }}
                             </button>
                         @endif
 
@@ -113,7 +113,7 @@
                                                ? 'border-red-200 bg-red-50 text-red-600 hover:bg-red-100'
                                                : 'text-[#7a8499] hover:bg-[#f1f4fa]' }}">
                                 <x-icon name="heart" class="w-4 h-4" />
-                                {{ $isFavorit ? 'Hapus dari Favorit' : 'Simpan ke Favorit' }}
+                                {{ $isFavorit ? __('Hapus dari Favorit') : __('Simpan ke Favorit') }}
                             </button>
                         </form>
                         @endauth
@@ -124,9 +124,9 @@
                 <div class="rounded-2xl border border-[#e5e9f2] bg-white p-4 text-xs text-[#7a8499]">
                     <div class="flex items-center gap-2 mb-1.5">
                         <x-icon name="shield" class="w-4 h-4 text-[#3b6fd4]" />
-                        <span class="font-medium text-[#18213a]">Pembayaran Aman</span>
+                        <span class="font-medium text-[#18213a]">{{ __('Pembayaran Aman') }}</span>
                     </div>
-                    <p>Transaksi mendukung cash, transfer bank, QRIS, dan EDC.</p>
+                    <p>{{ __('Transaksi mendukung cash, transfer bank, QRIS, dan EDC.') }}</p>
                 </div>
             </div>
         </div>
