@@ -26,16 +26,25 @@
             </button>
 
             {{-- Brand --}}
-            <a href="{{ route('home') }}" class="flex items-center gap-2.5">
+            <a class="flex items-center gap-2.5">
                 <div class="grid h-9 w-9 flex-shrink-0 place-items-center rounded-lg
                             bg-[#3b6fd4] text-white">
                     <x-icon name="car" class="w-5 h-5" />
                 </div>
-                <span class="text-sm font-bold text-[#18213a]">Yoza Rent Car</span>
+                <span class="whitespace-nowrap text-sm font-bold text-[#18213a]">Yoza Rent Car</span>
             </a>
 
             {{-- Desktop Nav --}}
             <nav class="ml-6 hidden items-center gap-1 md:flex">
+                @auth
+                <a href="{{ route('dashboard') }}"
+                   class="rounded-lg px-3 py-1.5 text-sm font-medium transition-colors
+                          {{ request()->routeIs('dashboard')
+                              ? 'bg-[#eef2fb] text-[#3b6fd4]'
+                              : 'text-[#7a8499] hover:bg-[#f1f4fa] hover:text-[#18213a]' }}">
+                    Dashboard
+                </a>
+                @endauth
                 <a href="{{ route('home') }}"
                    class="rounded-lg px-3 py-1.5 text-sm font-medium transition-colors
                           {{ request()->routeIs('home')
@@ -49,7 +58,7 @@
                           {{ request()->routeIs('pemesanan.*')
                               ? 'bg-[#eef2fb] text-[#3b6fd4]'
                               : 'text-[#7a8499] hover:bg-[#f1f4fa] hover:text-[#18213a]' }}">
-                    Pemesanan Saya
+                    Pemesanan
                 </a>
                 <a href="{{ route('favorit.index') }}"
                    class="rounded-lg px-3 py-1.5 text-sm font-medium transition-colors
@@ -57,6 +66,13 @@
                               ? 'bg-[#eef2fb] text-[#3b6fd4]'
                               : 'text-[#7a8499] hover:bg-[#f1f4fa] hover:text-[#18213a]' }}">
                     Favorit
+                </a>
+                <a href="{{ route('chat.index') }}"
+                   class="rounded-lg px-3 py-1.5 text-sm font-medium transition-colors
+                          {{ request()->routeIs('chat.*')
+                              ? 'bg-[#eef2fb] text-[#3b6fd4]'
+                              : 'text-[#7a8499] hover:bg-[#f1f4fa] hover:text-[#18213a]' }}">
+                    Chat
                 </a>
                 @endauth
             </nav>
@@ -118,26 +134,20 @@
                                 </p>
                                 <p class="text-xs text-[#7a8499] truncate">{{ auth()->user()->email }}</p>
                             </div>
-                            <a href="{{ route('dashboard') }}"
-                               class="flex items-center gap-2 px-4 py-2.5 text-sm text-[#18213a]
-                                      hover:bg-[#f1f4fa] transition-colors">
-                                <x-icon name="chart-bar" class="w-4 h-4 text-[#7a8499]" />
-                                Dashboard
-                            </a>
                             <a href="{{ route('profil.edit') }}"
                                class="flex items-center gap-2 px-4 py-2.5 text-sm text-[#18213a]
                                       hover:bg-[#f1f4fa] transition-colors">
                                 <x-icon name="user" class="w-4 h-4 text-[#7a8499]" />
                                 Profil Saya
                             </a>
-                            @if(auth()->user()->isAdmin())
+                            <!-- @if(auth()->user()->isAdmin())
                                 <a href="{{ route('admin.dashboard') }}"
                                    class="flex items-center gap-2 px-4 py-2.5 text-sm text-[#3b6fd4]
                                           hover:bg-[#eef2fb] transition-colors">
                                     <x-icon name="shield" class="w-4 h-4" />
                                     Panel Admin
                                 </a>
-                            @endif
+                            @endif -->
                             <div class="border-t border-[#e5e9f2] mt-1 pt-1">
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
@@ -185,13 +195,6 @@
             </div>
 
             <nav class="space-y-0.5 p-3">
-                <a href="{{ route('home') }}" @click="drawerOpen=false"
-                   class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium
-                          {{ request()->routeIs('home') ? 'bg-[#eef2fb] text-[#3b6fd4]'
-                          : 'text-[#18213a] hover:bg-[#f1f4fa]' }}">
-                    <x-icon name="home" class="w-4 h-4" />
-                    Katalog Mobil
-                </a>
                 @auth
                     <a href="{{ route('dashboard') }}" @click="drawerOpen=false"
                        class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium
@@ -199,6 +202,15 @@
                         <x-icon name="chart-bar" class="w-4 h-4" />
                         Dashboard
                     </a>
+                @endauth
+                <a href="{{ route('home') }}" @click="drawerOpen=false"
+                   class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium
+                          {{ request()->routeIs('home') ? 'bg-[#eef2fb] text-[#3b6fd4]'
+                          : 'text-[#18213a] hover:bg-[#f1f4fa]' }}">
+                    <x-icon name="home" class="w-4 h-4" />
+                    Katalog
+                </a>
+                @auth
                     <a href="{{ route('pemesanan.index') }}" @click="drawerOpen=false"
                        class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium
                               text-[#18213a] hover:bg-[#f1f4fa]">
@@ -210,12 +222,6 @@
                               text-[#18213a] hover:bg-[#f1f4fa]">
                         <x-icon name="heart" class="w-4 h-4" />
                         Favorit
-                    </a>
-                    <a href="{{ route('notifikasi.index') }}" @click="drawerOpen=false"
-                       class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium
-                              text-[#18213a] hover:bg-[#f1f4fa]">
-                        <x-icon name="bell" class="w-4 h-4" />
-                        Notifikasi
                     </a>
                     <a href="{{ route('chat.index') }}" @click="drawerOpen=false"
                        class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium
@@ -275,7 +281,7 @@
     </main>
 
     {{-- ── Bottom Nav Mobile (hanya saat login) ────────────── --}}
-    @auth
+    <!-- @auth
     <nav class="fixed bottom-0 left-0 right-0 z-30 border-t border-[#e5e9f2]
                 bg-white/95 backdrop-blur md:hidden">
         @php
@@ -302,7 +308,7 @@
             @endforeach
         </ul>
     </nav>
-    @endauth
+    @endauth -->
     @guest
         <x-auth-modal />
     @endguest
