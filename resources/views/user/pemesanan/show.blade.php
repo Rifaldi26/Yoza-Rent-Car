@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Detail Pemesanan #' . $pemesanan->id)
+@section('title', __('Detail Pemesanan') . ' #' . $pemesanan->id)
 
 @section('content')
 <div class="mx-auto max-w-3xl px-4 py-8">
@@ -9,13 +9,13 @@
         <a href="{{ route('pemesanan.index') }}"
            class="inline-flex items-center gap-1.5 text-sm text-[#7a8499] hover:text-[#18213a] transition-colors">
             <x-icon name="arrow-left" class="w-4 h-4" />
-            Kembali ke Pemesanan Saya
+            {{ __('Kembali ke Pemesanan Saya') }}
         </a>
         <div class="mt-4 flex items-start justify-between gap-3">
             <div>
-                <h1 class="text-xl font-bold text-[#18213a]">Pemesanan #{{ $pemesanan->id }}</h1>
+                <h1>{{ __('Pemesanan') }} #{{ $pemesanan->id }}</h1>
                 <p class="mt-0.5 text-sm text-[#7a8499]">
-                    Dibuat {{ $pemesanan->created_at->diffForHumans() }}
+                    {{ __('Dibuat') }} {{ $pemesanan->created_at->diffForHumans() }}
                     &middot; {{ $pemesanan->created_at->format('d M Y, H:i') }} WIB
                 </p>
             </div>
@@ -31,15 +31,15 @@
     <div class="mb-4 flex items-start gap-3 rounded-xl border border-yellow-200 bg-yellow-50 p-4">
         <x-icon name="clock" class="mt-0.5 h-5 w-5 shrink-0 text-yellow-500" />
         <div>
-            <p class="text-sm font-semibold text-yellow-800">Menunggu Pembayaran</p>
+            <p class="text-sm font-semibold text-yellow-800">{{ __('Menunggu Pembayaran') }}</p>
             <p class="mt-0.5 text-sm text-yellow-700">
-                Selesaikan pembayaran segera agar pemesanan Anda tidak otomatis kadaluarsa.
+                {{ __('Selesaikan pembayaran segera agar pemesanan Anda tidak otomatis kadaluarsa.') }}
             </p>
             <a href="{{ route('payment.checkout', $pemesanan) }}"
                class="mt-2 inline-flex items-center gap-1.5 rounded-lg bg-yellow-500 px-4 py-2
                       text-sm font-semibold text-white hover:bg-yellow-600 transition-colors">
                 <x-icon name="credit-card" class="h-4 w-4" />
-                Bayar Sekarang
+                {{ __('Bayar Sekarang') }}
             </a>
         </div>
     </div>
@@ -49,10 +49,9 @@
     <div class="mb-4 flex items-start gap-3 rounded-xl border border-blue-200 bg-blue-50 p-4">
         <x-icon name="clock" class="mt-0.5 h-5 w-5 shrink-0 text-blue-400" />
         <div>
-            <p class="text-sm font-semibold text-blue-800">Menunggu Konfirmasi Admin</p>
+            <p class="text-sm font-semibold text-blue-800">{{ __('Menunggu Konfirmasi Admin') }}</p>
             <p class="mt-0.5 text-sm text-blue-700">
-                Pembayaran via WhatsApp sudah dikirim. Admin kami akan segera memverifikasi dan
-                mengkonfirmasi pemesanan Anda. Biasanya dalam 1×24 jam.
+                {{ __('Pembayaran via WhatsApp sudah dikirim. Admin kami akan segera memverifikasi dan mengkonfirmasi pemesanan Anda. Biasanya dalam 1×24 jam.') }}
             </p>
         </div>
     </div>
@@ -62,17 +61,17 @@
     <div class="mb-4 flex items-start gap-3 rounded-xl border border-green-200 bg-green-50 p-4">
         <x-icon name="check-circle" class="mt-0.5 h-5 w-5 shrink-0 text-green-500" />
         <div>
-            <p class="text-sm font-semibold text-green-800">Pemesanan Dikonfirmasi!</p>
+            <p class="text-sm font-semibold text-green-800">{{ __('Pemesanan Dikonfirmasi!') }}</p>
             <p class="mt-0.5 text-sm text-green-700">
-                Kendaraan siap diambil pada
+                {{ __('Kendaraan siap diambil pada') }}
                 <strong>{{ $pemesanan->tanggal_mulai->format('d M Y') }}</strong>.
-                Hubungi kami jika ada pertanyaan lebih lanjut.
+                {{ __('Hubungi kami jika ada pertanyaan lebih lanjut.') }}
             </p>
             <a href="{{ route('chat.index') }}"
                class="mt-2 inline-flex items-center gap-1.5 rounded-lg bg-green-600 px-4 py-2
                       text-sm font-semibold text-white hover:bg-green-700 transition-colors">
                 <x-icon name="chat-bubble-left-ellipsis" class="h-4 w-4" />
-                Hubungi Admin
+                {{ __('Hubungi Admin') }}
             </a>
         </div>
     </div>
@@ -82,9 +81,9 @@
     <div class="mb-4 flex items-start gap-3 rounded-xl border border-gray-200 bg-gray-50 p-4">
         <x-icon name="check-circle" class="mt-0.5 h-5 w-5 shrink-0 text-gray-400" />
         <div>
-            <p class="text-sm font-semibold text-gray-700">Pemesanan Selesai</p>
+            <p class="text-sm font-semibold text-gray-700">{{ __('Pemesanan Selesai') }}</p>
             <p class="mt-0.5 text-sm text-gray-500">
-                Terima kasih telah mempercayai Yoza Rent Car. Sampai jumpa lagi!
+                {{ __('Terima kasih telah mempercayai Yoza Rent Car. Sampai jumpa lagi!') }}
             </p>
         </div>
     </div>
@@ -95,19 +94,19 @@
         <x-icon name="x-circle" class="mt-0.5 h-5 w-5 shrink-0 text-red-400" />
         <div>
             <p class="text-sm font-semibold text-red-800">
-                Pemesanan {{ $pemesanan->status === 'kadaluarsa' ? 'Kadaluarsa' : 'Dibatalkan' }}
+                {{ __('Pemesanan') }} {{ $pemesanan->status === 'kadaluarsa'? __('Kadaluarsa') : __('Dibatalkan') }}
             </p>
             <p class="mt-0.5 text-sm text-red-700">
                 @if($pemesanan->status === 'kadaluarsa')
-                    Pemesanan ini otomatis kadaluarsa karena pembayaran tidak diselesaikan tepat waktu.
+                    {{ __('Pemesanan ini otomatis kadaluarsa karena pembayaran tidak diselesaikan tepat waktu.') }}
                 @else
-                    Pemesanan ini telah dibatalkan.
+                    {{ __('Pemesanan ini telah dibatalkan.') }}
                 @endif
             </p>
             <a href="{{ route('home') }}"
                class="mt-2 inline-flex items-center gap-1.5 rounded-lg border border-red-200
                       bg-white px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors">
-                Pesan Kembali
+                {{ __('Pesan Kembali') }}
             </a>
         </div>
     </div>
@@ -119,7 +118,7 @@
         {{-- Kartu: Kendaraan --}}
         <div class="overflow-hidden rounded-2xl border border-[#e5e9f2] bg-white shadow-sm">
             <div class="border-b border-[#e5e9f2] px-5 py-3.5">
-                <h2 class="text-sm font-semibold text-[#18213a]">Kendaraan</h2>
+                <h2 class="text-sm font-semibold text-[#18213a]">{{ __('Kendaraan') }}</h2>
             </div>
             <div class="flex items-center gap-4 p-5">
                 <div class="h-20 w-28 shrink-0 overflow-hidden rounded-xl bg-[#f4f6fb]">
@@ -142,7 +141,7 @@
                         <span class="inline-flex items-center gap-1 rounded-full bg-[#f1f4fa] px-2.5 py-0.5
                                      text-xs text-[#7a8499]">
                             <x-icon name="users" class="h-3 w-3" />
-                            {{ $pemesanan->mobil->kapasitas }} Penumpang
+                            {{ $pemesanan->mobil->kapasitas }} {{ __('Penumpang') }}
                         </span>
                         @endif
                         @if($pemesanan->mobil->transmisi)
@@ -155,7 +154,7 @@
                     </div>
                 </div>
                 <div class="shrink-0 text-right">
-                    <p class="text-xs text-[#7a8499]">Harga/hari</p>
+                    <p class="text-xs text-[#7a8499]">{{ __('Harga/hari') }}</p>
                     <p class="font-semibold text-[#18213a]">
                         Rp {{ number_format($pemesanan->mobil->harga_per_hari, 0, ',', '.') }}
                     </p>
@@ -166,7 +165,7 @@
         {{-- Kartu: Detail Pemesanan --}}
         <div class="overflow-hidden rounded-2xl border border-[#e5e9f2] bg-white shadow-sm">
             <div class="border-b border-[#e5e9f2] px-5 py-3.5">
-                <h2 class="text-sm font-semibold text-[#18213a]">Detail Pemesanan</h2>
+                <h2 class="text-sm font-semibold text-[#18213a]">{{ __('Detail Pemesanan') }}</h2>
             </div>
             <div class="divide-y divide-[#f1f4fa]">
 
@@ -176,7 +175,7 @@
                         <x-icon name="calendar-days" class="h-4 w-4 text-[#3b6fd4]" />
                     </div>
                     <div class="flex-1">
-                        <p class="text-xs font-medium uppercase tracking-wider text-[#7a8499]">Periode Sewa</p>
+                        <p class="text-xs font-medium uppercase tracking-wider text-[#7a8499]">{{ __('Periode Sewa') }}</p>
                         <p class="mt-1 font-medium text-[#18213a]">
                             {{ $pemesanan->tanggal_mulai->format('d M Y') }}
                             @if(!$pemesanan->adalah12Jam())
@@ -185,12 +184,12 @@
                         </p>
                         <p class="text-xs text-[#7a8499]">
                             @if($pemesanan->adalah12Jam())
-                                Sewa 12 Jam
+                                {{ __('Sewa 12 Jam') }}
                                 @if($pemesanan->waktu_mulai)
-                                    · Mulai pukul {{ \Carbon\Carbon::parse($pemesanan->waktu_mulai)->format('H:i') }} WIB
+                                    · {{ __('Mulai pukul') }} {{ \Carbon\Carbon::parse($pemesanan->waktu_mulai)->format('H:i') }} WIB
                                 @endif
                             @else
-                                {{ $pemesanan->durasi() }} hari
+                                {{ $pemesanan->durasi() }} {{ __('hari') }}
                             @endif
                         </p>
                     </div>
@@ -202,13 +201,13 @@
                         <x-icon name="user" class="h-4 w-4 text-[#3b6fd4]" />
                     </div>
                     <div class="flex-1">
-                        <p class="text-xs font-medium uppercase tracking-wider text-[#7a8499]">Opsi Mengemudi</p>
+                        <p class="text-xs font-medium uppercase tracking-wider text-[#7a8499]">{{ __('Opsi Mengemudi') }}</p>
                         <p class="mt-1 font-medium text-[#18213a]">
-                            {{ $pemesanan->opsi_supir ? 'Dengan Supir' : 'Self-Drive' }}
+                            {{ $pemesanan->opsi_supir ? __('Dengan Supir') : __('Self-Drive') }}
                         </p>
                         @if($pemesanan->opsi_supir && $pemesanan->biaya_supir)
                         <p class="text-xs text-[#7a8499]">
-                            Biaya supir: Rp {{ number_format($pemesanan->biaya_supir, 0, ',', '.') }}
+                            {{ __('Biaya supir:') }} Rp {{ number_format($pemesanan->biaya_supir, 0, ',', '.') }}
                         </p>
                         @endif
                     </div>
@@ -221,7 +220,7 @@
                         <x-icon name="chat-bubble-bottom-center-text" class="h-4 w-4 text-[#3b6fd4]" />
                     </div>
                     <div class="flex-1">
-                        <p class="text-xs font-medium uppercase tracking-wider text-[#7a8499]">Catatan</p>
+                        <p class="text-xs font-medium uppercase tracking-wider text-[#7a8499]">{{ __('Catatan') }}</p>
                         <p class="mt-1 text-sm text-[#18213a]">{{ $pemesanan->catatan }}</p>
                     </div>
                 </div>
@@ -232,14 +231,14 @@
         {{-- Kartu: Status Pembayaran ──────────────────────────────────── --}}
         <div class="overflow-hidden rounded-2xl border border-[#e5e9f2] bg-white shadow-sm">
             <div class="flex items-center justify-between border-b border-[#e5e9f2] px-5 py-3.5">
-                <h2 class="text-sm font-semibold text-[#18213a]">Pembayaran</h2>
+                <h2 class="text-sm font-semibold text-[#18213a]">{{ __('Pembayaran') }}</h2>
                 @if($pemesanan->payment)
                     @php
                         $payBadge = match($pemesanan->payment->status) {
-                            'dikonfirmasi'       => ['bg-green-50 border-green-200 text-green-700', 'Terkonfirmasi'],
-                            'menunggu_konfirmasi'=> ['bg-blue-50 border-blue-200 text-blue-700', 'Menunggu Konfirmasi'],
-                            'dibatalkan'         => ['bg-red-50 border-red-200 text-red-600', 'Dibatalkan'],
-                            default              => ['bg-yellow-50 border-yellow-200 text-yellow-700', 'Menunggu'],
+                            'dikonfirmasi'        => ['bg-green-50 border-green-200 text-green-700', __('Terkonfirmasi')],
+                            'menunggu_konfirmasi' => ['bg-blue-50 border-blue-200 text-blue-700', __('Menunggu Konfirmasi')],
+                            'dibatalkan'          => ['bg-red-50 border-red-200 text-red-600', __('Dibatalkan')],
+                            default               => ['bg-yellow-50 border-yellow-200 text-yellow-700', __('Menunggu')],
                         };
                     @endphp
                     <span class="inline-flex items-center rounded-full border px-2.5 py-0.5
@@ -254,7 +253,7 @@
 
                 {{-- Metode --}}
                 <div class="flex items-center justify-between px-5 py-3.5">
-                    <p class="text-sm text-[#7a8499]">Metode Pembayaran</p>
+                    <p class="text-sm text-[#7a8499]">{{ __('Metode Pembayaran') }}</p>
                     <p class="text-sm font-semibold text-[#18213a]">
                         {{ $pemesanan->payment->labelMetode() }}
                     </p>
@@ -263,7 +262,7 @@
                 {{-- Waktu WA dikirim --}}
                 @if($pemesanan->payment->wa_sent_at)
                 <div class="flex items-center justify-between px-5 py-3.5">
-                    <p class="text-sm text-[#7a8499]">Konfirmasi WA Dikirim</p>
+                    <p class="text-sm text-[#7a8499]">{{ __('Konfirmasi WA Dikirim') }}</p>
                     <p class="text-sm text-[#18213a]">
                         {{ $pemesanan->payment->wa_sent_at->format('d M Y, H:i') }} WIB
                     </p>
@@ -273,7 +272,7 @@
                 {{-- Waktu dikonfirmasi admin --}}
                 @if($pemesanan->payment->paid_at)
                 <div class="flex items-center justify-between px-5 py-3.5">
-                    <p class="text-sm text-[#7a8499]">Dikonfirmasi Admin</p>
+                    <p class="text-sm text-[#7a8499]">{{ __('Dikonfirmasi Admin') }}</p>
                     <p class="text-sm font-semibold text-green-600">
                         {{ $pemesanan->payment->paid_at->format('d M Y, H:i') }} WIB
                     </p>
@@ -285,10 +284,10 @@
                     <div class="flex items-center justify-between">
                         @php
                             $steps = [
-                                ['label' => 'Pemesanan\nDibuat',   'done' => true],
-                                ['label' => 'Konfirmasi\nWA',      'done' => !is_null($pemesanan->payment->wa_sent_at)],
-                                ['label' => 'Verifikasi\nAdmin',   'done' => $pemesanan->payment->isDikonfirmasi()],
-                                ['label' => 'Pemesanan\nAktif',    'done' => in_array($pemesanan->status, ['dikonfirmasi','selesai'])],
+                                ['label' => __('Pemesanan\nDibuat'),   'done' => true],
+                                ['label' => __('Konfirmasi\nWA'),      'done' => !is_null($pemesanan->payment->wa_sent_at)],
+                                ['label' => __('Verifikasi\nAdmin'),   'done' => $pemesanan->payment->isDikonfirmasi()],
+                                ['label' => __('Pemesanan\nAktif'),    'done' => in_array($pemesanan->status, ['dikonfirmasi','selesai'])],
                             ];
                         @endphp
                         @foreach($steps as $i => $step)
@@ -325,13 +324,13 @@
                 <div class="grid h-12 w-12 place-items-center rounded-full bg-[#f1f4fa]">
                     <x-icon name="credit-card" class="h-6 w-6 text-[#c0c8d8]" />
                 </div>
-                <p class="text-sm font-medium text-[#18213a]">Belum Ada Pembayaran</p>
-                <p class="text-xs text-[#7a8499]">Lanjutkan ke halaman pembayaran untuk memilih metode.</p>
+                <p class="text-sm font-medium text-[#18213a]">{{ __('Belum Ada Pembayaran') }}</p>
+                <p class="text-xs text-[#7a8499]">{{ __('Lanjutkan ke halaman pembayaran untuk memilih metode.') }}</p>
                 @if($pemesanan->status === 'pending')
                 <a href="{{ route('payment.checkout', $pemesanan) }}"
                    class="mt-1 inline-flex items-center gap-1.5 rounded-lg bg-[#3b6fd4] px-4 py-2
                           text-sm font-semibold text-white hover:bg-[#2e5bb8] transition-colors">
-                    Pilih Metode Pembayaran
+                    {{ __('Pilih Metode Pembayaran') }}
                 </a>
                 @endif
             </div>
@@ -341,18 +340,17 @@
         {{-- Kartu: Rincian Harga --}}
         <div class="overflow-hidden rounded-2xl border border-[#e5e9f2] bg-white shadow-sm">
             <div class="border-b border-[#e5e9f2] px-5 py-3.5">
-                <h2 class="text-sm font-semibold text-[#18213a]">Rincian Harga</h2>
+                <h2 class="text-sm font-semibold text-[#18213a]">{{ __('Rincian Harga') }}</h2>
             </div>
             <div class="space-y-3 px-5 py-4 text-sm">
 
                 {{-- Sewa mobil --}}
                 <div class="flex items-center justify-between text-[#7a8499]">
                     @if($pemesanan->adalah12Jam())
-                        <span>Sewa 12 Jam (50% harga harian)</span>
                         <span>Rp {{ number_format(($pemesanan->total_harga - ($pemesanan->biaya_supir ?? 0)), 0, ',', '.') }}</span>
                     @else
                         <span>
-                            Sewa {{ $pemesanan->durasi() }} hari
+                            {{ __('Sewa') }} {{ $pemesanan->durasi() }} {{ __('hari') }}
                             × Rp {{ number_format($pemesanan->mobil->harga_per_hari, 0, ',', '.') }}
                         </span>
                         <span>Rp {{ number_format($pemesanan->mobil->harga_per_hari * $pemesanan->durasi(), 0, ',', '.') }}</span>
@@ -363,9 +361,9 @@
                 @if($pemesanan->biaya_supir)
                 <div class="flex items-center justify-between text-[#7a8499]">
                     <span>
-                        Jasa supir
+                        {{ __('Jasa supir') }}
                         @if(!$pemesanan->adalah12Jam())
-                            × {{ $pemesanan->durasi() }} hari
+                            × {{ $pemesanan->durasi() }} {{ __('hari') }}
                         @endif
                     </span>
                     <span>Rp {{ number_format($pemesanan->biaya_supir, 0, ',', '.') }}</span>
@@ -375,7 +373,7 @@
                 {{-- Total --}}
                 <div class="flex items-center justify-between border-t border-[#f1f4fa] pt-3
                              text-base font-bold text-[#18213a]">
-                    <span>Total</span>
+                    <span>{{ __('Total') }}</span>
                     <span class="text-[#3b6fd4]">
                         Rp {{ number_format($pemesanan->total_harga, 0, ',', '.') }}
                     </span>
@@ -395,7 +393,7 @@
                           px-4 py-2.5 text-sm font-medium text-[#18213a] shadow-sm
                           hover:bg-[#f1f4fa] transition-colors">
                     <x-icon name="arrow-down-tray" class="h-4 w-4" />
-                    Unduh Invoice
+                    {{ __('Unduh Invoice') }}
                 </a>
                 @endif
 
@@ -405,7 +403,7 @@
                           px-4 py-2.5 text-sm font-medium text-[#18213a] shadow-sm
                           hover:bg-[#f1f4fa] transition-colors">
                     <x-icon name="chat-bubble-left-ellipsis" class="h-4 w-4" />
-                    Hubungi Admin
+                    {{ __('Hubungi Admin') }}
                 </a>
 
                 {{-- Batalkan --}}
@@ -419,7 +417,7 @@
                                    px-4 py-2.5 text-sm font-medium text-red-500 shadow-sm
                                    hover:bg-red-50 transition-colors">
                         <x-icon name="x-circle" class="h-4 w-4" />
-                        Batalkan Pemesanan
+                        {{ __('Batalkan Pemesanan') }}
                     </button>
                 </form>
                 @endif
@@ -431,7 +429,7 @@
                class="inline-flex items-center gap-1.5 rounded-xl bg-[#3b6fd4] px-4 py-2.5
                       text-sm font-semibold text-white shadow-sm hover:bg-[#2e5bb8] transition-colors">
                 <x-icon name="arrow-path" class="h-4 w-4" />
-                Pesan Lagi
+                {{ __('Pesan Lagi') }}
             </a>
             @endif
         </div>

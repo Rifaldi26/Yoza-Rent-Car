@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Chat')
+@section('title', __('Chat'))
 
 @section('content')
 
@@ -14,7 +14,7 @@
                 <div class="relative">
                     <x-icon name="search"
                         class="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                    <input placeholder="Cari pelanggan..."
+                    <input placeholder="{{ __('Cari pelanggan...') }}"
                            class="h-9 w-full rounded-lg border border-gray-200 bg-gray-50 pl-8 pr-3
                                   text-sm outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-200">
                 </div>
@@ -45,7 +45,7 @@
                 </li>
                 @empty
                 <li class="p-6 text-center text-sm text-gray-400">
-                    Belum ada percakapan
+                    {{ __('Belum ada percakapan') }}
                 </li>
                 @endforelse
             </ul>
@@ -68,7 +68,7 @@
                 <div class="grid h-14 w-14 place-items-center rounded-full bg-gray-100 mb-3">
                     <x-icon name="chat" class="w-7 h-7 text-gray-300" />
                 </div>
-                <p class="text-sm font-medium text-gray-500">Pilih percakapan untuk memulai</p>
+                <p class="text-sm font-medium text-gray-500">{{ __('Pilih percakapan untuk memulai') }}</p>
             </div>
 
             {{-- Pesan --}}
@@ -89,7 +89,7 @@
                                    class="mb-2 block w-64 rounded-lg border border-gray-200 bg-white p-3 text-left">
                                     <div class="flex items-center gap-1.5 text-xs text-gray-400">
                                         <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125"/></svg>
-                                        Lampiran Pemesanan
+                                        {{ __('Lampiran Pemesanan') }}
                                     </div>
                                     <p class="mt-1 font-mono text-xs text-blue-600"
                                        x-text="'#' + msg.pemesanan.id"></p>
@@ -129,7 +129,7 @@
                          class="absolute bottom-full left-0 mb-2 w-72 rounded-xl border border-gray-200
                                 bg-white shadow-lg z-20">
                         <div class="border-b border-gray-100 px-3 py-2">
-                            <p class="text-xs font-semibold text-gray-700">Lampirkan Pemesanan</p>
+                            <p class="text-xs font-semibold text-gray-700">{{ __('Lampirkan Pemesanan') }}</p>
                         </div>
                         <ul class="max-h-48 overflow-y-auto py-1">
                             <template x-for="p in daftarPemesanan" :key="p.id">
@@ -148,7 +148,7 @@
                             </template>
                             <template x-if="daftarPemesanan.length === 0">
                                 <li class="px-3 py-4 text-center text-xs text-gray-400">
-                                    Tidak ada pemesanan
+                                    {{ __('Tidak ada pemesanan') }}
                                 </li>
                             </template>
                         </ul>
@@ -156,7 +156,7 @@
                             <div class="border-t border-gray-100 px-3 py-2">
                                 <button @click="selectedPemesananId = null; selectedPemesananLabel = ''"
                                         class="text-xs text-red-500 hover:underline">
-                                    Hapus lampiran
+                                    {{ __('Hapus lampiran') }}
                                 </button>
                             </div>
                         </template>
@@ -165,7 +165,7 @@
 
                 <input x-model="isiPesan"
                        @keydown.enter.prevent="kirim()"
-                       placeholder="Tulis pesan..."
+                       placeholder="{{ __('Tulis pesan...') }}"
                        class="h-9 flex-1 rounded-lg border border-gray-200 bg-gray-50 px-3 text-sm
                               outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-200 transition-colors">
 
@@ -175,7 +175,7 @@
                                text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-40
                                disabled:cursor-not-allowed transition-colors">
                     <x-icon name="send" class="w-4 h-4" />
-                    Kirim
+                    {{ __('Kirim') }}
                 </button>
             </div>
         </section>

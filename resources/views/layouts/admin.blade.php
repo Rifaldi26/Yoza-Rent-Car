@@ -22,7 +22,7 @@
             <button @click="drawerOpen = true"
                     class="inline-flex h-9 w-9 items-center justify-center rounded-lg border
                            border-gray-200 text-gray-700 md:hidden"
-                    aria-label="Buka menu">
+                    aria-label="{{ __('Buka menu') }}">
                 <x-icon name="menu" class="w-5 h-5" />
             </button>
 
@@ -34,7 +34,7 @@
                 <div class="hidden flex-col leading-tight sm:flex">
                     <span class="whitespace-nowrap text-sm font-bold text-gray-900">Yoza Rent Car</span>
                     <span class="text-[10px] font-semibold uppercase tracking-widest text-gray-400">
-                        Panel Admin
+                        {{ __('Panel Admin') }}
                     </span>
                 </div>
             </a>
@@ -83,9 +83,9 @@
                                 bg-white shadow-lg z-50"
                          x-cloak>
                         <div class="flex items-center justify-between border-b border-gray-100 px-4 py-3">
-                            <span class="text-sm font-semibold text-gray-900">Notifikasi</span>
+                            <span class="text-sm font-semibold text-gray-900">{{ __('Notifikasi') }}</span>
                             <a href="{{ route('admin.notifikasi.index') }}"
-                               class="text-xs text-blue-600 hover:underline">Lihat semua</a>
+                               class="text-xs text-blue-600 hover:underline">{{ __('Lihat semua') }}</a>
                         </div>
                         <div class="max-h-72 divide-y divide-gray-50 overflow-y-auto">
                             @forelse(auth()->user()->notifikasis()->latest()->take(4)->get() as $notif)
@@ -114,7 +114,7 @@
                                 </a>
                             @empty
                                 <div class="px-4 py-8 text-center text-sm text-gray-400">
-                                    Tidak ada notifikasi
+                                    {{ __('Tidak ada notifikasi') }}
                                 </div>
                             @endforelse
                         </div>
@@ -155,7 +155,7 @@
                                     class="flex w-full items-center gap-2 px-4 py-2.5 text-sm
                                            text-red-600 hover:bg-red-50 transition-colors">
                                 <x-icon name="logout" class="w-4 h-4" />
-                                Keluar
+                                {{ __('Keluar') }}
                             </button>
                         </form>
                     </div>

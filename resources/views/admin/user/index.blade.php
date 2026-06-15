@@ -1,18 +1,18 @@
 @extends('layouts.admin')
-@section('title', 'Pengguna')
+@section('title', __('Pengguna'))
 
 @section('content')
 
-<x-page-header title="Pengguna" description="Database pelanggan terdaftar." />
+<x-page-header title="{{ __('Pengguna') }}" description="{{ __('Database pelanggan terdaftar.') }}" />
 
 <div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
     <table class="w-full text-sm">
         <thead class="bg-gray-50">
             <tr class="text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                <th class="px-4 py-3">Pelanggan</th>
-                <th class="px-4 py-3 hidden sm:table-cell">Kontak</th>
-                <th class="px-4 py-3 text-right hidden md:table-cell">Total Pemesanan</th>
-                <th class="px-4 py-3 text-right">Status</th>
+                <th class="px-4 py-3">{{ __('Pelanggan') }}</th>
+                <th class="px-4 py-3 hidden sm:table-cell">{{ __('Kontak') }}</th>
+                <th class="px-4 py-3 text-right hidden md:table-cell">{{ __('Total Pemesanan') }}</th>
+                <th class="px-4 py-3 text-right">{{ __('Status') }}</th>
             </tr>
         </thead>
         <tbody>
@@ -47,12 +47,12 @@
                         <span class="inline-flex items-center gap-1 rounded-full border border-green-200
                                      bg-green-50 px-2 py-0.5 text-[11px] font-medium text-green-700">
                             <x-icon name="check-circle" class="w-3 h-3" />
-                            Terverifikasi
+                            {{ __('Terverifikasi') }}
                         </span>
                     @else
                         <span class="inline-flex items-center rounded-full border border-gray-200
                                      bg-gray-50 px-2 py-0.5 text-[11px] font-medium text-gray-500">
-                            Belum verifikasi
+                            {{ __('Belum verifikasi') }}
                         </span>
                     @endif
                 </td>
@@ -60,8 +60,8 @@
             @empty
             <tr>
                 <td colspan="4">
-                    <x-empty-state icon="users" title="Belum ada pengguna"
-                        description="Pengguna yang mendaftar akan muncul di sini." />
+                    <x-empty-state icon="users" title="{{ __('Belum ada pengguna') }}"
+                        description="{{ __('Pengguna yang mendaftar akan muncul di sini.') }}" />
                 </td>
             </tr>
             @endforelse

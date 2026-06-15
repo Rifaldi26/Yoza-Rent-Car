@@ -1,19 +1,19 @@
 @extends('layouts.admin')
-@section('title', 'Manajemen Halaman')
+@section('title', __('Manajemen Halaman'))
 
 @section('content')
 <div class="space-y-6">
     <div class="flex items-center justify-between">
-        <h2 class="text-xl font-bold text-[#18213a]">Manajemen Halaman</h2>
+        <h2 class="text-xl font-bold text-[#18213a]">{{ __('Manajemen Halaman') }}</h2>
     </div>
 
     <div class="overflow-hidden rounded-xl border border-[#e5e9f2] bg-white shadow-sm">
         <table class="w-full text-left text-sm text-[#7a8499]">
             <thead class="border-b border-[#e5e9f2] bg-[#f8fafc] text-[#18213a]">
                 <tr>
-                    <th class="px-6 py-4 font-semibold">Nama Halaman</th>
-                    <th class="px-6 py-4 font-semibold">Terakhir Diperbarui</th>
-                    <th class="px-6 py-4 font-semibold text-right">Aksi</th>
+                    <th class="px-6 py-4 font-semibold">{{ __('Nama Halaman') }}</th>
+                    <th class="px-6 py-4 font-semibold">{{ __('Terakhir Diperbarui') }}</th>
+                    <th class="px-6 py-4 font-semibold text-right">{{ __('Aksi') }}</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-[#e5e9f2]">
@@ -25,7 +25,7 @@
                         <a href="{{ route('admin.pages.edit', $page->slug) }}" 
                            class="inline-flex items-center gap-1.5 rounded-lg bg-[#eef2fb] px-3 py-1.5 text-xs font-semibold text-[#3b6fd4] hover:bg-[#3b6fd4] hover:text-white transition-colors">
                             <x-icon name="pencil" class="w-3.5 h-3.5" />
-                            Edit
+                            {{ __('Edit') }}
                         </a>
                     </td>
                 </tr>

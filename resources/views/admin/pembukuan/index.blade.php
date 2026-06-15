@@ -1,21 +1,21 @@
 @extends('layouts.admin')
-@section('title', 'Pembukuan')
+@section('title', __('Pembukuan'))
 
 @section('content')
 
-<x-page-header title="Pembukuan" description="Chart of Accounts dan ringkasan penjualan.">
+<x-page-header title="{{ __('Pembukuan') }}" description="{{ __('Chart of Accounts dan ringkasan penjualan.') }}">
     <x-slot:actions>
         <a href="{{ route('admin.pembukuan.jurnal') }}"
            class="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white
                   px-3 py-1.5 text-sm font-medium hover:bg-gray-50 transition-colors">
             <x-icon name="book-open" class="w-4 h-4" />
-            Jurnal Harian
+            {{ __('Jurnal Harian') }}
         </a>
         <button @click="$dispatch('open-modal-pengeluaran')"
                 class="inline-flex items-center gap-1.5 rounded-lg bg-blue-600 px-3 py-1.5
                        text-sm font-medium text-white hover:bg-blue-700 transition-colors">
             <x-icon name="plus" class="w-4 h-4" />
-            Input Pengeluaran
+            {{ __('Input Pengeluaran') }}
         </button>
     </x-slot:actions>
 </x-page-header>
@@ -26,18 +26,16 @@
         <div class="mb-3 grid h-10 w-10 place-items-center rounded-lg bg-green-100 text-green-600">
             <x-icon name="trending-up" class="w-5 h-5" />
         </div>
-        <p class="text-xs font-medium text-gray-500">Total Pendapatan</p>
+        <p class="text-xs font-medium text-gray-500">{{ __('Total Pendapatan') }}</p>
         <p class="mt-1 text-2xl font-bold tabular-nums text-gray-900">
             Rp {{ number_format($ringkasan['total_pendapatan'], 0, ',', '.') }}
         </p>
-        <p class="mt-1 text-2xl font-bold tabular-nums text-gray-900">
-            Rp {{ number_format($ringkasan['total_pendapatan'], 0, ',', '.') }}
     </div>
     <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
         <div class="mb-3 grid h-10 w-10 place-items-center rounded-lg bg-yellow-100 text-yellow-600">
             <x-icon name="trending-down" class="w-5 h-5" />
         </div>
-        <p class="text-xs font-medium text-gray-500">Total Pengeluaran</p>
+        <p class="text-xs font-medium text-gray-500">{{ __('Total Pengeluaran') }}</p>
         <p class="mt-1 text-2xl font-bold tabular-nums text-gray-900">
             Rp {{ number_format($ringkasan['total_pengeluaran'], 0, ',', '.') }}
         </p>
@@ -48,7 +46,7 @@
                     {{ $ringkasan['laba_rugi'] >= 0 ? 'bg-blue-100 text-blue-600' : 'bg-red-100 text-red-600' }}">
             <x-icon name="chart-bar" class="w-5 h-5" />
         </div>
-        <p class="text-xs font-medium text-gray-500">Laba / Rugi</p>
+        <p class="text-xs font-medium text-gray-500">{{ __('Laba / Rugi') }}</p>
         <p class="mt-1 text-2xl font-bold tabular-nums
                   {{ $ringkasan['laba_rugi'] >= 0 ? 'text-green-600' : 'text-red-600' }}">
             Rp {{ number_format(abs($ringkasan['laba_rugi']), 0, ',', '.') }}
@@ -62,10 +60,10 @@
         <table class="w-full text-sm">
             <thead class="bg-gray-50">
                 <tr class="text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                    <th class="px-4 py-3">Kode</th>
-                    <th class="px-4 py-3">Nama Akun</th>
-                    <th class="px-4 py-3">Tipe</th>
-                    <th class="px-4 py-3 text-right">Saldo</th>
+                    <th class="px-4 py-3">{{ __('Kode') }}</th>
+                    <th class="px-4 py-3">{{ __('Nama Akun') }}</th>
+                    <th class="px-4 py-3">{{ __('Tipe') }}</th>
+                    <th class="px-4 py-3 text-right">{{ __('Saldo') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -100,27 +98,27 @@
 </div>
 
 {{-- Modal Input Pengeluaran --}}
-<x-modal id="pengeluaran" title="Input Pengeluaran" size="md">
+<x-modal id="pengeluaran" title="{{ __('Input Pengeluaran') }}" size="md">
     <form method="POST" action="{{ route('admin.pembukuan.pengeluaran') }}"
           class="space-y-4" id="form-pengeluaran">
         @csrf
-        <x-select name="account_id" label="Akun Pengeluaran" required
+        <x-select name="account_id" label="{{ __('Akun Pengeluaran') }}" required
             :options="$accounts->where('tipe','pengeluaran')->pluck('nama','id')->toArray()" />
-        <x-input name="amount" label="Jumlah (Rp)" type="number" prefix="Rp" required />
-        <x-input name="date" label="Tanggal" type="date"
+        <x-input name="amount" label="{{ __('Jumlah (Rp)') }}" type="number" prefix="Rp" required />
+        <x-input name="date" label="{{ __('Tanggal') }}" type="date"
             :value="now()->format('Y-m-d')" required />
-        <x-textarea name="description" label="Keterangan" rows="2" required />
+        <x-textarea name="description" label="{{ __('Keterangan') }}" rows="2" required />
     </form>
     <x-slot:footer>
         <button @click="$dispatch('close-modal-pengeluaran')"
                 class="rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium
                        text-gray-700 hover:bg-gray-50 transition-colors">
-            Batal
+            {{ __('Batal') }}
         </button>
         <button form="form-pengeluaran" type="submit"
                 class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white
                        hover:bg-blue-700 transition-colors">
-            Simpan
+            {{ __('Simpan') }}
         </button>
     </x-slot:footer>
 </x-modal>

@@ -1,12 +1,12 @@
 @extends('layouts.app')
-@section('title', 'Chat')
+@section('title', __('Chat'))
 
 @section('content')
 <div class="mx-auto max-w-3xl px-4 py-8">
 
     <div class="mb-4">
-        <h1 class="text-2xl font-bold text-[#18213a]">Chat dengan Admin</h1>
-        <p class="mt-1 text-sm text-[#7a8499]">Tanya atau lampirkan pemesanan Anda langsung ke admin.</p>
+        <h1 class="text-2xl font-bold text-[#18213a]">{{ __('Chat dengan Admin') }}</h1>
+        <p class="mt-1 text-sm text-[#7a8499]">{{ __('Tanya atau lampirkan pemesanan Anda langsung ke admin.') }}</p>
     </div>
 
     <div class="overflow-hidden rounded-2xl border border-[#e5e9f2] bg-white shadow-sm"
@@ -16,10 +16,10 @@
         <div class="flex items-center gap-3 border-b border-[#e5e9f2] p-4">
             <x-avatar :name="$admin->name ?? 'Admin'" size="sm" />
             <div>
-                <p class="text-sm font-semibold text-[#18213a]">{{ $admin->name ?? 'Admin Yoza Rent Car' }}</p>
+                <p class="text-sm font-semibold text-[#18213a]">{{ $admin->name ?? __('Admin Yoza Rent Car') }}</p>
                 <p class="text-xs text-green-600 flex items-center gap-1">
                     <span class="h-1.5 w-1.5 rounded-full bg-green-500"></span>
-                    Online
+                    {{ __('Online') }}
                 </p>
             </div>
         </div>
@@ -68,8 +68,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133"/>
                         </svg>
                     </div>
-                    <p class="text-sm font-medium text-[#18213a]">Mulai percakapan</p>
-                    <p class="text-xs text-[#7a8499] mt-1">Tanyakan apa saja atau lampirkan pemesanan Anda</p>
+                    <p class="text-sm font-medium text-[#18213a]">{{ __('Mulai percakapan') }}</p>
+                    <p class="text-xs text-[#7a8499] mt-1">{{ __('Tanyakan apa saja atau lampirkan pemesanan Anda') }}</p>
                 </div>
             </template>
         </div>
@@ -78,7 +78,7 @@
         <template x-if="selectedPemesananId">
             <div class="mx-4 mt-0 mb-0 rounded-xl border border-[#3b6fd4]/30 bg-[#eef2fb] px-3 py-2 text-xs
                         flex items-center justify-between">
-                <span class="text-[#3b6fd4] font-medium" x-text="'Melampirkan: ' + selectedPemesananLabel"></span>
+                <span class="text-[#3b6fd4] font-medium" x-text="'{{ __('Melampirkan: ') }}' + selectedPemesananLabel"></span>
                 <button @click="selectedPemesananId = null; selectedPemesananLabel = ''"
                         class="text-[#7a8499] hover:text-red-500 transition-colors">
                     <x-icon name="x" class="w-3.5 h-3.5" />
@@ -101,7 +101,7 @@
                      class="absolute bottom-full left-0 mb-2 w-72 rounded-xl border border-[#e5e9f2]
                             bg-white shadow-lg z-20">
                     <div class="border-b border-[#e5e9f2] px-3 py-2">
-                        <p class="text-xs font-semibold text-[#18213a]">Lampirkan Pemesanan</p>
+                        <p class="text-xs font-semibold text-[#18213a]">{{ __('Lampirkan Pemesanan') }}</p>
                     </div>
                     <ul class="max-h-48 overflow-y-auto py-1">
                         @forelse(auth()->user()->pemesanans()->with('mobil')->latest()->take(10)->get() as $p)
@@ -120,7 +120,7 @@
                         </li>
                         @empty
                         <li class="px-3 py-4 text-center text-xs text-[#7a8499]">
-                            Tidak ada pemesanan
+                            {{ __('Tidak ada pemesanan') }}
                         </li>
                         @endforelse
                     </ul>
@@ -129,7 +129,7 @@
 
             <input x-model="isiPesan"
                    @keydown.enter.prevent="kirim()"
-                   placeholder="Tulis pesan..."
+                   placeholder="{{ __('Tulis pesan...') }}"
                    class="h-9 flex-1 rounded-lg border border-[#e5e9f2] bg-[#f4f6fb] px-3 text-sm
                           outline-none focus:border-[#3b6fd4] focus:ring-2 focus:ring-[#3b6fd4]/20
                           transition-colors">
@@ -140,7 +140,7 @@
                            text-sm font-medium text-white hover:bg-[#2e5bb8] disabled:opacity-40
                            disabled:cursor-not-allowed transition-colors">
                 <x-icon name="send" class="w-4 h-4" />
-                Kirim
+                {{ __('Kirim') }}
             </button>
         </div>
     </div>

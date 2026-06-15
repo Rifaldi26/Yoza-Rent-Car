@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Edit ' . $mobil->nama)
+@section('title', __('Edit') . ' ' . $mobil->nama)
 
 @section('content')
 
@@ -7,11 +7,11 @@
     <a href="{{ route('admin.mobil.index') }}"
        class="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-700 transition-colors">
         <x-icon name="arrow-left" class="w-4 h-4" />
-        Kembali ke Armada
+        {{ __('Kembali ke Armada') }}
     </a>
 </div>
 
-<x-page-header title="Edit {{ $mobil->nama }}" />
+<x-page-header title="{{ __('Edit') }} {{ $mobil->nama }}" />
 
 <form method="POST" action="{{ route('admin.mobil.update', $mobil) }}" enctype="multipart/form-data">
 @csrf @method('PUT')
@@ -19,34 +19,34 @@
 
     <div class="lg:col-span-2 space-y-4">
         <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-            <h3 class="text-sm font-semibold text-gray-900 mb-4">Informasi Kendaraan</h3>
+            <h3 class="text-sm font-semibold text-gray-900 mb-4">{{ __('Informasi Kendaraan') }}</h3>
             <div class="grid gap-4 sm:grid-cols-2">
-                <x-input name="nama" label="Nama / Model"
+                <x-input name="nama" label="{{ __('Nama / Model') }}"
                     :value="old('nama', $mobil->nama)" required />
-                <x-input name="merek" label="Merek"
+                <x-input name="merek" label="{{ __('Merek') }}"
                     :value="old('merek', $mobil->merek)" required />
-                <x-input name="tahun" label="Tahun" type="number"
+                <x-input name="tahun" label="{{ __('Tahun') }}" type="number"
                     :value="old('tahun', $mobil->tahun)" required />
-                <x-input name="plat_nomor" label="Plat Nomor"
+                <x-input name="plat_nomor" label="{{ __('Plat Nomor') }}"
                     :value="old('plat_nomor', $mobil->plat_nomor)" required />
             </div>
         </div>
 
         <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-            <h3 class="text-sm font-semibold text-gray-900 mb-4">Harga & Opsi</h3>
+            <h3 class="text-sm font-semibold text-gray-900 mb-4">{{ __('Harga & Opsi') }}</h3>
             <div class="grid gap-4 sm:grid-cols-2">
-                <x-input name="harga_per_hari" label="Harga per Hari (Rp)"
+                <x-input name="harga_per_hari" label="{{ __('Harga per Hari (Rp)') }}"
                     type="number" prefix="Rp"
                     :value="old('harga_per_hari', $mobil->harga_per_hari)" required />
-                <x-input name="biaya_supir_per_hari" label="Biaya Supir per Hari (Rp)"
+                <x-input name="biaya_supir_per_hari" label="{{ __('Biaya Supir per Hari (Rp)') }}"
                     type="number" prefix="Rp"
                     :value="old('biaya_supir_per_hari', $mobil->biaya_supir_per_hari)"
-                    helper="Kosongkan jika tidak ada opsi supir" />
+                    helper="{{ __('Kosongkan jika tidak ada opsi supir') }}" />
             </div>
         </div>
 
         <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-            <x-textarea name="deskripsi" label="Deskripsi Kendaraan" rows="4">
+            <x-textarea name="deskripsi" label="{{ __('Deskripsi Kendaraan') }}" rows="4">
                 {{ old('deskripsi', $mobil->deskripsi) }}
             </x-textarea>
         </div>
@@ -54,7 +54,7 @@
 
     <div class="space-y-4">
         <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-            <h3 class="text-sm font-semibold text-gray-900 mb-4">Foto Kendaraan</h3>
+            <h3 class="text-sm font-semibold text-gray-900 mb-4">{{ __('Foto Kendaraan') }}</h3>
             <div x-data="{ preview: '{{ $mobil->foto ? Storage::url($mobil->foto) : '' }}' }">
                 <div class="mb-3">
                     <template x-if="preview">
@@ -73,7 +73,7 @@
                        class="block w-full cursor-pointer rounded-lg border border-gray-200
                               px-3 py-2 text-center text-sm font-medium text-gray-600
                               hover:bg-gray-50 transition-colors">
-                    Ganti Foto
+                    {{ __('Ganti Foto') }}
                 </label>
             </div>
         </div>
@@ -83,7 +83,7 @@
                     class="flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600
                            py-2.5 text-sm font-medium text-white hover:bg-blue-700 transition-colors">
                 <x-icon name="check-circle" class="w-4 h-4" />
-                Simpan Perubahan
+                {{ __('Simpan Perubahan') }}
             </button>
         </div>
     </div>

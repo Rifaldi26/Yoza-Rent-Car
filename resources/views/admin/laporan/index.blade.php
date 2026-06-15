@@ -1,9 +1,9 @@
 @extends('layouts.admin')
-@section('title', 'Laporan')
+@section('title', __('Laporan'))
 
 @section('content')
 
-<x-page-header title="Laporan Penjualan" description="Ringkasan penjualan dan analitik bisnis.">
+<x-page-header title="{{ __('Laporan Penjualan') }}" description="{{ __('Ringkasan penjualan dan analitik bisnis.') }}">
     <x-slot:actions>
         <form method="GET" class="flex items-center gap-2">
             <select name="tahun" onchange="this.form.submit()"
@@ -18,7 +18,7 @@
            class="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white
                   px-3 py-1.5 text-sm font-medium hover:bg-gray-50 transition-colors">
             <x-icon name="download" class="w-4 h-4" />
-            Export Excel
+            {{ __('Export Excel') }}
         </a>
     </x-slot:actions>
 </x-page-header>
@@ -29,7 +29,7 @@
         <div class="mb-3 grid h-10 w-10 place-items-center rounded-lg bg-green-100 text-green-600">
             <x-icon name="trending-up" class="w-5 h-5" />
         </div>
-        <p class="text-xs font-medium text-gray-500">Total Pendapatan</p>
+        <p class="text-xs font-medium text-gray-500">{{ __('Total Pendapatan') }}</p>
         <p class="mt-1 text-2xl font-bold tabular-nums text-gray-900">
             Rp {{ number_format($ringkasan['total_pendapatan'], 0, ',', '.') }}
         </p>
@@ -38,18 +38,18 @@
         <div class="mb-3 grid h-10 w-10 place-items-center rounded-lg bg-yellow-100 text-yellow-600">
             <x-icon name="trending-down" class="w-5 h-5" />
         </div>
-        <p class="text-xs font-medium text-gray-500">Total Selesai</p>
+        <p class="text-xs font-medium text-gray-500">{{ __('Total Selesai') }}</p>
         <p class="mt-1 text-2xl font-bold tabular-nums text-gray-900">
-            {{ $ringkasan['total_selesai'] }} pemesanan
+            {{ $ringkasan['total_selesai'] }} {{ __('pemesanan') }}
         </p>
     </div>
     <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
         <div class="mb-3 grid h-10 w-10 place-items-center rounded-lg bg-blue-100 text-blue-600">
             <x-icon name="chart-bar" class="w-5 h-5" />
         </div>
-        <p class="text-xs font-medium text-gray-500">Dibatalkan</p>
+        <p class="text-xs font-medium text-gray-500">{{ __('Dibatalkan') }}</p>
         <p class="mt-1 text-2xl font-bold tabular-nums text-gray-900">
-            {{ $ringkasan['total_dibatalkan'] }} pemesanan
+            {{ $ringkasan['total_dibatalkan'] }} {{ __('pemesanan') }}
         </p>
     </div>
 </div>
@@ -58,11 +58,11 @@
 <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm mb-6">
     <div class="mb-4 flex items-center justify-between">
         <h2 class="text-sm font-semibold text-gray-900">
-            Pendapatan Bulanan {{ $tahun }}
+            {{ __('Pendapatan Bulanan') }} {{ $tahun }}
         </h2>
         <div class="flex items-center gap-3 text-xs text-gray-400">
             <span class="inline-flex items-center gap-1">
-                <span class="h-2 w-2 rounded-full bg-blue-600"></span>Pendapatan
+                <span class="h-2 w-2 rounded-full bg-blue-600"></span>{{ __('Pendapatan') }}
             </span>
         </div>
     </div>
@@ -72,15 +72,15 @@
 {{-- Top Mobil --}}
 <div class="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
     <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-        <h2 class="text-sm font-semibold text-gray-900">Top 5 Mobil Terlaris</h2>
+        <h2 class="text-sm font-semibold text-gray-900">{{ __('Top 5 Mobil Terlaris') }}</h2>
     </div>
     <table class="w-full text-sm">
         <thead class="bg-gray-50">
             <tr class="text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                 <th class="px-4 py-3">#</th>
-                <th class="px-4 py-3">Kendaraan</th>
-                <th class="px-4 py-3 text-right">Total Sewa</th>
-                <th class="px-4 py-3 text-right hidden sm:table-cell">Pendapatan</th>
+                <th class="px-4 py-3">{{ __('Kendaraan') }}</th>
+                <th class="px-4 py-3 text-right">{{ __('Total Sewa') }}</th>
+                <th class="px-4 py-3 text-right hidden sm:table-cell">{{ __('Pendapatan') }}</th>
             </tr>
         </thead>
         <tbody>
@@ -99,8 +99,8 @@
             @empty
             <tr>
                 <td colspan="4">
-                    <x-empty-state icon="chart-bar" title="Belum ada data"
-                        description="Data akan muncul setelah ada pemesanan selesai." />
+                    <x-empty-state icon="chart-bar" title="{{ __('Belum ada data') }}"
+                        description="{{ __('Data akan muncul setelah ada pemesanan selesai.') }}" />
                 </td>
             </tr>
             @endforelse
@@ -120,10 +120,10 @@ document.addEventListener('DOMContentLoaded', () => {
             new Chart(document.getElementById('chart-pendapatan'), {
                 type: 'bar',
                 data: {
-                    labels: ['Jan','Feb','Mar','Apr','Mei','Jun',
-                             'Jul','Agu','Sep','Okt','Nov','Des'],
+                    labels: ['{{ __("Jan") }}','{{ __("Feb") }}','{{ __("Mar") }}','{{ __("Apr") }}','{{ __("Mei") }}','{{ __("Jun") }}',
+                             '{{ __("Jul") }}','{{ __("Agu") }}','{{ __("Sep") }}','{{ __("Okt") }}','{{ __("Nov") }}','{{ __("Des") }}'],
                     datasets: [{
-                        label: 'Pendapatan',
+                        label: '{{ __("Pendapatan") }}',
                         data: data.pendapatan_per_bulan,
                         backgroundColor: 'rgba(59, 130, 246, 0.7)',
                         borderRadius: 6,

@@ -5,15 +5,15 @@
 <div class="mx-auto max-w-3xl px-4 py-8">
 
     <div class="mb-6">
-        <h1 class="text-2xl font-bold text-[#18213a]">Pemesanan Saya</h1>
-        <p class="mt-1 text-sm text-[#7a8499]">Riwayat dan status semua pemesanan Anda.</p>
+        <h1 class="text-2xl font-bold text-[#18213a]">{{ __('Pemesanan Saya') }}</h1>
+        <p class="mt-1 text-sm text-[#7a8499]">{{ __('Riwayat dan status semua pemesanan Anda.') }}</p>
     </div>
 
     {{-- Status Filter --}}
     <div class="mb-4 flex gap-1.5 overflow-x-auto pb-1">
         @php
-        $tabs = ['' => 'Semua','pending' => 'Menunggu Bayar','menunggu_konfirmasi_admin' => 'Menunggu Konfirmasi',
-                 'dikonfirmasi' => 'Dikonfirmasi','selesai' => 'Selesai','dibatalkan' => 'Dibatalkan'];
+        $tabs = ['' => __('Semua'),'pending' => __('Menunggu Bayar'),'menunggu_konfirmasi_admin' => __('Menunggu Konfirmasi'),
+                 'dikonfirmasi' => __('Dikonfirmasi'),'selesai' => __('Selesai'),'dibatalkan' => __('Dibatalkan')];
         @endphp
         @foreach($tabs as $val => $label)
             <a href="{{ route('pemesanan.index', array_filter(['status' => $val])) }}"
@@ -46,6 +46,7 @@
             <div class="flex-1 min-w-0">
                 <p class="font-semibold text-[#18213a]">{{ $p->mobil->nama }}</p>
                 <p class="text-sm text-[#7a8499]">
+<<<<<<< Updated upstream
                     {{ $p->tanggal_mulai->format('d M Y') }}
                     @if(!$p->adalah12Jam())
                         &ndash; {{ $p->tanggal_selesai->format('d M Y') }}
@@ -53,8 +54,13 @@
                     @else
                         &middot; Sewa 12 Jam
                     @endif
+=======
+                    {{ $p->tanggal_mulai->format('d M Y') }} &ndash;
+                    {{ $p->tanggal_selesai->format('d M Y') }}
+                    &middot; {{ $p->durasi() }} {{ __('hari') }}
+>>>>>>> Stashed changes
                 </p>
-                <p class="text-xs text-[#7a8499]">{{ $p->opsi_supir ? 'Dengan Supir' : 'Self-Drive' }}</p>
+                <p class="text-xs text-[#7a8499]">{{ $p->opsi_supir ? __('Dengan Supir') : __('Self-Drive') }}</p>
             </div>
             <div class="text-right flex-shrink-0">
                 <p class="text-base font-bold text-[#18213a]">
@@ -70,14 +76,14 @@
                     <a href="{{ route('payment.checkout', $p) }}"
                        class="rounded-lg bg-[#3b6fd4] px-3 py-1.5 text-xs font-medium text-white
                               hover:bg-[#2e5bb8] transition-colors">
-                        Bayar Sekarang
+                        {{ __('Bayar Sekarang') }}
                     </a>
                     <form method="POST" action="{{ route('pemesanan.cancel', $p) }}">
                         @csrf @method('PATCH')
                         <button type="submit"
                                 class="rounded-lg border border-[#e5e9f2] px-3 py-1.5 text-xs
                                        font-medium text-[#7a8499] hover:bg-[#f1f4fa] transition-colors">
-                            Batalkan
+                            {{ __('Batalkan') }}
                         </button>
                     </form>
                 @endif
@@ -86,24 +92,24 @@
                        class="rounded-lg border border-[#e5e9f2] px-3 py-1.5 text-xs font-medium
                               text-[#7a8499] hover:bg-[#f1f4fa] transition-colors inline-flex items-center gap-1">
                         <x-icon name="download" class="w-3.5 h-3.5" />
-                        Invoice
+                        {{ __('Invoice') }}
                     </a>
                 @endif
             </div>
             <a href="{{ route('pemesanan.show', $p) }}"
                class="text-xs font-medium text-[#3b6fd4] hover:underline">
-                Detail
+                {{ __('Detail') }}
             </a>
         </div>
     </div>
     @empty
-        <x-empty-state icon="calendar" title="Belum ada pemesanan"
-            description="Belum ada pemesanan dengan status ini.">
+        <x-empty-state icon="calendar" title="{{ __('Belum ada pemesanan') }}"
+            description="{{ __('Belum ada pemesanan dengan status ini.') }}">
             <x-slot:action>
                 <a href="{{ route('home') }}"
                    class="inline-flex items-center gap-1.5 rounded-lg bg-[#3b6fd4] px-4 py-2
                           text-sm font-medium text-white hover:bg-[#2e5bb8] transition-colors">
-                    Lihat Katalog Mobil
+                    {{ __('Lihat Katalog Mobil') }}
                 </a>
             </x-slot:action>
         </x-empty-state>
