@@ -50,7 +50,7 @@ $groups = [
     </div>
     <button @click="drawerOpen = false"
             class="grid h-8 w-8 place-items-center rounded-lg hover:bg-gray-100 transition-colors"
-            :aria-label="__('Tutup menu')">
+            aria-label="__('Tutup menu')">
         <x-icon name="x" class="w-5 h-5 text-gray-500" />
     </button>
 </div>

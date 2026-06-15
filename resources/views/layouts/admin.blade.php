@@ -32,7 +32,7 @@
                     <x-icon name="car" class="w-5 h-5" />
                 </div>
                 <div class="hidden flex-col leading-tight sm:flex">
-                    <span class="text-sm font-bold text-gray-900">Yoza Rent Car</span>
+                    <span class="whitespace-nowrap text-sm font-bold text-gray-900">Yoza Rent Car</span>
                     <span class="text-[10px] font-semibold uppercase tracking-widest text-gray-400">
                         Panel Admin
                     </span>
@@ -46,16 +46,6 @@
 
             {{-- Right Actions --}}
             <div class="ml-auto flex items-center gap-2">
-
-                {{-- Search --}}
-                <div class="relative hidden lg:block">
-                    <x-icon name="search"
-                        class="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-                    <input type="text" placeholder="Cari..."
-                           class="h-9 w-56 rounded-lg border border-gray-200 bg-gray-50 pl-8 pr-3 text-sm
-                                  outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-200
-                                  transition-colors">
-                </div>
 
                 {{-- Language Toggle --}}
                 {{-- Ganti button Alpine lama dengan ini: --}}
@@ -153,6 +143,12 @@
                             </p>
                             <p class="text-xs text-gray-500 truncate">{{ auth()->user()->email }}</p>
                         </div>
+                        <a href="{{ route('admin.pages.index') }}"
+                           class="flex items-center gap-2 px-4 py-2.5 text-sm text-[#18213a]
+                                  hover:bg-gray-[#f1f4fa] transition-colors">
+                            <x-icon name="cog" class="w-4 h-4" text-[#7a8499]"/>
+                            Pengaturan
+                        </a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit"
@@ -200,7 +196,7 @@
     </main>
 
     {{-- ── Bottom Nav (mobile) ─────────────────────────────── --}}
-    <nav class="fixed bottom-0 left-0 right-0 z-30 border-t border-gray-200
+    <!-- <nav class="fixed bottom-0 left-0 right-0 z-30 border-t border-gray-200
                 bg-white/95 backdrop-blur md:hidden">
         <ul class="mx-auto grid max-w-7xl grid-cols-5">
             @php
@@ -225,7 +221,7 @@
                 </li>
             @endforeach
         </ul>
-    </nav>
+    </nav> -->
 
     @stack('scripts')
 
