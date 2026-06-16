@@ -38,7 +38,7 @@ Schedule::command(DispatchRentalReminders::class)
 // → payment_expiry_hours.
 //
 Schedule::command(ExpireStaleBookings::class)
-    ->everyMinute(config('rental.expiry_check_interval_minutes', 30))
+    ->cron('*/' . config('rental.expiry_check_interval_minutes', 30) . ' * * * *')
     ->timezone('Asia/Jakarta')
     ->withoutOverlapping()
     ->runInBackground()
