@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 /**
  * PemesananController (User)
@@ -27,6 +28,7 @@ use Illuminate\View\View;
  */
 final class PemesananController extends Controller
 {
+    use AuthorizesRequests;
     public function __construct(
         private readonly PemesananService $pemesananService,
     ) {}
