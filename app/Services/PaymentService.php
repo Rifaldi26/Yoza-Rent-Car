@@ -134,7 +134,7 @@ final class PaymentService
             '{tanggal_mulai}' => $pemesanan->tanggal_mulai->format('d M Y'),
             '{tanggal_selesai}' => $pemesanan->tanggal_selesai->format('d M Y'),
             '{waktu_info}' => $waktuInfo,
-            '{total}' => number_format($pemesanan->total_harga, 0, ',', '.'),
+            '{total}' => number_format((float) $pemesanan->total_harga, 0, ',', '.'),
             '{bank}' => $config['bank'] ?? '',
             '{rekening}' => $config['rekening'] ?? '',
             '{atas_nama}' => $config['atas_nama'] ?? '',

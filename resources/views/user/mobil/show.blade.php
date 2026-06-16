@@ -37,6 +37,8 @@
                 <p class="text-sm text-[#7a8499] leading-relaxed">{{ $mobil->deskripsi }}</p>
             </div>
             @endif
+
+            @include('user.mobil._ulasan')
         </div>
 
         {{-- Booking Card --}}

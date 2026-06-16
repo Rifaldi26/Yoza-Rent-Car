@@ -154,4 +154,9 @@ class Pemesanan extends Model
             })
             ->exists();
     }
+
+    public function ulasan()
+    {
+        return $this->hasOne(Ulasan::class);
+    }
 }

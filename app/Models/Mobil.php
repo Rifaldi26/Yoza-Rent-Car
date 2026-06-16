@@ -72,4 +72,9 @@ class Mobil extends Model
     {
         return $query->where('status', 'perawatan');
     }
+
+    public function ulasans()
+    {
+        return $this->hasMany(Ulasan::class);
+    }
 }

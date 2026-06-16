@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Mobil;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Ulasan;
 
 class MobilController extends Controller
 {
@@ -35,10 +36,33 @@ class MobilController extends Controller
 
     public function show(Mobil $mobil)
     {
+        $ulasans      = $mobil->ulasans()->disetujui()->with('user')->latest()->get();
+        $rataRating   = $ulasans->avg('rating') ?? 0;
+        $jumlahUlasan = $ulasans->count();
+    
+        $ulasanSaya        = null;
+        $pemesananSelesai  = null;
+    
+        if (auth()->check()) {
+            $ulasanSaya = Ulasan::where('user_id', auth()->id())
+                ->where('mobil_id', $mobil->id)->first();
+    
+            if (!$ulasanSaya) {
+                $pemesananSelesai = auth()->user()->pemesanans()
+                    ->where('mobil_id', $mobil->id)
+                    ->where('status', 'selesai')
+                    ->whereDoesntHave('ulasan')
+                    ->latest()->first();
+            }
+        }
+    
         $isFavorit = Auth::check()
             ? $mobil->difavoritOleh(Auth::id())
             : false;
 
-        return view('user.mobil.show', compact('mobil', 'isFavorit'));
+        return view('user.mobil.show', compact(
+            'mobil', 'isFavorit', 'ulasans', 'rataRating',
+            'jumlahUlasan', 'ulasanSaya', 'pemesananSelesai'
+        ));
     }
 }

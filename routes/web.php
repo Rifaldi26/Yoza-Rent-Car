@@ -56,6 +56,9 @@ Route::middleware(['auth', 'verified', 'email.verified.custom'])->group(function
     Route::get('/pemesanan/{pemesanan}', [UserPemesanan::class, 'show'])->name('pemesanan.show');
     Route::patch('/pemesanan/{pemesanan}/batal', [UserPemesanan::class, 'cancel'])->name('pemesanan.cancel');
 
+    // ── Ulasan ───────────────────────────────────────────────
+    Route::post('/mobil/{mobil}/ulasan', [UlasanController::class, 'store'])->name('ulasan.store');
+
     // ── Payment ───────────────────────────────────────────────
     Route::get('/pemesanan/{pemesanan}/bayar', [PaymentController::class, 'checkout'])->name('payment.checkout');
     Route::post('/pemesanan/{pemesanan}/pilih-metode', [PaymentController::class, 'pilihMetode'])->name('payment.pilih-metode');
@@ -107,6 +110,9 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->name('admin.')->group(
     Route::patch('/pemesanan/{pemesanan}/selesai', [AdminPemesanan::class, 'selesai'])->name('pemesanan.selesai');
     Route::patch('/pemesanan/{pemesanan}/konfirmasi-bayar', [AdminPemesanan::class, 'konfirmasiPembayaran'])->name('pemesanan.konfirmasi-bayar');
     Route::get('/pemesanan/{pemesanan}/invoice', [AdminPemesanan::class, 'invoice'])->name('pemesanan.invoice');
+    Route::get('/ulasan', [AdminUlasanController::class, 'index'])->name('admin.ulasan.index');
+    Route::patch('/ulasan/{ulasan}/setujui', [AdminUlasanController::class, 'setujui'])->name('admin.ulasan.setujui');
+    Route::delete('/ulasan/{ulasan}', [AdminUlasanController::class, 'destroy'])->name('admin.ulasan.destroy');
 
     // ── Manajemen User ────────────────────────────────────────
     Route::get('/user', [AdminUser::class, 'index'])->name('user.index');
