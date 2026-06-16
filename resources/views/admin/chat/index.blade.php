@@ -14,15 +14,13 @@
                 <div class="relative">
                     <x-icon name="search"
                         class="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                    <input placeholder="{{ __('Cari pelanggan...') }}"
-                           class="h-9 w-full rounded-lg border border-gray-200 bg-gray-50 pl-8 pr-3
-                                  text-sm outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-200">
+                    <input x-model="searchQuery" placeholder="{{ __('Cari pelanggan...') }}" class="h-9 w-full rounded-lg border border-gray-200 bg-gray-50 pl-8 pr-3 text-sm outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-200">
                 </div>
             </div>
 
             <ul class="flex-1 overflow-y-auto divide-y divide-gray-50">
                 @forelse($users as $user)
-                <li>
+                <li x-show="'{{ strtolower($user->name) }}'.includes(searchQuery.toLowerCase())">
                     <button
                         @click="selectUser({{ $user->id }}, '{{ $user->name }}')"
                         :class="activeUserId === {{ $user->id }} ? 'bg-blue-50' : 'hover:bg-gray-50'"
@@ -56,7 +54,7 @@
 
             {{-- Header --}}
             <div x-show="activeUserId" class="flex items-center gap-3 border-b border-gray-100 p-3">
-                <x-avatar :name="''" size="sm" x-bind:data-name="activeUserName" />
+                <x-avatar :name="$user->name" size="sm" x-bind:data-name="activeUserName" />
                 <div>
                     <p class="text-sm font-semibold text-gray-900" x-text="activeUserName"></p>
                 </div>
@@ -189,6 +187,7 @@
 <script>
 function adminChat() {
     return {
+        searchQuery: '',
         activeUserId: null,
         activeUserName: '',
         pesan: [],
