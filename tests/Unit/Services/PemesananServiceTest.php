@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Services;
 
 use App\Enums\StatusPemesanan;
+use App\Jobs\KirimEmailPemesanan;
 use App\Models\Mobil;
 use App\Models\Pemesanan;
 use App\Models\User;
@@ -12,6 +13,7 @@ use App\Services\NotifikasiService;
 use App\Services\PemesananService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Bus;
 use Tests\TestCase;
 
 /**
@@ -169,5 +171,115 @@ final class PemesananServiceTest extends TestCase
         ]);
 
         $this->service->batalkan($pemesanan, $user->id);
+    }
+
+    // ── Sewa 12 jam ───────────────────────────────────────────────────────────────
+
+    public function test_hitung_harga_12_jam_adalah_50_persen_harga_harian(): void
+    {
+        $mobil = Mobil::factory()->create(['harga_per_hari' => 300_000]);
+
+        $hasil = $this->service->hitungHarga(
+            mobilId        : $mobil->id,
+            tanggalMulai   : now()->addDay()->toDateString(),
+            tanggalSelesai : now()->addDay()->toDateString(),
+            opsiSupir      : false,
+            tipe           : '12_jam',
+        );
+
+        $this->assertEquals('12_jam', $hasil['tipe']);
+        $this->assertEquals(0, $hasil['durasi']);
+        $this->assertEquals(150_000, $hasil['harga_sewa']);
+        $this->assertEquals(0, $hasil['biaya_supir']);
+        $this->assertEquals(150_000, $hasil['total_harga']);
+    }
+
+    public function test_hitung_harga_12_jam_dengan_supir_dihitung_per_1_hari(): void
+    {
+        $mobil = Mobil::factory()->create([
+            'harga_per_hari'       => 300_000,
+            'biaya_supir_per_hari' => 100_000,
+        ]);
+
+        $hasil = $this->service->hitungHarga(
+            mobilId        : $mobil->id,
+            tanggalMulai   : now()->addDay()->toDateString(),
+            tanggalSelesai : now()->addDay()->toDateString(),
+            opsiSupir      : true,
+            tipe           : '12_jam',
+        );
+
+        // durasi = 0 → max(0, 1) = 1 hari untuk biaya supir
+        $this->assertEquals(150_000, $hasil['harga_sewa']);
+        $this->assertEquals(100_000, $hasil['biaya_supir']);
+        $this->assertEquals(250_000, $hasil['total_harga']);
+    }
+
+    public function test_buat_pemesanan_12_jam_berhasil_disimpan(): void
+    {
+        Bus::fake();
+
+        $user  = User::factory()->create(['email_verified_at' => now()]);
+        $mobil = Mobil::factory()->create([
+            'status'        => 'tersedia',
+            'harga_per_hari' => 300_000,
+        ]);
+
+        $tanggal = now()->addDay()->toDateString();
+
+        $pemesanan = $this->service->buat([
+            'mobil_id'        => $mobil->id,
+            'tipe_sewa'       => '12_jam',
+            'tanggal_mulai'   => $tanggal,
+            'tanggal_selesai' => $tanggal,
+            'waktu_mulai'     => '08:00',
+            'opsi_supir'      => false,
+        ], $user->id);
+
+        $this->assertDatabaseHas('pemesanans', [
+            'id'              => $pemesanan->id,
+            'tipe_sewa'       => '12_jam',
+            'waktu_mulai'     => '08:00:00',
+            'tanggal_mulai'   => $tanggal,
+            'tanggal_selesai' => $tanggal,
+            'total_harga'     => 150_000,
+        ]);
+
+        Bus::assertDispatched(KirimEmailPemesanan::class);
+    }
+
+    public function test_dua_pemesanan_12_jam_di_hari_yang_sama_konflik(): void
+    {
+        Bus::fake();
+
+        $user  = User::factory()->create(['email_verified_at' => now()]);
+        $mobil = Mobil::factory()->create([
+            'status'        => 'tersedia',
+            'harga_per_hari' => 300_000,
+        ]);
+
+        $tanggal = now()->addDay()->toDateString();
+
+        // Pemesanan pertama berhasil
+        $this->service->buat([
+            'mobil_id'        => $mobil->id,
+            'tipe_sewa'       => '12_jam',
+            'tanggal_mulai'   => $tanggal,
+            'tanggal_selesai' => $tanggal,
+            'waktu_mulai'     => '08:00',
+            'opsi_supir'      => false,
+        ], $user->id);
+
+        // Pemesanan kedua di hari yang sama harus konflik
+        $this->expectException(ValidationException::class);
+
+        $this->service->buat([
+            'mobil_id'        => $mobil->id,
+            'tipe_sewa'       => '12_jam',
+            'tanggal_mulai'   => $tanggal,
+            'tanggal_selesai' => $tanggal,
+            'waktu_mulai'     => '14:00',
+            'opsi_supir'      => false,
+        ], $user->id);
     }
 }
