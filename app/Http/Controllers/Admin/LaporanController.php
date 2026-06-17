@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Exports\PemesananExport;
+use App\Exports\LaporanExport;
 use App\Http\Controllers\Controller;
 use App\Models\Mobil;
 use App\Models\Payment;
@@ -68,7 +68,7 @@ class LaporanController extends Controller
         $status = $request->get('status');
 
         return Excel::download(
-            new PemesananExport($tahun, $status),
+            new LaporanExport($tahun, $status),
             "laporan-yoza-rent-car-{$tahun}.xlsx"
         );
     }
