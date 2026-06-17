@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Exports\LaporanExport;
 use App\Http\Controllers\Controller;
 use App\Models\Mobil;
 use App\Models\Payment;
 use App\Models\Pemesanan;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
 
 class LaporanController extends Controller
 {
@@ -62,14 +61,45 @@ class LaporanController extends Controller
         ]);
     }
 
-    public function exportExcel(Request $request)
+    public function exportPdf(Request $request)
     {
         $tahun = $request->get('tahun', now()->year);
         $status = $request->get('status');
 
-        return Excel::download(
-            new LaporanExport($tahun, $status),
-            "laporan-yoza-rent-car-{$tahun}.xlsx"
+        $pemesanans = Pemesanan::with(['user', 'mobil', 'payment'])
+            ->whereYear('created_at', $tahun)
+            ->when($status, fn ($q) => $q->where('status', $status))
+            ->get();
+
+        $ringkasan = [
+            'total_pendapatan' => Payment::where('status', 'dikonfirmasi')
+                ->whereYear('paid_at', $tahun)->sum('amount'),
+            'total_selesai' => Pemesanan::where('status', 'selesai')
+                ->whereYear('updated_at', $tahun)->count(),
+            'total_pending' => Pemesanan::where('status', 'pending')->count(),
+            'total_dibatalkan' => Pemesanan::where('status', 'dibatalkan')
+                ->whereYear('updated_at', $tahun)->count(),
+        ];
+
+        $pendapatan = collect(range(1, 12))->map(fn ($bulan) =>
+            Payment::where('status', 'dikonfirmasi')
+                ->whereYear('paid_at', $tahun)
+                ->whereMonth('paid_at', $bulan)
+                ->sum('amount')
         );
+
+        $statuses = ['selesai', 'dikonfirmasi', 'menunggu_konfirmasi_admin', 'dibatalkan', 'kadaluarsa', 'pending'];
+        $statusLabels = ['Selesai', 'Dikonfirmasi', 'Menunggu Konfirmasi', 'Dibatalkan', 'Kadaluarsa', 'Pending'];
+        $statusCounts = collect($statuses)->map(fn ($s) =>
+            Pemesanan::whereYear('created_at', $tahun)
+                ->where('status', $s)
+                ->count()
+        );
+
+        $pdf = Pdf::loadView('admin.laporan.pdf', compact(
+            'tahun', 'pemesanans', 'ringkasan', 'pendapatan', 'statusLabels', 'statusCounts'
+        ));
+
+        return $pdf->download("laporan-yoza-rent-car-{$tahun}.pdf");
     }
 }

@@ -37,7 +37,7 @@ Route::get('auth/google/callback', [GoogleController::class, 'callback'])->name(
 // ══════════════════════════════════════════════════════════════
 // USER — butuh login + email verified
 // ══════════════════════════════════════════════════════════════
-Route::middleware(['auth', 'verified', 'email.verified.custom'])->group(function () {
+Route::middleware(['auth'])->group(function () {
 
     // Dashboard
     Route::get('/dashboard', [UserDashboard::class, 'index'])->name('dashboard');
@@ -123,7 +123,7 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->name('admin.')->group(
     // ── Laporan ───────────────────────────────────────────────
     Route::get('/laporan', [AdminLaporan::class, 'index'])->name('laporan.index');
     Route::get('/laporan/chart-data', [AdminLaporan::class, 'chartData'])->name('laporan.chart-data');
-    Route::get('/laporan/export-excel', [LaporanController::class, 'exportExcel'])->name('laporan.export-excel');
+    Route::get('/laporan/export-pdf', [LaporanController::class, 'exportPdf'])->name('laporan.export-pdf');
 
     // ── Pembukuan ─────────────────────────────────────────────
     // Statis sebelum dinamis

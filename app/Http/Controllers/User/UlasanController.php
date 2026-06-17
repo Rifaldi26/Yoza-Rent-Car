@@ -1,8 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\User;
-
-use App\Http\Controllers\Controller;
+namespace App\Http\Controllers;
 
 use App\Models\Mobil;
 use App\Models\Ulasan;
