@@ -156,7 +156,7 @@ resources/views/
 
 ## Deployment Production
 
-Lihat [docs/deployment.md](docs/deployment.md) untuk panduan lengkap setup VPS, Nginx, Supervisor, CI/CD, dan monitoring.
+Lihat [deployment.md](deployment.md) untuk panduan lengkap setup VPS, Nginx, Supervisor, CI/CD, dan monitoring.
 
 ### Checklist cepat sebelum go-live
 

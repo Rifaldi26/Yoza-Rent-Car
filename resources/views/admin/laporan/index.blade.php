@@ -77,7 +77,7 @@
     <table class="w-full text-sm">
         <thead class="bg-gray-50">
             <tr class="text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                <th class="px-4 py-3">#</th>
+                <th class="px-4 py-3">No</th>
                 <th class="px-4 py-3">{{ __('Kendaraan') }}</th>
                 <th class="px-4 py-3 text-right">{{ __('Total Sewa') }}</th>
                 <th class="px-4 py-3 text-right hidden sm:table-cell">{{ __('Pendapatan') }}</th>
