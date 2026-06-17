@@ -41,21 +41,21 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse($jurnals as $j)
+                @forelse($entries as $j)
                 <tr class="border-t border-gray-100 hover:bg-gray-50 transition-colors">
                     <td class="px-4 py-3 whitespace-nowrap text-gray-500">
-                        {{ $j->tanggal->format('d M Y') }}
+                        {{ $j->date->format('d M Y') }}
                     </td>
                     <td class="px-4 py-3 font-medium text-gray-900">{{ $j->account->nama }}</td>
-                    <td class="px-4 py-3 text-gray-500 max-w-xs truncate">{{ $j->keterangan }}</td>
+                    <td class="px-4 py-3 text-gray-500 max-w-xs truncate">{{ $j->description }}</td>
                     <td class="px-4 py-3 text-right tabular-nums text-gray-900">
                         @if($j->debit > 0)
                             Rp {{ number_format($j->debit, 0, ',', '.') }}
                         @endif
                     </td>
                     <td class="px-4 py-3 text-right tabular-nums text-gray-900">
-                        @if($j->kredit > 0)
-                            Rp {{ number_format($j->kredit, 0, ',', '.') }}
+                        @if($j->credit > 0)
+                            Rp {{ number_format($j->credit, 0, ',', '.') }}
                         @endif
                     </td>
                 </tr>
@@ -71,9 +71,9 @@
         </table>
     </div>
 
-    @if($jurnals->hasPages())
+    @if($entries->hasPages())
         <div class="border-t border-gray-100 px-4 py-3">
-            {{ $jurnals->links() }}
+            {{ $entries->links() }}
         </div>
     @endif
 </div>
