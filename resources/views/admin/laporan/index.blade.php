@@ -14,11 +14,11 @@
                 @endforeach
             </select>
         </form>
-        <a href="{{ route('admin.laporan.export-excel', ['tahun' => $tahun]) }}"
+        <a href="{{ route('admin.laporan.export-pdf', ['tahun' => $tahun]) }}"
            class="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white
                   px-3 py-1.5 text-sm font-medium hover:bg-gray-50 transition-colors">
             <x-icon name="download" class="w-4 h-4" />
-            {{ __('Export Excel') }}
+            {{ __('Export PDF') }}
         </a>
     </x-slot:actions>
 </x-page-header>

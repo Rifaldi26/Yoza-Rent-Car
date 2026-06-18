@@ -33,6 +33,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->web(append: [
             SetLocale::class,
+            EnsureEmailVerified::class,
         ]);
 
         $middleware->validateCsrfTokens(except: [
