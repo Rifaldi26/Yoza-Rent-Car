@@ -62,6 +62,19 @@ final class PemesananPolicy
     }
 
     /**
+     * User boleh memberi ulasan jika:
+     * - Pemesanan tersebut miliknya.
+     * - Status pemesanan sudah 'selesai'.
+     * - Belum pernah memberi ulasan untuk pemesanan ini.
+     */
+    public function ulasan(User $user, Pemesanan $pemesanan): bool
+    {
+        return $pemesanan->user_id === $user->id
+            && $pemesanan->isSelesai()
+            && ! $pemesanan->ulasan()->exists();
+    }
+
+    /**
      * Hanya admin yang boleh mengkonfirmasi.
      */
     public function konfirmasi(User $user): bool
