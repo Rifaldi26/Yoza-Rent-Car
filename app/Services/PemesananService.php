@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Contracts\NotifikasiServiceInterface;
 use App\Enums\StatusMobil;
 use App\Enums\StatusPemesanan;
+use App\Exceptions\PemesananException;
 use App\Jobs\KirimEmailPemesanan;
 use App\Models\Account;
 use App\Models\JournalEntry;
@@ -116,12 +116,12 @@ final class PemesananService
     // ── Batalkan pemesanan ────────────────────────────────────────────────
 
     /**
-     * @throws \DomainException bila pemesanan tidak bisa dibatalkan
+     * @throws PemesananException bila pemesanan tidak bisa dibatalkan
      */
     public function batalkan(Pemesanan $pemesanan, int $aktorId): void
     {
         if (! StatusPemesanan::from($pemesanan->status)->bisaDibatalkan()) {
-            throw new \DomainException('Pemesanan ini tidak dapat dibatalkan.');
+            throw PemesananException::statusTidakValid('batalkan', $pemesanan->status);
         }
 
         $pemesanan->update(['status' => StatusPemesanan::Dibatalkan->value]);
@@ -140,12 +140,12 @@ final class PemesananService
     // ── Konfirmasi oleh admin ─────────────────────────────────────────────
 
     /**
-     * @throws \DomainException bila status tidak sesuai
+     * @throws PemesananException bila status tidak sesuai
      */
     public function konfirmasi(Pemesanan $pemesanan): void
     {
         if (! StatusPemesanan::from($pemesanan->status)->bisaDikonfirmasiAdmin()) {
-            throw new \DomainException('Pemesanan tidak dalam status yang dapat dikonfirmasi.');
+            throw PemesananException::statusTidakValid('konfirmasi', $pemesanan->status);
         }
 
         DB::transaction(function () use ($pemesanan) {
@@ -167,14 +167,14 @@ final class PemesananService
     // ── Tolak oleh admin ──────────────────────────────────────────────────
 
     /**
-     * @throws \DomainException bila status tidak sesuai
+     * @throws PemesananException bila status tidak sesuai
      */
     public function tolak(Pemesanan $pemesanan): void
     {
         $status = StatusPemesanan::from($pemesanan->status);
 
         if (! in_array($status, [StatusPemesanan::Pending, StatusPemesanan::MenungguKonfirmasiAdmin])) {
-            throw new \DomainException('Pemesanan tidak dapat ditolak pada status saat ini.');
+            throw PemesananException::statusTidakValid('tolak', $pemesanan->status);
         }
 
         $pemesanan->update(['status' => StatusPemesanan::Dibatalkan->value]);
@@ -193,12 +193,12 @@ final class PemesananService
     // ── Tandai selesai ────────────────────────────────────────────────────
 
     /**
-     * @throws \DomainException bila status tidak sesuai
+     * @throws PemesananException bila status tidak sesuai
      */
     public function selesai(Pemesanan $pemesanan): void
     {
         if (! StatusPemesanan::from($pemesanan->status)->bisaSelesai()) {
-            throw new \DomainException('Hanya pemesanan yang dikonfirmasi yang dapat diselesaikan.');
+            throw PemesananException::statusTidakValid('selesai', $pemesanan->status);
         }
 
         DB::transaction(function () use ($pemesanan) {

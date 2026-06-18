@@ -3,8 +3,12 @@
 namespace App\Models;
 
 use App\Enums\StatusPemesanan;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Pemesanan extends Model
 {
@@ -102,39 +106,39 @@ class Pemesanan extends Model
 
     // ── Relasi ────────────────────────────────────────────
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function mobil()
+    public function mobil(): BelongsTo
     {
         return $this->belongsTo(Mobil::class);
     }
 
-    public function payment()
+    public function payment(): HasOne
     {
         return $this->hasOne(Payment::class);
     }
 
-    public function journalEntries()
+    public function journalEntries(): HasMany
     {
         return $this->hasMany(JournalEntry::class);
     }
 
-    public function pesans()
+    public function pesans(): HasMany
     {
         return $this->hasMany(Pesan::class);
     }
 
     // ── Scopes ────────────────────────────────────────────
 
-    public function scopeAktif($query)
+    public function scopeAktif(Builder $query): Builder
     {
         return $query->whereIn('status', StatusPemesanan::aktif());
     }
 
-    public function scopeBulan($query, int $bulan, int $tahun)
+    public function scopeBulan(Builder $query, int $bulan, int $tahun): Builder
     {
         return $query->whereMonth('created_at', $bulan)
             ->whereYear('created_at', $tahun);
@@ -158,7 +162,7 @@ class Pemesanan extends Model
             ->exists();
     }
 
-    public function ulasan()
+    public function ulasan(): HasOne
     {
         return $this->hasOne(Ulasan::class);
     }

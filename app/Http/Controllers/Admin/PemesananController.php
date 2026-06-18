@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Exceptions\PemesananException;
+use App\Exceptions\PaymentException;
 use App\Models\Pemesanan;
 use App\Services\PaymentService;
 use App\Services\PemesananService;
@@ -58,7 +60,7 @@ final class PemesananController extends Controller
             $this->pemesananService->konfirmasi($pemesanan);
 
             return back()->with('success', 'Pemesanan berhasil dikonfirmasi.');
-        } catch (\DomainException $e) {
+        } catch (PemesananException $e) {
             return back()->with('error', $e->getMessage());
         }
     }
@@ -69,7 +71,7 @@ final class PemesananController extends Controller
             $this->pemesananService->tolak($pemesanan);
 
             return back()->with('success', 'Pemesanan berhasil ditolak.');
-        } catch (\DomainException $e) {
+        } catch (PemesananException $e) {
             return back()->with('error', $e->getMessage());
         }
     }
@@ -80,7 +82,7 @@ final class PemesananController extends Controller
             $this->pemesananService->selesai($pemesanan);
 
             return back()->with('success', 'Pemesanan ditandai selesai.');
-        } catch (\DomainException $e) {
+        } catch (PemesananException $e) {
             return back()->with('error', $e->getMessage());
         }
     }
@@ -91,7 +93,7 @@ final class PemesananController extends Controller
             $this->paymentService->konfirmasiPembayaran($pemesanan);
 
             return back()->with('success', 'Pembayaran berhasil dikonfirmasi.');
-        } catch (\DomainException $e) {
+        } catch (PaymentException $e) {
             return back()->with('error', $e->getMessage());
         }
     }

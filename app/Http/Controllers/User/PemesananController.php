@@ -6,6 +6,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StorePemesananRequest;
+use App\Exceptions\PemesananException;
 use App\Models\Mobil;
 use App\Models\Pemesanan;
 use App\Services\PemesananService;
@@ -94,7 +95,7 @@ final class PemesananController extends Controller
             return redirect()
                 ->route('pemesanan.index')
                 ->with('success', 'Pemesanan berhasil dibatalkan.');
-        } catch (\DomainException $e) {
+        } catch (PemesananException $e) {
             return back()->with('error', $e->getMessage());
         }
     }

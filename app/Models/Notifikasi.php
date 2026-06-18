@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Notifikasi extends Model
 {
@@ -20,7 +21,7 @@ class Notifikasi extends Model
     ];
 
     // ── Relasi ────────────────────────────────────────────
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

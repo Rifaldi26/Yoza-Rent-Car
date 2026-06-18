@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Tests\Unit\Services;
 
 use App\Enums\StatusPemesanan;
+use App\Exceptions\PemesananException;
 use App\Jobs\KirimEmailPemesanan;
 use App\Models\Mobil;
 use App\Models\Pemesanan;
 use App\Models\User;
-use App\Contracts\NotifikasiServiceInterface;
+use App\Services\NotifikasiService;
 use App\Services\PemesananService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Bus;
-use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
 
 /**
@@ -29,13 +29,13 @@ final class PemesananServiceTest extends TestCase
 
     private PemesananService $service;
 
-    private NotifikasiServiceInterface&MockObject $notifikasiService;
+    private NotifikasiService $notifikasiService;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->notifikasiService = $this->createMock(NotifikasiServiceInterface::class);
+        $this->notifikasiService = $this->createMock(NotifikasiService::class);
         $this->service = new PemesananService($this->notifikasiService);
     }
 
@@ -164,7 +164,7 @@ final class PemesananServiceTest extends TestCase
 
     public function test_pemesanan_tidak_bisa_dibatalkan_setelah_dikonfirmasi(): void
     {
-        $this->expectException(\DomainException::class);
+        $this->expectException(PemesananException::class);
 
         $user = User::factory()->create();
         $pemesanan = Pemesanan::factory()->create([

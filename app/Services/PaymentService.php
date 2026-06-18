@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Enums\StatusPayment;
 use App\Enums\StatusPemesanan;
+use App\Exceptions\PaymentException;
 use App\Jobs\KirimEmailPemesanan;
 use App\Models\Payment;
 use App\Models\Pemesanan;
@@ -73,18 +74,18 @@ final class PaymentService
     // ── Konfirmasi pembayaran oleh admin ──────────────────────────────────
 
     /**
-     * @throws \DomainException bila payment tidak ditemukan atau sudah dikonfirmasi
+     * @throws PaymentException bila payment tidak ditemukan atau sudah dikonfirmasi
      */
     public function konfirmasiPembayaran(Pemesanan $pemesanan): void
     {
         $payment = $pemesanan->payment;
 
         if (! $payment) {
-            throw new \DomainException('Tidak ada data pembayaran untuk pemesanan ini.');
+            throw PaymentException::tidakDitemukan();
         }
 
         if (StatusPayment::from($payment->status)->sudahDibayar()) {
-            throw new \DomainException('Pembayaran sudah dikonfirmasi sebelumnya.');
+            throw PaymentException::sudahDikonfirmasi();
         }
 
         $payment->update([

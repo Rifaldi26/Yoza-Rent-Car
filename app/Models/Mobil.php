@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Mobil extends Model
 {
@@ -45,12 +47,12 @@ class Mobil extends Model
     }
 
     // ── Relasi ────────────────────────────────────────────
-    public function pemesanans()
+    public function pemesanans(): HasMany
     {
         return $this->hasMany(Pemesanan::class);
     }
 
-    public function favorits()
+    public function favorits(): HasMany
     {
         return $this->hasMany(Favorit::class);
     }
@@ -61,22 +63,22 @@ class Mobil extends Model
     }
 
     // ── Scope ─────────────────────────────────────────────
-    public function scopeTersedia($query)
+    public function scopeTersedia(Builder $query): Builder
     {
         return $query->where('status', 'tersedia');
     }
 
-    public function scopeDisewa($query)
+    public function scopeDisewa(Builder $query): Builder
     {
         return $query->where('status', 'disewa');
     }
 
-    public function scopePerawatan($query)
+    public function scopePerawatan(Builder $query): Builder
     {
         return $query->where('status', 'perawatan');
     }
 
-    public function ulasans()
+    public function ulasans(): HasMany
     {
         return $this->hasMany(Ulasan::class);
     }

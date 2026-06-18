@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use App\Enums\StatusPayment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Payment extends Model
 {
@@ -40,24 +43,26 @@ class Payment extends Model
         return config("payment.metode.{$this->metode}.label", '-');
     }
 
+    // ── Delegasi ke Enum (hilangkan duplikasi) ────────────
+
+    public function statusEnum(): StatusPayment
+    {
+        return StatusPayment::from($this->status);
+    }
+
+    /** @deprecated Gunakan $payment->statusEnum()->label() */
     public function labelStatus(): string
     {
-        return match ($this->status) {
-            'pending' => 'Menunggu Pembayaran',
-            'menunggu_konfirmasi' => 'Menunggu Konfirmasi Admin',
-            'dikonfirmasi' => 'Dikonfirmasi',
-            'dibatalkan' => 'Dibatalkan',
-            default => $this->status,
-        };
+        return $this->statusEnum()->label();
     }
 
     // ── Relasi ─────────────────────────────────────────────
-    public function pemesanan()
+    public function pemesanan(): BelongsTo
     {
         return $this->belongsTo(Pemesanan::class);
     }
 
-    public function journalEntries()
+    public function journalEntries(): HasMany
     {
         return $this->hasMany(JournalEntry::class);
     }
