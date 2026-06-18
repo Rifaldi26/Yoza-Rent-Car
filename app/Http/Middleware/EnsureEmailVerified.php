@@ -12,7 +12,7 @@ class EnsureEmailVerified
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::check() && ! Auth::user()->hasVerifiedEmail()) {
-            session()->flash('warning', 'Silakan verifikasi email Anda untuk mendapatkan notifikasi lengkap.');
+            session()->flash('warning', 'email_not_verified');
         }
 
         return $next($request);

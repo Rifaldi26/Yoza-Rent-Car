@@ -29,7 +29,6 @@
             <p class="text-center text-xs text-[#7a8499]">
                 {{ __('Cek folder Spam jika tidak menemukan email dalam 2 menit.') }}
             </p>
-
             <form method="POST" action="{{ route('verification.send') }}">
                 @csrf
                 <button type="submit"
@@ -38,14 +37,13 @@
                     {{ __('Kirim Ulang Email Verifikasi') }}
                 </button>
             </form>
-
-            <form method="POST" action="{{ route('logout') }}">
+            <form method="GET" action="{{ url()->previous() }}">
                 @csrf
                 <button type="submit"
                         class="flex h-10 w-full items-center justify-center rounded-xl border
                                border-[#e5e9f2] text-sm font-medium text-[#7a8499]
                                hover:bg-[#f1f4fa] transition-colors">
-                    {{ __('Keluar dari Akun Ini') }}
+                    {{ __('Kembali') }}
                 </button>
             </form>
         </div>

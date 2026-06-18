@@ -270,7 +270,18 @@
                 <x-alert type="error" dismissible>{{ session('error') }}</x-alert>
             @endif
             @if(session('warning'))
-                <x-alert type="warning" dismissible>{{ session('warning') }}</x-alert>
+                <x-alert type="warning" dismissible>
+                    <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                    <span>Silakan verifikasi email Anda untuk mendapatkan notifikasi lengkap.</span>
+                    <a href="{{ route('verification.notice') }}"
+                    class="inline-flex items-center justify-center rounded-lg bg-yellow-500 px-3 py-1.5 text-xs font-semibold text-white hover:bg-yellow-600">Verifikasi Sekarang</a>
+        </div>
+    </x-alert>
+@elseif(session('warning'))
+    <x-alert type="warning" dismissible>
+        {{ session('warning') }}
+
+                </x-alert>
             @endif
         </div>
     @endif
