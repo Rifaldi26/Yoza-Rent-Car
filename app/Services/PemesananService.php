@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Contracts\NotifikasiServiceInterface;
 use App\Enums\StatusMobil;
 use App\Enums\StatusPemesanan;
 use App\Jobs\KirimEmailPemesanan;

@@ -188,6 +188,6 @@ final class PemesananFlowTest extends TestCase
     {
         $this->post(route('pemesanan.store'), [
             'mobil_id' => $this->mobil->id,
-        ])->assertRedirect(route('home'));
+        ])->assertRedirect(route('login'));
     }
 }

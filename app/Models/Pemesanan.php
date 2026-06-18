@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use App\Enums\StatusPemesanan;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Pemesanan extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'user_id',
         'mobil_id',

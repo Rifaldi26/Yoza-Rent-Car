@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Contracts\NotifikasiServiceInterface;
 use App\Models\Mobil;
 use App\Models\Pemesanan;
 use App\Policies\MobilPolicy;
@@ -24,6 +25,11 @@ class AppServiceProvider extends ServiceProvider
 
     public function register(): void
     {
+        $this->app->bind(
+            NotifikasiServiceInterface::class, 
+            NotifikasiService::class
+        );
+
         $this->app->singleton(NotifikasiService::class);
 
         $this->app->singleton(PemesananService::class, function ($app) {
