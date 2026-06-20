@@ -6,11 +6,11 @@ namespace Tests\Unit\Services;
 
 use App\Enums\StatusPemesanan;
 use App\Exceptions\PemesananException;
+use App\Contracts\NotifikasiServiceInterface;
 use App\Jobs\KirimEmailPemesanan;
 use App\Models\Mobil;
 use App\Models\Pemesanan;
 use App\Models\User;
-use App\Services\NotifikasiService;
 use App\Services\PemesananService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Validation\ValidationException;
@@ -29,13 +29,13 @@ final class PemesananServiceTest extends TestCase
 
     private PemesananService $service;
 
-    private NotifikasiService $notifikasiService;
+    private NotifikasiServiceInterface $notifikasiService;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->notifikasiService = $this->createMock(NotifikasiService::class);
+        $this->notifikasiService = $this->createMock(NotifikasiServiceInterface::class);
         $this->service = new PemesananService($this->notifikasiService);
     }
 

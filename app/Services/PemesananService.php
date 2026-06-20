@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Enums\StatusMobil;
 use App\Enums\StatusPemesanan;
 use App\Exceptions\PemesananException;
+use App\Contracts\NotifikasiServiceInterface;
 use App\Jobs\KirimEmailPemesanan;
 use App\Models\Account;
 use App\Models\JournalEntry;
@@ -29,7 +30,7 @@ use Illuminate\Validation\ValidationException;
 final class PemesananService
 {
     public function __construct(
-        private readonly NotifikasiService $notifikasiService,
+        private readonly NotifikasiServiceInterface $notifikasiService,
     ) {}
 
     // ── Buat pemesanan baru ───────────────────────────────────────────────
@@ -86,12 +87,22 @@ final class PemesananService
 
         $totalHarga = $hargaSewa + $biayaSupir;
 
+        // Normalisasi waktu_mulai ke format H:i:s — kolom database bertipe
+        // TIME, dan beberapa view (mis. admin/user/show.blade.php) memakai
+        // substr(...,0,5) yang mengasumsikan format ini konsisten.
+        // Tanpa normalisasi, input form 'H:i' (mis. '08:00') akan tersimpan
+        // tanpa detik dan inkonsisten dengan asumsi tersebut.
+        $waktuMulai = null;
+        if ($tipe === '12_jam' && ! empty($data['waktu_mulai'])) {
+            $waktuMulai = Carbon::createFromFormat('H:i', $data['waktu_mulai'])->format('H:i:s');
+        }
+
         $pemesanan = Pemesanan::create([
             'user_id'         => $userId,
             'mobil_id'        => $mobil->id,
             'tanggal_mulai'   => $data['tanggal_mulai'],
             'tanggal_selesai' => $data['tanggal_selesai'],
-            'waktu_mulai'     => $tipe === '12_jam' ? ($data['waktu_mulai'] ?? null) : null,
+            'waktu_mulai'     => $waktuMulai,
             'tipe_sewa'       => $tipe,
             'opsi_supir'      => $opsiSupir,
             'biaya_supir'     => $biayaSupir > 0 ? $biayaSupir : null,

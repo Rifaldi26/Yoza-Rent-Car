@@ -34,13 +34,13 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(PemesananService::class, function ($app) {
             return new PemesananService(
-                $app->make(NotifikasiService::class),
+                $app->make(NotifikasiServiceInterface::class),
             );
         });
 
         $this->app->singleton(PaymentService::class, function ($app) {
             return new PaymentService(
-                $app->make(NotifikasiService::class),
+                $app->make(NotifikasiServiceInterface::class),
             );
         });
     }
@@ -56,8 +56,15 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Pemesanan::class, PemesananPolicy::class);
         Gate::policy(Mobil::class, MobilPolicy::class);
 
-        // ── Paksa HTTPS di non-local ──────────────────────────────────────
-        if (config('app.env') !== 'local' || request()->server('HTTP_X_FORWARDED_PROTO') === 'https') {
+        // ── Paksa HTTPS hanya di production ────────────────────────────────
+        //
+        // Sebelumnya kondisi ini bernilai true di environment APA PUN selain
+        // 'local' — termasuk 'testing' — sehingga forceScheme('https') ikut
+        // aktif saat test berjalan dan bisa mengacaukan assertion redirect/URL.
+        // Diperbaiki agar hanya aktif di production, dengan tetap menghormati
+        // header proxy (mis. di belakang load balancer yang terminate SSL).
+        if (config('app.env') === 'production'
+            || request()->server('HTTP_X_FORWARDED_PROTO') === 'https') {
             URL::forceScheme('https');
         }
 

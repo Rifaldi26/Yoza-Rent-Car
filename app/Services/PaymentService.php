@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Enums\StatusPayment;
 use App\Enums\StatusPemesanan;
 use App\Exceptions\PaymentException;
+use App\Contracts\NotifikasiServiceInterface;
 use App\Jobs\KirimEmailPemesanan;
 use App\Models\Payment;
 use App\Models\Pemesanan;
@@ -22,7 +23,7 @@ use App\Models\User;
 final class PaymentService
 {
     public function __construct(
-        private readonly NotifikasiService $notifikasiService,
+        private readonly NotifikasiServiceInterface $notifikasiService,
     ) {}
 
     // ── Pilih metode dan buat record payment ──────────────────────────────

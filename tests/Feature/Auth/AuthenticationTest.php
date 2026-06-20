@@ -12,9 +12,12 @@ class AuthenticationTest extends TestCase
 
     public function test_login_screen_can_be_rendered(): void
     {
+        // UI login saat ini berupa modal di halaman utama, bukan halaman
+        // /login tersendiri — sehingga route ini sengaja redirect, bukan
+        // me-render view langsung. Lihat AuthenticatedSessionController::create().
         $response = $this->get('/login');
 
-        $response->assertStatus(200);
+        $response->assertRedirect('/?modal=login');
     }
 
     public function test_users_can_authenticate_using_the_login_screen(): void

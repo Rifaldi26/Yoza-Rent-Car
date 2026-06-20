@@ -14,7 +14,7 @@ use App\Contracts\NotifikasiServiceInterface;
  * Menggantikan panggilan Notifikasi::kirim() statis agar
  * dapat di-mock dengan mudah dalam pengujian.
  */
-final class NotifikasiService
+final class NotifikasiService implements NotifikasiServiceInterface
 {
     /**
      * Kirim notifikasi ke satu pengguna.
