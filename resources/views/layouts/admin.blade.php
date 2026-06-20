@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Dashboard') — Yoza Rent Car Admin</title>
+    <title>@yield('title', 'Dashboard') — DrivEase</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -32,7 +32,7 @@
                     <x-icon name="car" class="w-5 h-5" />
                 </div>
                 <div class="hidden flex-col leading-tight sm:flex">
-                    <span class="whitespace-nowrap text-sm font-bold text-gray-900">Yoza Rent Car</span>
+                    <span class="whitespace-nowrap text-sm font-bold text-gray-900">DrivEase</span>
                     <span class="text-[10px] font-semibold uppercase tracking-widest text-gray-400">
                         {{ __('Panel Admin') }}
                     </span>

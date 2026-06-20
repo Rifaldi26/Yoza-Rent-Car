@@ -221,7 +221,7 @@ final class PemesananService
             $this->notifikasiService->kirimKePengguna(
                 userId : $pemesanan->user_id,
                 judul  : 'Pemesanan Selesai',
-                pesan  : "Terima kasih telah menggunakan Yoza Rent Car! Pemesanan #{$pemesanan->id} telah selesai.",
+                pesan  : "Terima kasih telah menggunakan DrivEase! Pemesanan #{$pemesanan->id} telah selesai.",
                 tipe   : 'success',
                 link   : route('pemesanan.index'),
             );

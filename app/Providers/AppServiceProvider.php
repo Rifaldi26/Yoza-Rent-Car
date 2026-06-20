@@ -71,12 +71,12 @@ class AppServiceProvider extends ServiceProvider
         // ── Custom email verifikasi ───────────────────────────────────────
         VerifyEmail::toMailUsing(function ($notifiable, $url) {
             return (new MailMessage)
-                ->subject('Verifikasi Email — Yoza Rent Car')
+                ->subject('Verifikasi Email — DrivEase')
                 ->greeting('Halo, '.$notifiable->name.'!')
                 ->line('Klik tombol di bawah untuk memverifikasi alamat email Anda.')
                 ->action('Verifikasi Email', $url)
-                ->line('Jika Anda tidak mendaftar di Yoza Rent Car, abaikan email ini.')
-                ->salutation('Salam, Tim Yoza Rent Car');
+                ->line('Jika Anda tidak mendaftar di DrivEase, abaikan email ini.')
+                ->salutation('Salam, Tim DrivEase');
         });
     }
 }

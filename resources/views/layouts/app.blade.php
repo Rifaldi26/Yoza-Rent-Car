@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Yoza Rent Car') — {{ __('Rental Mobil Terpercaya') }}</title>
+    <title>@yield('title', 'DrivEase') — {{ __('Rental Mobil Terpercaya') }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 </head>
-<body class="min-h-screen bg-[#f4f6fb] font-inter antialiased"
+<body class="min-h-screen overflow-x-hidden bg-[#f4f6fb] font-inter antialiased"
       x-data="{ drawerOpen: false }">
 
     {{-- ── Navbar ──────────────────────────────────────────── --}}
@@ -31,7 +31,7 @@
                             bg-[#3b6fd4] text-white">
                     <x-icon name="car" class="w-5 h-5" />
                 </div>
-                <span class="whitespace-nowrap text-sm font-bold text-[#18213a]">Yoza Rent Car</span>
+                <span class="whitespace-nowrap text-sm font-bold text-[#18213a]">DrivEase</span>
             </a>
 
             {{-- Desktop Nav --}}
@@ -78,11 +78,10 @@
             </nav>
 
             {{-- Right --}}
-            <div class="ml-auto flex items-center gap-2">
+            <div class="ml-auto flex items-center gap-1.5 sm:gap-2">
 
-                {{-- Lang Toggle --}}
-                {{-- Ganti button Alpine lama dengan ini: --}}
-<div class="inline-flex items-center gap-1 rounded-lg border border-gray-200 bg-white
+                {{-- Lang Toggle (disembunyikan di mobile, dipindah ke drawer) --}}
+<div class="hidden sm:inline-flex items-center gap-1 rounded-lg border border-gray-200 bg-white
             px-2.5 py-1.5 text-xs font-semibold">
     <a href="{{ route('locale.switch', 'id') }}"
        class="{{ app()->getLocale() === 'id' ? 'text-blue-600' : 'text-gray-400 hover:text-gray-700' }}
@@ -164,11 +163,11 @@
 
                 @else
                     <button @click="$dispatch('open-login')"
-                            class="rounded-lg border border-[#e5e9f2] bg-white px-3 py-1.5 text-sm font-medium text-[#18213a] hover:bg-[#f1f4fa] transition-colors">
+                            class="rounded-lg border border-[#e5e9f2] bg-white px-2.5 py-1.5 text-xs font-medium text-[#18213a] hover:bg-[#f1f4fa] transition-colors sm:px-3 sm:text-sm">
                         {{ __('Masuk') }}
                     </button>
                     <button @click="$dispatch('open-register')"
-                            class="rounded-lg bg-[#3b6fd4] px-3 py-1.5 text-sm font-medium text-white hover:bg-[#2e5bb8] transition-colors">
+                            class="rounded-lg bg-[#3b6fd4] px-2.5 py-1.5 text-xs font-medium text-white hover:bg-[#2e5bb8] transition-colors sm:px-3 sm:text-sm">
                         {{ __('Daftar') }}
                     </button>
                 @endauth
@@ -186,12 +185,26 @@
                     <div class="grid h-9 w-9 place-items-center rounded-lg bg-[#3b6fd4] text-white">
                         <x-icon name="car" class="w-5 h-5" />
                     </div>
-                    <span class="text-sm font-bold text-[#18213a]">Yoza Rent Car</span>
+                    <span class="text-sm font-bold text-[#18213a]">DrivEase</span>
                 </div>
                 <button @click="drawerOpen = false"
                         class="grid h-8 w-8 place-items-center rounded-lg hover:bg-[#f1f4fa]">
                     <x-icon name="x" class="w-5 h-5 text-[#7a8499]" />
                 </button>
+            </div>
+
+            {{-- Lang Toggle (khusus mobile, header punya versi sendiri dari sm: ke atas) --}}
+            <div class="flex items-center gap-1.5 border-b border-[#e5e9f2] px-4 py-3 text-xs font-semibold sm:hidden">
+                <span class="mr-1 text-[#7a8499]">{{ __('Bahasa') }}:</span>
+                <a href="{{ route('locale.switch', 'id') }}"
+                   class="{{ app()->getLocale() === 'id' ? 'text-blue-600' : 'text-gray-400 hover:text-gray-700' }} transition-colors">
+                    ID
+                </a>
+                <span class="text-gray-300">|</span>
+                <a href="{{ route('locale.switch', 'en') }}"
+                   class="{{ app()->getLocale() === 'en' ? 'text-blue-600' : 'text-gray-400 hover:text-gray-700' }} transition-colors">
+                    EN
+                </a>
             </div>
 
             <nav class="space-y-0.5 p-3">

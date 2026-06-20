@@ -44,7 +44,7 @@ $groups = [
             <x-icon name="car" class="w-5 h-5" />
         </div>
         <div class="leading-tight">
-            <p class="text-sm font-bold text-gray-900">Yoza Rent Car</p>
+            <p class="text-sm font-bold text-gray-900">DrivEase</p>
             <p class="text-[10px] font-semibold uppercase tracking-widest text-gray-400">{{ __('Panel Admin') }}</p>
         </div>
     </div>

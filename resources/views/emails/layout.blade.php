@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yoza Rent Car</title>
+    <title>DrivEase</title>
     <style>
         /* ── Reset ─────────────────────────────────────────────── */
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -190,7 +190,7 @@
                 <line x1="19.78" y1="6.22" x2="14.83" y2="9.17"/>
             </svg>
         </span>
-        <span class="header-title">Yoza Rent Car</span>
+        <span class="header-title">DrivEase</span>
         <p class="header-subtitle">Rental Mobil Terpercaya</p>
     </div>
 
