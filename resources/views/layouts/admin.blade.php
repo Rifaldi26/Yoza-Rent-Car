@@ -201,7 +201,7 @@
         <ul class="mx-auto grid max-w-7xl grid-cols-5">
             @php
             $bottomNav = [
-                ['route' => 'admin.dashboard',      'icon' => 'chart-bar',  'label' => 'Dasbor'],
+                ['route' => 'admin.dashboard',      'icon' => 'chart-bar',  'label' => 'Beranda'],
                 ['route' => 'admin.pemesanan.index', 'icon' => 'calendar',   'label' => 'Pesan'],
                 ['route' => 'admin.mobil.index',     'icon' => 'car',        'label' => 'Mobil'],
                 ['route' => 'admin.chat.index',      'icon' => 'chat',       'label' => 'Chat'],

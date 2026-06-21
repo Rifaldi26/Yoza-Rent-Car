@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Contracts\NotifikasiServiceInterface;
 use App\Models\Mobil;
 use App\Models\Pemesanan;
 use App\Policies\MobilPolicy;
@@ -12,6 +11,7 @@ use App\Services\PaymentService;
 use App\Services\PemesananService;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
@@ -25,22 +25,17 @@ class AppServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-        $this->app->bind(
-            NotifikasiServiceInterface::class, 
-            NotifikasiService::class
-        );
-
         $this->app->singleton(NotifikasiService::class);
 
         $this->app->singleton(PemesananService::class, function ($app) {
             return new PemesananService(
-                $app->make(NotifikasiServiceInterface::class),
+                $app->make(NotifikasiService::class),
             );
         });
 
         $this->app->singleton(PaymentService::class, function ($app) {
             return new PaymentService(
-                $app->make(NotifikasiServiceInterface::class),
+                $app->make(NotifikasiService::class),
             );
         });
     }
@@ -56,27 +51,31 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Pemesanan::class, PemesananPolicy::class);
         Gate::policy(Mobil::class, MobilPolicy::class);
 
-        // ── Paksa HTTPS hanya di production ────────────────────────────────
+        // ── Pagination kustom ───────────────────────────────────────────────
         //
-        // Sebelumnya kondisi ini bernilai true di environment APA PUN selain
-        // 'local' — termasuk 'testing' — sehingga forceScheme('https') ikut
-        // aktif saat test berjalan dan bisa mengacaukan assertion redirect/URL.
-        // Diperbaiki agar hanya aktif di production, dengan tetap menghormati
-        // header proxy (mis. di belakang load balancer yang terminate SSL).
-        if (config('app.env') === 'production'
-            || request()->server('HTTP_X_FORWARDED_PROTO') === 'https') {
+        // Berlaku otomatis untuk SEMUA pemanggilan ->links() di seluruh
+        // aplikasi (view-nya ada di resources/views/components/pagination-custom.blade.php).
+        // Catatan: ini bukan komponen <x-pagination-custom />, hanya numpang
+        // disimpan di folder components/ — tetap dipanggil otomatis oleh
+        // mesin pagination Laravel lewat ->links(), bukan lewat tag <x-...>.
+        // Tidak perlu ubah satu per satu view yang sudah memakai ->links().
+        Paginator::defaultView('components.pagination-custom');
+        Paginator::defaultSimpleView('components.pagination-custom');
+
+        // ── Paksa HTTPS di non-local ──────────────────────────────────────
+        if (config('app.env') !== 'local' || request()->server('HTTP_X_FORWARDED_PROTO') === 'https') {
             URL::forceScheme('https');
         }
 
         // ── Custom email verifikasi ───────────────────────────────────────
         VerifyEmail::toMailUsing(function ($notifiable, $url) {
             return (new MailMessage)
-                ->subject('Verifikasi Email — DrivEase')
+                ->subject('Verifikasi Email — Yoza Rent Car')
                 ->greeting('Halo, '.$notifiable->name.'!')
                 ->line('Klik tombol di bawah untuk memverifikasi alamat email Anda.')
                 ->action('Verifikasi Email', $url)
-                ->line('Jika Anda tidak mendaftar di DrivEase, abaikan email ini.')
-                ->salutation('Salam, Tim DrivEase');
+                ->line('Jika Anda tidak mendaftar di Yoza Rent Car, abaikan email ini.')
+                ->salutation('Salam, Tim Yoza Rent Car');
         });
     }
 }

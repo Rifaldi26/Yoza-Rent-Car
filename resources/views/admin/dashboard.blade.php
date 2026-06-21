@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', __('Dasbor'))
+@section('title', __('Beranda'))
 
 @section('content')
 

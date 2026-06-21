@@ -26,9 +26,9 @@ class NotifikasiController extends Controller
     public function baca(Notifikasi $notifikasi)
     {
         abort_if($notifikasi->user_id !== Auth::id(), 403);
-        $notifikasi->update(['dibaca' => true]);
+        $notifikasi->update(['dibaca' => true]);    
 
-        return response()->json(['success' => true]);
+        return redirect()->back();
     }
 
     public function hapusSemua()

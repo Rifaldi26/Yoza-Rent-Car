@@ -39,11 +39,11 @@ $active = request('status', '');
         <table class="w-full text-sm">
             <thead class="bg-gray-50">
                 <tr class="text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                    <th class="px-4 py-3">{{ __('ID') }}</th>
+                    <th class="px-4 py-3 text-center">{{ __('ID') }}</th>
                     <th class="px-4 py-3">{{ __('Pelanggan') }}</th>
                     <th class="px-4 py-3">{{ __('Mobil') }}</th>
                     <th class="px-4 py-3 hidden lg:table-cell">{{ __('Tanggal') }}</th>
-                    <th class="px-4 py-3">{{ __('Status') }}</th>
+                    <th class="px-4 py-3 text-center">{{ __('Status') }}</th>
                     <th class="px-4 py-3 text-right">{{ __('Total') }}</th>
                     <th class="px-4 py-3 text-right">{{ __('Aksi') }}</th>
                 </tr>
@@ -51,7 +51,7 @@ $active = request('status', '');
             <tbody>
                 @forelse($pemesanans as $p)
                 <tr class="border-t border-gray-100 hover:bg-gray-50 transition-colors">
-                    <td class="px-4 py-3 font-mono text-xs text-gray-400">#{{ $p->id }}</td>
+                    <td class="px-4 py-3 text-center font-mono text-xs text-gray-400">#{{ $p->id }}</td>
                     <td class="px-4 py-3 font-medium text-gray-900">{{ $p->user->name }}</td>
                     <td class="px-4 py-3">
                         <div class="font-medium text-gray-900">{{ $p->mobil->nama }}</div>
@@ -63,7 +63,7 @@ $active = request('status', '');
                         {{ $p->tanggal_mulai->format('d M') }} &ndash;
                         {{ $p->tanggal_selesai->format('d M Y') }}
                     </td>
-                    <td class="px-4 py-3">
+                    <td class="px-4 py-3 text-center">
                         <x-status-badge :status="$p->status">
                             {{ $p->labelStatus() }}
                         </x-status-badge>

@@ -62,30 +62,23 @@
                 <tr class="text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                     <th class="px-4 py-3">{{ __('Kode') }}</th>
                     <th class="px-4 py-3">{{ __('Nama Akun') }}</th>
-                    <th class="px-4 py-3">{{ __('Tipe') }}</th>
+                    <th class="px-4 py-3 text-right">{{ __('Debit') }}</th>
+                    <th class="px-4 py-3 text-right">{{ __('Kredit') }}</th>
                     <th class="px-4 py-3 text-right">{{ __('Saldo') }}</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($accounts as $account)
-                @php
-                $typeCls = match($account->tipe) {
-                    'pendapatan'  => 'border-green-200 bg-green-50 text-green-700',
-                    'pengeluaran' => 'border-yellow-200 bg-yellow-50 text-yellow-700',
-                    'aset'        => 'border-blue-200 bg-blue-50 text-blue-700',
-                    default       => 'border-gray-200 bg-gray-50 text-gray-500',
-                };
-                @endphp
                 <tr class="border-t border-gray-100 hover:bg-gray-50 transition-colors">
                     <td class="px-4 py-3 font-mono text-xs text-gray-500">
                         {{ $account->kode }}
                     </td>
                     <td class="px-4 py-3 font-medium text-gray-900">{{ $account->nama }}</td>
-                    <td class="px-4 py-3">
-                        <span class="inline-flex items-center rounded-full border px-2 py-0.5
-                                     text-[11px] font-medium {{ $typeCls }}">
-                            {{ ucfirst($account->tipe) }}
-                        </span>
+                    <td class="px-4 py-3 text-right tabular-nums text-gray-900">
+                        Rp {{ number_format($account->total_debit ?? 0, 0, ',', '.') }}
+                    </td>
+                    <td class="px-4 py-3 text-right tabular-nums text-gray-900">
+                        Rp {{ number_format($account->total_credit ?? 0, 0, ',', '.') }}
                     </td>
                     <td class="px-4 py-3 text-right font-medium tabular-nums text-gray-900">
                         Rp {{ number_format($account->balance, 0, ',', '.') }}
@@ -93,6 +86,34 @@
                 </tr>
                 @endforeach
             </tbody>
+            <tfoot>
+                @php
+                    $totalDebit = $accounts->sum('total_debit');
+                    $totalCredit = $accounts->sum('total_credit');
+                    $selisih = $totalDebit - $totalCredit;
+                    $seimbang = abs($selisih) < 0.01;
+                @endphp
+                <tr class="border-t-2 border-gray-200 bg-gray-50 font-semibold text-gray-900">
+                    <td class="px-4 py-3" colspan="2">{{ __('Total') }}</td>
+                    <td class="px-4 py-3 text-right tabular-nums">
+                        Rp {{ number_format($totalDebit, 0, ',', '.') }}
+                    </td>
+                    <td class="px-4 py-3 text-right tabular-nums">
+                        Rp {{ number_format($totalCredit, 0, ',', '.') }}
+                    </td>
+                    <td class="px-4 py-3 text-right">
+                        <span class="inline-flex items-center rounded-full border px-2 py-0.5
+                                     text-[11px] font-medium
+                                     {{ $seimbang
+                                         ? 'border-green-200 bg-green-50 text-green-700'
+                                         : 'border-red-200 bg-red-50 text-red-700' }}">
+                            {{ $seimbang
+                                ? __('Seimbang')
+                                : __('Selisih Rp') . ' ' . number_format(abs($selisih), 0, ',', '.') }}
+                        </span>
+                    </td>
+                </tr>
+            </tfoot>
         </table>
     </div>
 </div>

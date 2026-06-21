@@ -30,7 +30,7 @@ class PembukuanController extends Controller
 
     public function jurnal(Request $request)
     {
-        $entries = JournalEntry::with(['account', 'pemesanan.user', 'payment'])
+        $entries = JournalEntry::with(['account', 'pemesanan.user', 'pemesanan.mobil', 'payment'])
             ->when($request->tanggal_dari, fn ($q) => $q->whereDate('date', '>=', $request->tanggal_dari))
             ->when($request->tanggal_sampai, fn ($q) => $q->whereDate('date', '<=', $request->tanggal_sampai))
             ->when($request->account_id, fn ($q) => $q->where('account_id', $request->account_id))
