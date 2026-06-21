@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Admin\ChatController as AdminChat;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
-use App\Http\Controllers\Admin\LaporanController;
 use App\Http\Controllers\Admin\LaporanController as AdminLaporan;
 use App\Http\Controllers\Admin\MobilController as AdminMobil;
 use App\Http\Controllers\Admin\NotifikasiController as AdminNotifikasi;
@@ -11,8 +10,9 @@ use App\Http\Controllers\Admin\PembukuanController as AdminPembukuan;
 use App\Http\Controllers\Admin\PemesananController as AdminPemesanan;
 use App\Http\Controllers\Admin\UlasanController as AdminUlasanController;
 use App\Http\Controllers\Admin\UserController as AdminUser;
-use App\Http\Controllers\User\UlasanController;
 use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\LocaleController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\User\ChatController as UserChat;
 use App\Http\Controllers\User\DashboardController as UserDashboard;
 use App\Http\Controllers\User\FavoritController;
@@ -21,7 +21,7 @@ use App\Http\Controllers\User\NotifikasiController as UserNotifikasi;
 use App\Http\Controllers\User\PaymentController;
 use App\Http\Controllers\User\PemesananController as UserPemesanan;
 use App\Http\Controllers\User\ProfilController;
-use App\Models\Page;
+use App\Http\Controllers\User\UlasanController;
 use Illuminate\Support\Facades\Route;
 
 // ══════════════════════════════════════════════════════════════
@@ -123,7 +123,7 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->name('admin.')->group(
     // ── Laporan ───────────────────────────────────────────────
     Route::get('/laporan', [AdminLaporan::class, 'index'])->name('laporan.index');
     Route::get('/laporan/chart-data', [AdminLaporan::class, 'chartData'])->name('laporan.chart-data');
-    Route::get('/laporan/export-pdf', [LaporanController::class, 'exportPdf'])->name('laporan.export-pdf');
+    Route::get('/laporan/export-pdf', [AdminLaporan::class, 'exportPdf'])->name('laporan.export-pdf');
 
     // ── Pembukuan ─────────────────────────────────────────────
     // Statis sebelum dinamis
@@ -157,39 +157,13 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->name('admin.')->group(
 Route::get('login', fn () => redirect('/?modal=login'))->name('login');
 
 // Route untuk Syarat & Ketentuan dan Kebijakan Privasi
-Route::get('/syarat-dan-ketentuan', function () {
-    $page = Page::where('slug', 'terms')->first() ?? new Page([
-        'title' => 'Syarat dan Ketentuan',
-        'content' => 'Konten belum tersedia.',
-        'updated_at' => now()]);
+Route::get('/syarat-dan-ketentuan', [PageController::class, 'terms'])->name('terms');
+Route::get('/kebijakan-privasi', [PageController::class, 'privacy'])->name('privacy');
 
-    return view('pages.terms', compact('page'));
-})->name('terms');
-
-Route::get('/kebijakan-privasi', function () {
-    $page = Page::where('slug', 'privacy')->first() ?? new Page([
-        'title' => 'Pemberitahuan Privasi',
-        'content' => 'Konten belum tersedia.',
-        'updated_at' => now()]);
-
-    return view('pages.privacy', compact('page'));
-})->name('privacy');
-
-use App\Http\Controllers\LocaleController;
-
-// Tambahkan route ini:
+// Switch bahasa aktif (disimpan di session, lihat App\Http\Controllers\LocaleController)
 Route::get('/locale/{locale}', [LocaleController::class, 'switch'])
     ->name('locale.switch')
     ->where('locale', 'id|en');
 
-Route::get('/check-signature', function () {
-    return response()->json([
-        'url' => request()->fullUrl(),
-        'valid_signature' => request()->hasValidSignature(),
-    ]);
-});
-
 // ── Breeze auth routes (login, register, dll) ─────────────────
 require __DIR__.'/auth.php';
-
-// Menyiapkan Form di Panel Admin

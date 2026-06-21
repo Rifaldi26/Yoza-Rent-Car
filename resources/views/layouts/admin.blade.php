@@ -72,6 +72,7 @@
                                    hover:bg-gray-50 transition-colors">
                         <x-icon name="bell" class="w-4 h-4" />
                         <span id="admin-notif-badge"
+                              data-notif-badge
                               data-route="{{ route('admin.notifikasi.unread-count') }}"
                               class="absolute -right-1 -top-1 hidden min-w-[16px] place-items-center
                                      rounded-full bg-blue-600 px-1 text-[10px] font-bold text-white">
@@ -224,25 +225,5 @@
     </nav> -->
 
     @stack('scripts')
-
-    <script>
-    // Notifikasi badge polling
-    (function() {
-        const badge = document.getElementById('admin-notif-badge');
-        if (!badge) return;
-        const url = badge.dataset.route;
-        const update = async () => {
-            try {
-                const r = await fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
-                const d = await r.json();
-                const n = d.count || 0;
-                badge.textContent = n > 99 ? '99+' : n;
-                badge.style.display = n > 0 ? 'grid' : 'none';
-            } catch(_) {}
-        };
-        update();
-        setInterval(update, 15000);
-    })();
-    </script>
 </body>
 </html>
