@@ -126,7 +126,7 @@
                         <tr class="border-b border-gray-100 last:border-0
                                    hover:bg-gray-50 transition-colors">
                             <td class="py-3 pr-3 font-mono text-xs text-gray-400">
-                                #{{ $p->id }}
+                                {{ $p->user->kode_pelanggan }}
                             </td>
                             <td class="py-3 pr-3 font-medium text-gray-900">
                                 {{ $p->user->name }}

@@ -1,8 +1,8 @@
 @extends('layouts.admin')
 @section('title', __('Jurnal Harian'))
-
+ 
 @section('content')
-
+ 
 <div class="mb-6">
     <a href="{{ route('admin.pembukuan.index') }}"
        class="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-700 transition-colors">
@@ -10,16 +10,16 @@
         {{ __('Kembali ke Pembukuan') }}
     </a>
 </div>
-
+ 
 <x-page-header title="{{ __('Jurnal Harian') }}"
     description="{{ __('Catatan transaksi harian.') }}" />
 
 {{-- Filter Tanggal --}}
 <form method="GET" class="mb-4 flex flex-wrap items-end gap-3">
-    <x-input name="date_from" label="{{ __('Dari Tanggal') }}" type="date"
-        :value="request('date_from', now()->startOfMonth()->format('Y-m-d'))" />
-    <x-input name="date_to" label="{{ __('Sampai Tanggal') }}" type="date"
-        :value="request('date_to', now()->format('Y-m-d'))" />
+    <x-input name="tanggal_dari" label="{{ __('Dari Tanggal') }}" type="date"
+        :value="request('tanggal_dari', now()->startOfMonth()->format('Y-m-d'))" />
+    <x-input name="tanggal_sampai" label="{{ __('Sampai Tanggal') }}" type="date"
+        :value="request('tanggal_sampai', now()->format('Y-m-d'))" />
     <button type="submit"
             class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white
                    hover:bg-blue-700 transition-colors">
@@ -74,14 +74,46 @@
                 </tr>
                 @endforelse
             </tbody>
+            @if($entries->isNotEmpty())
+            <tfoot>
+                @php
+                    $selisihJurnal = $totalDebit - $totalCredit;
+                    $seimbangJurnal = abs($selisihJurnal) < 0.01;
+                @endphp
+                <tr class="border-t-2 border-gray-200 bg-gray-50 font-semibold text-gray-900">
+                    <td class="px-4 py-3" colspan="3">
+                        {{ __('Total') }}
+                    </td>
+                    <td class="px-4 py-3 text-right tabular-nums">
+                        Rp {{ number_format($totalDebit, 0, ',', '.') }}
+                    </td>
+                    <td class="px-4 py-3 text-right tabular-nums">
+                        Rp {{ number_format($totalCredit, 0, ',', '.') }}
+                    </td>
+                </tr>
+                <tr class="bg-gray-50">
+                    <td class="px-4 py-3 text-right" colspan="5">
+                        <span class="inline-flex items-center rounded-full border px-2 py-0.5
+                                     text-[11px] font-medium
+                                     {{ $seimbangJurnal
+                                         ? 'border-green-200 bg-green-50 text-green-700'
+                                         : 'border-red-200 bg-red-50 text-red-700' }}">
+                            {{ $seimbangJurnal
+                                ? __('Seimbang')
+                                : __('Selisih Rp') . ' ' . number_format(abs($selisihJurnal), 0, ',', '.') }}
+                        </span>
+                    </td>
+                </tr>
+            </tfoot>
+            @endif
         </table>
     </div>
-
+ 
     @if($entries->hasPages())
         <div class="border-t border-gray-100 px-4 py-3">
             {{ $entries->links() }}
         </div>
     @endif
 </div>
-
+ 
 @endsection

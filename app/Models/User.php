@@ -80,5 +80,30 @@ class User extends Authenticatable implements MustVerifyEmail
     public function unreadPesan(): int
     {
         return $this->pesanDiterima()->where('dibaca', false)->count();
+        }
+        
+    // Generate Kode Pelanggan
+    public function getKodePelangganAttribute(): string
+    {
+        return sprintf(
+            '%s-%03d',
+            self::buatInisial($this->name),
+            $this->id
+            );
+    }
+            
+    // Generate Inisial Pelanggan
+    private static function buatInisial(string $nama): string
+    {
+        $kata = array_values(array_filter(explode(' ', trim($nama))));
+
+        if (count($kata) >= 2) {
+            return strtoupper(
+                substr($kata[0], 0, 1) .
+                substr($kata[1], 0, 1)
+            );
+        }
+
+        return strtoupper(substr($kata[0] ?? 'XX', 0, 2));
     }
 }

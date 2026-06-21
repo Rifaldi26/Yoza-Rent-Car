@@ -30,17 +30,25 @@ class PembukuanController extends Controller
 
     public function jurnal(Request $request)
     {
-        $entries = JournalEntry::with(['account', 'pemesanan.user', 'pemesanan.mobil', 'payment'])
+        // Query dasar (belum dipaginate) — dipakai ulang untuk hitung total
+        // debit/kredit dari SELURUH data yang cocok filter, bukan cuma
+        // halaman yang sedang ditampilkan.
+        $query = JournalEntry::with(['account', 'pemesanan.user', 'pemesanan.mobil', 'payment'])
             ->when($request->tanggal_dari, fn ($q) => $q->whereDate('date', '>=', $request->tanggal_dari))
             ->when($request->tanggal_sampai, fn ($q) => $q->whereDate('date', '<=', $request->tanggal_sampai))
-            ->when($request->account_id, fn ($q) => $q->where('account_id', $request->account_id))
-            ->latest('date')
+            ->when($request->account_id, fn ($q) => $q->where('account_id', $request->account_id));
+
+        // Clone supaya $query masih bisa dipakai lagi untuk paginate() di bawah.
+        $totalDebit = (clone $query)->sum('debit');
+        $totalCredit = (clone $query)->sum('credit');
+
+        $entries = $query->latest('date')
             ->paginate(20)
             ->withQueryString();
 
         $accounts = Account::orderBy('kode')->get();
 
-        return view('admin.pembukuan.jurnal', compact('entries', 'accounts'));
+        return view('admin.pembukuan.jurnal', compact('entries', 'accounts', 'totalDebit', 'totalCredit'));
     }
 
     public function laporan(Request $request)

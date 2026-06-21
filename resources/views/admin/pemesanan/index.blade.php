@@ -51,7 +51,7 @@ $active = request('status', '');
             <tbody>
                 @forelse($pemesanans as $p)
                 <tr class="border-t border-gray-100 hover:bg-gray-50 transition-colors">
-                    <td class="px-4 py-3 text-center font-mono text-xs text-gray-400">#{{ $p->id }}</td>
+                    <td class="px-4 py-3 text-center font-mono text-xs text-gray-400">{{ $p->user->kode_pelanggan }}</td>
                     <td class="px-4 py-3 font-medium text-gray-900">{{ $p->user->name }}</td>
                     <td class="px-4 py-3">
                         <div class="font-medium text-gray-900">{{ $p->mobil->nama }}</div>
