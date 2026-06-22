@@ -568,7 +568,7 @@ class DummyActivitySeeder extends Seeder
             'Terima kasih min, mobilnya bagus dan bersih!',
             date('Y-m-d H:i:s', strtotime($selesaiAt) + 600));
         $this->chat($this->adminId, $userId, null,
-            'Sama-sama! Semoga perjalanannya menyenangkan. Jangan lupa kembali lagi 😊',
+            'Sama-sama! Semoga perjalanannya menyenangkan. Jangan lupa kembali lagi',
             date('Y-m-d H:i:s', strtotime($selesaiAt) + 900));
     }
 

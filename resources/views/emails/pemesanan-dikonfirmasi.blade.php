@@ -3,7 +3,7 @@
 @section('content')
 <p class="greeting">Halo, <strong>{{ $pemesanan->user->name }}</strong>!</p>
 <p class="message">
-    🎉 Kabar baik! Pemesanan Anda telah <strong>dikonfirmasi</strong>.
+    Kabar baik! Pemesanan Anda telah <strong>dikonfirmasi</strong>.
     Selamat menikmati perjalanan bersama Yoza Rent Car!
 </p>
 

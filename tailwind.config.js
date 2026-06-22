@@ -28,17 +28,17 @@ export default {
             // tertukar dengan warna brand.
             colors: {
                 primary: {
-                    50: '#FDF1F2',
-                    100: '#FBDFE0',
-                    200: '#F7BABD',
-                    300: '#F2888D',
-                    400: '#EB5158',
-                    500: '#E72A32',
-                    600: '#E6212A', // warna utama logo
-                    700: '#B7151C',
-                    800: '#931116',
-                    900: '#6E0C11',
-                    950: '#40070A',
+                    50:  '#EEF2FB',
+                    100: '#E2E9F9',
+                    200: '#C0D1F1',
+                    300: '#92AFE7',
+                    400: '#608ADC',
+                    500: '#3D70D4',
+                    600: '#3B6FD4', // warna biru lama
+                    700: '#2E5BB8', // hover/darker lama
+                    800: '#1D4186',
+                    900: '#163164',
+                    950: '#0D1C3B',
                 },
             },
         },

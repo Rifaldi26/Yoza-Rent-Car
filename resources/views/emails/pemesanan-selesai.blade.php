@@ -3,7 +3,7 @@
 @section('content')
 <p class="greeting">Halo, <strong>{{ $pemesanan->user->name }}</strong>!</p>
 <p class="message">
-    Terima kasih telah menggunakan layanan DrivEase! 🙏
+    Terima kasih telah menggunakan layanan DrivEase!
     Pemesanan Anda telah selesai dengan sukses.
 </p>
 
