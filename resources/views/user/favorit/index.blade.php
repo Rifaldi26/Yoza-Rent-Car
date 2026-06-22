@@ -13,8 +13,8 @@
             description="{{ __('Simpan mobil favorit Anda agar mudah ditemukan lagi.') }}">
             <x-slot:action>
                 <a href="{{ route('home') }}"
-                   class="inline-flex items-center gap-1.5 rounded-lg bg-[#3b6fd4] px-4 py-2
-                          text-sm font-medium text-white hover:bg-[#2e5bb8] transition-colors">
+                   class="inline-flex items-center gap-1.5 rounded-lg bg-primary-600 px-4 py-2
+                          text-sm font-medium text-white hover:bg-primary-700 transition-colors">
                     {{ __('Jelajahi Katalog') }}
                 </a>
             </x-slot:action>
@@ -28,21 +28,21 @@
                     <img src="{{ Storage::url($mobil->foto) }}"
                          class="h-40 w-full object-cover" alt="{{ $mobil->nama }}" loading="lazy">
                 @else
-                    <div class="grid h-40 place-items-center bg-[#eef2fb]">
-                        <x-icon name="car" class="w-12 h-12 text-[#3b6fd4]/40" />
+                    <div class="grid h-40 place-items-center bg-primary-50">
+                        <x-icon name="car" class="w-12 h-12 text-primary-600/40" />
                     </div>
                 @endif
                 <div class="p-4">
                     <h3 class="font-semibold text-[#18213a]">{{ $mobil->nama }}</h3>
                     <p class="text-xs text-[#7a8499]">{{ $mobil->merek }} &middot; {{ $mobil->tahun }}</p>
                     <div class="mt-3 flex items-center justify-between border-t border-[#e5e9f2] pt-3">
-                        <p class="text-sm font-bold text-[#3b6fd4]">
+                        <p class="text-sm font-bold text-primary-600">
                             Rp {{ number_format($mobil->harga_per_hari, 0, ',', '.') }}<span class="text-xs font-normal text-[#7a8499]">{{ __('/hari') }}</span>
                         </p>
                         <div class="flex items-center gap-1.5">
                             <a href="{{ route('mobil.show', $mobil) }}"
-                               class="rounded-lg bg-[#3b6fd4] px-3 py-1.5 text-xs font-medium
-                                      text-white hover:bg-[#2e5bb8] transition-colors">
+                               class="rounded-lg bg-primary-600 px-3 py-1.5 text-xs font-medium
+                                      text-white hover:bg-primary-700 transition-colors">
                                 {{ __('Detail') }}
                             </a>
                             <form method="POST" action="{{ route('favorit.toggle', $mobil) }}">

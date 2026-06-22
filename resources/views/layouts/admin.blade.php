@@ -28,7 +28,7 @@
 
             {{-- Brand --}}
             <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2.5">
-                <div class="grid h-9 w-9 flex-shrink-0 place-items-center rounded-lg bg-blue-600 text-white">
+                <div class="grid h-9 w-9 flex-shrink-0 place-items-center rounded-lg bg-primary-600 text-white">
                     <x-icon name="car" class="w-5 h-5" />
                 </div>
                 <div class="hidden flex-col leading-tight sm:flex">
@@ -52,13 +52,13 @@
 <div class="inline-flex items-center gap-1 rounded-lg border border-gray-200 bg-white
             px-2.5 py-1.5 text-xs font-semibold">
     <a href="{{ route('locale.switch', 'id') }}"
-       class="{{ app()->getLocale() === 'id' ? 'text-blue-600' : 'text-gray-400 hover:text-gray-700' }}
+       class="{{ app()->getLocale() === 'id' ? 'text-primary-600' : 'text-gray-400 hover:text-gray-700' }}
               transition-colors">
         ID
     </a>
     <span class="text-gray-300">|</span>
     <a href="{{ route('locale.switch', 'en') }}"
-       class="{{ app()->getLocale() === 'en' ? 'text-blue-600' : 'text-gray-400 hover:text-gray-700' }}
+       class="{{ app()->getLocale() === 'en' ? 'text-primary-600' : 'text-gray-400 hover:text-gray-700' }}
               transition-colors">
         EN
     </a>
@@ -75,7 +75,7 @@
                               data-notif-badge
                               data-route="{{ route('admin.notifikasi.unread-count') }}"
                               class="absolute -right-1 -top-1 hidden min-w-[16px] place-items-center
-                                     rounded-full bg-blue-600 px-1 text-[10px] font-bold text-white">
+                                     rounded-full bg-primary-600 px-1 text-[10px] font-bold text-white">
                         </span>
                     </button>
 
@@ -86,7 +86,7 @@
                         <div class="flex items-center justify-between border-b border-gray-100 px-4 py-3">
                             <span class="text-sm font-semibold text-gray-900">{{ __('Notifikasi') }}</span>
                             <a href="{{ route('admin.notifikasi.index') }}"
-                               class="text-xs text-blue-600 hover:underline">{{ __('Lihat semua') }}</a>
+                               class="text-xs text-primary-600 hover:underline">{{ __('Lihat semua') }}</a>
                         </div>
                         <div class="max-h-72 divide-y divide-gray-50 overflow-y-auto">
                             @forelse(auth()->user()->notifikasis()->latest()->take(4)->get() as $notif)
@@ -215,7 +215,7 @@
                     <a href="{{ route($item['route']) }}"
                        class="flex flex-col items-center justify-center gap-0.5 py-2.5
                               text-[10px] font-medium transition-colors
-                              {{ $active ? 'text-blue-600' : 'text-gray-400 hover:text-gray-700' }}">
+                              {{ $active ? 'text-primary-600' : 'text-gray-400 hover:text-gray-700' }}">
                         <x-icon :name="$item['icon']" class="w-5 h-5" />
                         {{ $item['label'] }}
                     </a>

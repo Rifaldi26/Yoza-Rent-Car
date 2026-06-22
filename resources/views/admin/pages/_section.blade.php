@@ -27,7 +27,7 @@
             data-field="title"
             value="{{ old("sections.{$si}.title", $section['title'] ?? '') }}"
             class="w-full rounded-lg border border-[#e5e9f2] px-4 py-2.5 text-sm outline-none
-                   transition-all focus:border-[#3b6fd4] focus:ring-1 focus:ring-[#3b6fd4]"
+                   transition-all focus:border-primary-600 focus:ring-1 focus:ring-primary-600"
         >
 
         @error("sections.{$si}.title")
@@ -49,7 +49,7 @@
             data-field="intro"
             rows="2"
             class="w-full rounded-lg border border-[#e5e9f2] px-4 py-2.5 text-sm outline-none
-                   transition-all focus:border-[#3b6fd4] focus:ring-1 focus:ring-[#3b6fd4] resize-none"
+                   transition-all focus:border-primary-600 focus:ring-1 focus:ring-primary-600 resize-none"
         >{{ old("sections.{$si}.intro", $section['intro'] ?? '') }}</textarea>
     </div>
 
@@ -84,7 +84,7 @@
                         data-field="label"
                         value="{{ old("sections.{$si}.items.{$ii}.label", $item['label'] ?? '') }}"
                         class="w-full rounded-lg border border-[#e5e9f2] px-3 py-2 text-sm
-                               outline-none transition-all focus:border-[#3b6fd4]"
+                               outline-none transition-all focus:border-primary-600"
                     >
                 </div>
 
@@ -99,7 +99,7 @@
                         data-field="text"
                         rows="2"
                         class="w-full rounded-lg border border-[#e5e9f2] px-3 py-2 text-sm
-                               outline-none transition-all focus:border-[#3b6fd4] resize-none"
+                               outline-none transition-all focus:border-primary-600 resize-none"
                     >{{ old("sections.{$si}.items.{$ii}.text", $item['text'] ?? '') }}</textarea>
 
                     @error("sections.{$si}.items.{$ii}.text")
@@ -113,8 +113,8 @@
 
     <button type="button"
             onclick="addItem(this)"
-            class="w-full rounded-lg border border-dashed border-[#3b6fd4] py-2 text-sm
-                   text-[#3b6fd4] hover:bg-[#f0f4fc] transition-colors">
+            class="w-full rounded-lg border border-dashed border-primary-600 py-2 text-sm
+                   text-primary-600 hover:bg-[#f0f4fc] transition-colors">
         + {{ __('Tambah Poin') }}
     </button>
 

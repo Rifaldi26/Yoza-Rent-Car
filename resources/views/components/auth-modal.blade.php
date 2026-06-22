@@ -42,7 +42,7 @@
         {{-- Header --}}
         <div class="flex items-center justify-between border-b border-[#e5e9f2] px-6 py-4">
             <div class="flex items-center gap-2.5">
-                <div class="grid h-8 w-8 place-items-center rounded-lg bg-[#3b6fd4] text-white">
+                <div class="grid h-8 w-8 place-items-center rounded-lg bg-primary-600 text-white">
                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/>
                     </svg>
@@ -60,14 +60,14 @@
         <div class="flex border-b border-[#e5e9f2] px-6">
             <button @click="tab = 'login'"
                     :class="tab === 'login'
-                        ? 'border-b-2 border-[#3b6fd4] text-[#3b6fd4] font-semibold'
+                        ? 'border-b-2 border-primary-600 text-primary-600 font-semibold'
                         : 'text-[#7a8499] hover:text-[#18213a]'"
                     class="mr-6 py-3 text-sm transition-colors">
                 {{ __('Masuk') }}
             </button>
             <button @click="tab = 'register'"
                     :class="tab === 'register'
-                        ? 'border-b-2 border-[#3b6fd4] text-[#3b6fd4] font-semibold'
+                        ? 'border-b-2 border-primary-600 text-primary-600 font-semibold'
                         : 'text-[#7a8499] hover:text-[#18213a]'"
                     class="py-3 text-sm transition-colors">
                 {{ __('Daftar') }}
@@ -102,7 +102,7 @@
                            required
                            class="h-10 w-full rounded-xl border border-[#e5e9f2] bg-[#f4f6fb] px-3
                                   text-sm outline-none placeholder:text-[#aab0bf]
-                                  focus:border-[#3b6fd4] focus:ring-2 focus:ring-[#3b6fd4]/20
+                                  focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20
                                   transition-colors
                                   @error('email') border-red-300 bg-red-50 @enderror">
                 </div>
@@ -111,7 +111,7 @@
                     <div class="flex items-center justify-between">
                         <label class="block text-xs font-medium text-[#18213a]">{{ __('Kata Sandi') }}</label>
                         <a href="{{ route('password.request') }}"
-                           class="text-xs text-[#3b6fd4] hover:underline">
+                           class="text-xs text-primary-600 hover:underline">
                             {{ __('Lupa kata sandi?') }}
                         </a>
                     </div>
@@ -123,7 +123,7 @@
                                required
                                class="h-10 w-full rounded-xl border border-[#e5e9f2] bg-[#f4f6fb]
                                       px-3 pr-10 text-sm outline-none placeholder:text-[#aab0bf]
-                                      focus:border-[#3b6fd4] focus:ring-2 focus:ring-[#3b6fd4]/20
+                                      focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20
                                       transition-colors">
                         <button type="button" @click="show = !show"
                                 class="absolute right-3 top-1/2 -translate-y-1/2 text-[#7a8499]
@@ -144,13 +144,13 @@
 
                 <div class="flex items-center gap-2">
                     <input type="checkbox" name="remember" id="remember"
-                           class="h-4 w-4 rounded border-[#e5e9f2] text-[#3b6fd4] focus:ring-[#3b6fd4]">
+                           class="h-4 w-4 rounded border-[#e5e9f2] text-primary-600 focus:ring-primary-600">
                     <label for="remember" class="text-xs text-[#7a8499]">{{ __('Ingat saya') }}</label>
                 </div>
 
                 <button type="submit"
-                        class="flex h-10 w-full items-center justify-center rounded-xl bg-[#3b6fd4]
-                               text-sm font-semibold text-white hover:bg-[#2e5bb8] transition-colors">
+                        class="flex h-10 w-full items-center justify-center rounded-xl bg-primary-600
+                               text-sm font-semibold text-white hover:bg-primary-700 transition-colors">
                     {{ __('Masuk') }}
                 </button>
             </form>
@@ -184,13 +184,13 @@
                 {{ __('Dengan melanjutkan, kamu menyetujui') }}
                 <a href="{{ route('terms') }}"
                    target="_blank" rel="noopener"
-                   class="text-[#3b6fd4] underline underline-offset-2 hover:text-[#2e5bb8]">
+                   class="text-primary-600 underline underline-offset-2 hover:text-primary-700">
                     {{ __('Syarat & Ketentuan') }}
                 </a>
                 {{ __('ini dan kamu sudah diberitahu mengenai') }}
                 <a href="{{ route('privacy') }}"
                    target="_blank" rel="noopener"
-                   class="text-[#3b6fd4] underline underline-offset-2 hover:text-[#2e5bb8]">
+                   class="text-primary-600 underline underline-offset-2 hover:text-primary-700">
                     {{ __('Pemberitahuan Privasi') }}
                 </a>
                 {{ __('kami.') }}
@@ -220,9 +220,9 @@
 
                 {{-- Step indicator --}}
                 <div class="mb-1 flex items-center gap-1.5 text-[11px] font-medium text-[#7a8499]">
-                    <span :class="step === 1 ? 'text-[#3b6fd4]' : ''">{{ __('1. Data Diri') }}</span>
+                    <span :class="step === 1 ? 'text-primary-600' : ''">{{ __('1. Data Diri') }}</span>
                     <span class="text-[#e5e9f2]">&rarr;</span>
-                    <span :class="step === 2 ? 'text-[#3b6fd4]' : ''">{{ __('2. Kata Sandi') }}</span>
+                    <span :class="step === 2 ? 'text-primary-600' : ''">{{ __('2. Kata Sandi') }}</span>
                 </div>
 
                 {{-- ── Langkah 1: Data Diri ── --}}
@@ -237,7 +237,7 @@
                                required
                                class="h-10 w-full rounded-xl border border-[#e5e9f2] bg-[#f4f6fb] px-3
                                       text-sm outline-none placeholder:text-[#aab0bf]
-                                      focus:border-[#3b6fd4] focus:ring-2 focus:ring-[#3b6fd4]/20
+                                      focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20
                                       transition-colors
                                       @error('name') border-red-300 bg-red-50 @enderror">
                     </div>
@@ -250,7 +250,7 @@
                                required
                                class="h-10 w-full rounded-xl border border-[#e5e9f2] bg-[#f4f6fb] px-3
                                       text-sm outline-none placeholder:text-[#aab0bf]
-                                      focus:border-[#3b6fd4] focus:ring-2 focus:ring-[#3b6fd4]/20
+                                      focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20
                                       transition-colors
                                       @error('email') border-red-300 bg-red-50 @enderror">
                     </div>
@@ -258,7 +258,7 @@
                     <div class="space-y-1">
                         <label class="block text-xs font-medium text-[#18213a]">{{ __('Nomor HP') }}</label>
                         <div class="flex rounded-xl border border-[#e5e9f2] bg-[#f4f6fb] overflow-hidden
-                                    focus-within:border-[#3b6fd4] focus-within:ring-2 focus-within:ring-[#3b6fd4]/20
+                                    focus-within:border-primary-600 focus-within:ring-2 focus-within:ring-primary-600/20
                                     transition-colors">
                             <span class="flex items-center border-r border-[#e5e9f2] bg-white px-3 text-xs
                                          font-medium text-[#7a8499]">+62</span>
@@ -272,8 +272,8 @@
 
                     <button type="button"
                             @click="if ([...$refs.registerStep1.querySelectorAll('input')].every(el => el.reportValidity())) step = 2"
-                            class="flex h-10 w-full items-center justify-center rounded-xl bg-[#3b6fd4]
-                                   text-sm font-semibold text-white hover:bg-[#2e5bb8] transition-colors">
+                            class="flex h-10 w-full items-center justify-center rounded-xl bg-primary-600
+                                   text-sm font-semibold text-white hover:bg-primary-700 transition-colors">
                         {{ __('Lanjut') }}
                     </button>
 
@@ -315,7 +315,7 @@
                                    required
                                    class="h-10 w-full rounded-xl border border-[#e5e9f2] bg-[#f4f6fb]
                                           px-3 pr-10 text-sm outline-none placeholder:text-[#aab0bf]
-                                          focus:border-[#3b6fd4] focus:ring-2 focus:ring-[#3b6fd4]/20
+                                          focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20
                                           transition-colors
                                           @error('password') border-red-300 bg-red-50 @enderror">
                             <button type="button" @click="show = !show"
@@ -341,7 +341,7 @@
                required
                class="h-10 w-full rounded-xl border border-[#e5e9f2] bg-[#f4f6fb]
                       px-3 pr-10 text-sm outline-none placeholder:text-[#aab0bf]
-                      focus:border-[#3b6fd4] focus:ring-2 focus:ring-[#3b6fd4]/20
+                      focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20
                       transition-colors">
         <button type="button" @click="show = !show"
                 class="absolute right-3 top-1/2 -translate-y-1/2 text-[#7a8499]
@@ -364,8 +364,8 @@
                             {{ __('Kembali') }}
                         </button>
                         <button type="submit"
-                                class="flex h-10 flex-1 items-center justify-center rounded-xl bg-[#3b6fd4]
-                                       text-sm font-semibold text-white hover:bg-[#2e5bb8] transition-colors">
+                                class="flex h-10 flex-1 items-center justify-center rounded-xl bg-primary-600
+                                       text-sm font-semibold text-white hover:bg-primary-700 transition-colors">
                             {{ __('Buat Akun') }}
                         </button>
                     </div>
@@ -375,13 +375,13 @@
                         {{ __('Dengan melanjutkan, kamu menyetujui') }}
                         <a href="{{ route('terms') }}"
                            target="_blank" rel="noopener"
-                           class="text-[#3b6fd4] underline underline-offset-2 hover:text-[#2e5bb8]">
+                           class="text-primary-600 underline underline-offset-2 hover:text-primary-700">
                             {{ __('Syarat & Ketentuan') }}
                         </a>
                         {{ __('ini dan kamu sudah diberitahu mengenai') }}
                         <a href="{{ route('privacy') }}"
                            target="_blank" rel="noopener"
-                           class="text-[#3b6fd4] underline underline-offset-2 hover:text-[#2e5bb8]">
+                           class="text-primary-600 underline underline-offset-2 hover:text-primary-700">
                             {{ __('Pemberitahuan Privasi') }}
                         </a>
                         {{ __('kami.') }}

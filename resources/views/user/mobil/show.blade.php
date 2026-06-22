@@ -24,8 +24,8 @@
                          alt="{{ $mobil->nama }}"
                          class="h-72 w-full object-cover md:h-96">
                 @else
-                    <div class="grid h-72 place-items-center bg-gradient-to-br from-[#eef2fb] to-[#f4f6fb]">
-                        <x-icon name="car" class="w-24 h-24 text-[#3b6fd4]/30" />
+                    <div class="grid h-72 place-items-center bg-gradient-to-br from-primary-50 to-[#f4f6fb]">
+                        <x-icon name="car" class="w-24 h-24 text-primary-600/30" />
                     </div>
                 @endif
             </div>
@@ -65,13 +65,13 @@
                         </div>
                         <div class="rounded-xl bg-[#f4f6fb] p-3">
                             <p class="text-xs text-[#7a8499]">{{ __('Harga / Hari') }}</p>
-                            <p class="mt-0.5 font-bold text-[#3b6fd4]">
+                            <p class="mt-0.5 font-bold text-primary-600">
                                 Rp {{ number_format($mobil->harga_per_hari, 0, ',', '.') }}
                             </p>
                         </div>
                         @if($mobil->adaSupir())
-                        <div class="col-span-2 rounded-xl bg-[#eef2fb] p-3">
-                            <p class="text-xs text-[#3b6fd4] font-medium">{{ __('Tersedia Opsi Supir') }}</p>
+                        <div class="col-span-2 rounded-xl bg-primary-50 p-3">
+                            <p class="text-xs text-primary-600 font-medium">{{ __('Tersedia Opsi Supir') }}</p>
                             <p class="mt-0.5 font-semibold text-[#18213a]">
                                 + Rp {{ number_format($mobil->biaya_supir_per_hari, 0, ',', '.') }} / hari
                             </p>
@@ -85,14 +85,14 @@
                             @auth
                                 <a href="{{ route('pemesanan.create', ['mobil_id' => $mobil->id]) }}"
                                    class="flex w-full items-center justify-center gap-2 rounded-xl
-                                          bg-[#3b6fd4] py-3 text-sm font-semibold text-white
-                                          hover:bg-[#2e5bb8] transition-colors">
+                                          bg-primary-600 py-3 text-sm font-semibold text-white
+                                          hover:bg-primary-700 transition-colors">
                                     <x-icon name="calendar" class="w-4 h-4" />
                                     {{ __('Sewa Sekarang') }}
                                 </a>
                             @else
                                 <button @click="$dispatch('open-login')"
-                                        class="flex w-full items-center justify-center gap-2 rounded-xl bg-[#3b6fd4] py-3 text-sm font-semibold text-white hover:bg-[#2e5bb8] transition-colors">
+                                        class="flex w-full items-center justify-center gap-2 rounded-xl bg-primary-600 py-3 text-sm font-semibold text-white hover:bg-primary-700 transition-colors">
                                     {{ __('Masuk untuk Memesan') }}
                                 </button>
                             @endauth
@@ -125,7 +125,7 @@
                 {{-- Info Tambahan --}}
                 <div class="rounded-2xl border border-[#e5e9f2] bg-white p-4 text-xs text-[#7a8499]">
                     <div class="flex items-center gap-2 mb-1.5">
-                        <x-icon name="shield" class="w-4 h-4 text-[#3b6fd4]" />
+                        <x-icon name="shield" class="w-4 h-4 text-primary-600" />
                         <span class="font-medium text-[#18213a]">{{ __('Pembayaran Aman') }}</span>
                     </div>
                     <p>{{ __('Transaksi mendukung cash, transfer bank, QRIS, dan EDC.') }}</p>

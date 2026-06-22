@@ -28,7 +28,7 @@
             {{-- Brand --}}
             <a class="flex items-center gap-2.5">
                 <div class="grid h-9 w-9 flex-shrink-0 place-items-center rounded-lg
-                            bg-[#3b6fd4] text-white">
+                            bg-primary-600 text-white">
                     <x-icon name="car" class="w-5 h-5" />
                 </div>
                 <span class="whitespace-nowrap text-sm font-bold text-[#18213a]">DrivEase</span>
@@ -40,7 +40,7 @@
                 <a href="{{ route('dashboard') }}"
                    class="rounded-lg px-3 py-1.5 text-sm font-medium transition-colors
                           {{ request()->routeIs('dashboard')
-                              ? 'bg-[#eef2fb] text-[#3b6fd4]'
+                              ? 'bg-primary-50 text-primary-600'
                               : 'text-[#7a8499] hover:bg-[#f1f4fa] hover:text-[#18213a]' }}">
                     {{ __('Dashboard') }}
                 </a>
@@ -48,7 +48,7 @@
                 <a href="{{ route('home') }}"
                    class="rounded-lg px-3 py-1.5 text-sm font-medium transition-colors
                           {{ request()->routeIs('home')
-                              ? 'bg-[#eef2fb] text-[#3b6fd4]'
+                              ? 'bg-primary-50 text-primary-600'
                               : 'text-[#7a8499] hover:bg-[#f1f4fa] hover:text-[#18213a]' }}">
                     {{ __('Katalog') }}
                 </a>
@@ -56,21 +56,21 @@
                 <a href="{{ route('pemesanan.index') }}"
                    class="rounded-lg px-3 py-1.5 text-sm font-medium transition-colors
                           {{ request()->routeIs('pemesanan.*')
-                              ? 'bg-[#eef2fb] text-[#3b6fd4]'
+                              ? 'bg-primary-50 text-primary-600'
                               : 'text-[#7a8499] hover:bg-[#f1f4fa] hover:text-[#18213a]' }}">
                     {{ __('Pemesanan Saya') }}
                 </a>
                 <a href="{{ route('favorit.index') }}"
                    class="rounded-lg px-3 py-1.5 text-sm font-medium transition-colors
                           {{ request()->routeIs('favorit.*')
-                              ? 'bg-[#eef2fb] text-[#3b6fd4]'
+                              ? 'bg-primary-50 text-primary-600'
                               : 'text-[#7a8499] hover:bg-[#f1f4fa] hover:text-[#18213a]' }}">
                     {{ __('Favorit') }}
                 </a>
                 <a href="{{ route('chat.index') }}"
                    class="rounded-lg px-3 py-1.5 text-sm font-medium transition-colors
                           {{ request()->routeIs('chat.*')
-                              ? 'bg-[#eef2fb] text-[#3b6fd4]'
+                              ? 'bg-primary-50 text-primary-600'
                               : 'text-[#7a8499] hover:bg-[#f1f4fa] hover:text-[#18213a]' }}">
                     Chat
                 </a>
@@ -84,13 +84,13 @@
 <div class="hidden sm:inline-flex items-center gap-1 rounded-lg border border-gray-200 bg-white
             px-2.5 py-1.5 text-xs font-semibold">
     <a href="{{ route('locale.switch', 'id') }}"
-       class="{{ app()->getLocale() === 'id' ? 'text-blue-600' : 'text-gray-400 hover:text-gray-700' }}
+       class="{{ app()->getLocale() === 'id' ? 'text-primary-600' : 'text-gray-400 hover:text-gray-700' }}
               transition-colors">
         ID
     </a>
     <span class="text-gray-300">|</span>
     <a href="{{ route('locale.switch', 'en') }}"
-       class="{{ app()->getLocale() === 'en' ? 'text-blue-600' : 'text-gray-400 hover:text-gray-700' }}
+       class="{{ app()->getLocale() === 'en' ? 'text-primary-600' : 'text-gray-400 hover:text-gray-700' }}
               transition-colors">
         EN
     </a>
@@ -105,7 +105,7 @@
                             <x-icon name="bell" class="w-4 h-4 text-[#18213a]" />
                             @if(auth()->user()->unreadNotifikasi() > 0)
                                 <span class="absolute -right-1 -top-1 grid h-4 min-w-4 place-items-center
-                                             rounded-full bg-[#3b6fd4] px-1 text-[10px] font-bold text-white">
+                                             rounded-full bg-primary-600 px-1 text-[10px] font-bold text-white">
                                     {{ auth()->user()->unreadNotifikasi() }}
                                 </span>
                             @endif
@@ -141,8 +141,8 @@
                             </a>
                             <!-- @if(auth()->user()->isAdmin())
                                 <a href="{{ route('admin.dashboard') }}"
-                                   class="flex items-center gap-2 px-4 py-2.5 text-sm text-[#3b6fd4]
-                                          hover:bg-[#eef2fb] transition-colors">
+                                   class="flex items-center gap-2 px-4 py-2.5 text-sm text-primary-600
+                                          hover:bg-primary-50 transition-colors">
                                     <x-icon name="shield" class="w-4 h-4" />
                                     {{ __('Panel Admin') }}
                                 </a>
@@ -167,7 +167,7 @@
                         {{ __('Masuk') }}
                     </button>
                     <button @click="$dispatch('open-register')"
-                            class="rounded-lg bg-[#3b6fd4] px-2.5 py-1.5 text-xs font-medium text-white hover:bg-[#2e5bb8] transition-colors sm:px-3 sm:text-sm">
+                            class="rounded-lg bg-primary-600 px-2.5 py-1.5 text-xs font-medium text-white hover:bg-primary-700 transition-colors sm:px-3 sm:text-sm">
                         {{ __('Daftar') }}
                     </button>
                 @endauth
@@ -182,7 +182,7 @@
 
             <div class="flex items-center justify-between border-b border-[#e5e9f2] p-4">
                 <div class="flex items-center gap-2.5">
-                    <div class="grid h-9 w-9 place-items-center rounded-lg bg-[#3b6fd4] text-white">
+                    <div class="grid h-9 w-9 place-items-center rounded-lg bg-primary-600 text-white">
                         <x-icon name="car" class="w-5 h-5" />
                     </div>
                     <span class="text-sm font-bold text-[#18213a]">DrivEase</span>
@@ -197,12 +197,12 @@
             <div class="flex items-center gap-1.5 border-b border-[#e5e9f2] px-4 py-3 text-xs font-semibold sm:hidden">
                 <span class="mr-1 text-[#7a8499]">{{ __('Bahasa') }}:</span>
                 <a href="{{ route('locale.switch', 'id') }}"
-                   class="{{ app()->getLocale() === 'id' ? 'text-blue-600' : 'text-gray-400 hover:text-gray-700' }} transition-colors">
+                   class="{{ app()->getLocale() === 'id' ? 'text-primary-600' : 'text-gray-400 hover:text-gray-700' }} transition-colors">
                     ID
                 </a>
                 <span class="text-gray-300">|</span>
                 <a href="{{ route('locale.switch', 'en') }}"
-                   class="{{ app()->getLocale() === 'en' ? 'text-blue-600' : 'text-gray-400 hover:text-gray-700' }} transition-colors">
+                   class="{{ app()->getLocale() === 'en' ? 'text-primary-600' : 'text-gray-400 hover:text-gray-700' }} transition-colors">
                     EN
                 </a>
             </div>
@@ -218,7 +218,7 @@
                 @endauth
                 <a href="{{ route('home') }}" @click="drawerOpen=false"
                    class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium
-                          {{ request()->routeIs('home') ? 'bg-[#eef2fb] text-[#3b6fd4]'
+                          {{ request()->routeIs('home') ? 'bg-primary-50 text-primary-600'
                           : 'text-[#18213a] hover:bg-[#f1f4fa]' }}">
                     <x-icon name="home" class="w-4 h-4" />
                     {{ __('Katalog Mobil') }}
@@ -265,7 +265,7 @@
                         {{ __('Masuk') }}
                     </button>
                     <button @click="$dispatch('open-register')"
-                            class="rounded-lg bg-[#3b6fd4] px-3 py-1.5 text-sm font-medium text-white hover:bg-[#2e5bb8] transition-colors">
+                            class="rounded-lg bg-primary-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-primary-700 transition-colors">
                         {{ __('Daftar') }}
                     </button>
                 @endauth
@@ -285,9 +285,9 @@
             @if(session('warning'))
                 <x-alert type="warning" dismissible>
                     <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                    <span>Silakan verifikasi email Anda untuk mendapatkan notifikasi lengkap.</span>
+                    <span>{{ __('Silakan verifikasi email Anda untuk mendapatkan notifikasi lengkap.') }}</span>
                     <a href="{{ route('verification.notice') }}"
-                    class="inline-flex items-center justify-center rounded-lg bg-yellow-500 px-3 py-1.5 text-xs font-semibold text-white hover:bg-yellow-600">Verifikasi Sekarang</a>
+                    class="inline-flex items-center justify-center rounded-lg bg-yellow-500 px-3 py-1.5 text-xs font-semibold text-white hover:bg-yellow-600">{{ __('Verifikasi Sekarang') }}</a>
         </div>
     </x-alert>
 @elseif(session('warning'))
@@ -310,11 +310,11 @@
                 bg-white/95 backdrop-blur md:hidden">
         @php
         $bnav = [
-            ['route' => 'home',              'icon' => 'home',     'label' => 'Katalog'],
-            ['route' => 'pemesanan.index',   'icon' => 'calendar', 'label' => 'Pesan'],
-            ['route' => 'favorit.index',     'icon' => 'heart',    'label' => 'Favorit'],
-            ['route' => 'chat.index',        'icon' => 'chat',     'label' => 'Chat'],
-            ['route' => 'notifikasi.index',  'icon' => 'bell',     'label' => 'Notif'],
+            ['route' => 'home',              'icon' => 'home',     'label' => __('Katalog')],
+            ['route' => 'pemesanan.index',   'icon' => 'calendar', 'label' => __('Pesan')],
+            ['route' => 'favorit.index',     'icon' => 'heart',    'label' => __('Favorit')],
+            ['route' => 'chat.index',        'icon' => 'chat',     'label' => __('Chat')],
+            ['route' => 'notifikasi.index',  'icon' => 'bell',     'label' => __('Notif')],
         ];
         @endphp
         <ul class="mx-auto grid max-w-7xl grid-cols-5">
@@ -324,7 +324,7 @@
                     <a href="{{ route($item['route']) }}"
                        class="flex flex-col items-center justify-center gap-0.5 py-2.5
                               text-[10px] font-medium transition-colors
-                              {{ $active ? 'text-[#3b6fd4]' : 'text-[#7a8499] hover:text-[#18213a]' }}">
+                              {{ $active ? 'text-primary-600' : 'text-[#7a8499] hover:text-[#18213a]' }}">
                         <x-icon :name="$item['icon']" class="w-5 h-5" />
                         {{ $item['label'] }}
                     </a>

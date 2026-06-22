@@ -16,8 +16,8 @@
             <p class="font-semibold text-[#18213a]">{{ $user->name }}</p>
             <p class="text-sm text-[#7a8499]">{{ $user->email }}</p>
             @if($user->isAdmin())
-                <span class="mt-1 inline-flex items-center gap-1 rounded-full bg-[#eef2fb] px-2 py-0.5
-                             text-[11px] font-medium text-[#3b6fd4]">
+                <span class="mt-1 inline-flex items-center gap-1 rounded-full bg-primary-50 px-2 py-0.5
+                             text-[11px] font-medium text-primary-600">
                     <x-icon name="shield" class="w-3 h-3" />
                     {{ __('Administrator') }}
                 </span>
@@ -57,8 +57,8 @@
         </div>
 
         <button type="submit"
-                class="flex w-full items-center justify-center gap-2 rounded-xl bg-[#3b6fd4]
-                       py-3 text-sm font-semibold text-white hover:bg-[#2e5bb8] transition-colors">
+                class="flex w-full items-center justify-center gap-2 rounded-xl bg-primary-600
+                       py-3 text-sm font-semibold text-white hover:bg-primary-700 transition-colors">
             <x-icon name="check-circle" class="w-4 h-4" />
             {{ __('Simpan Perubahan') }}
         </button>

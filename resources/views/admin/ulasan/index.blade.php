@@ -13,7 +13,7 @@
     <a href="{{ route('admin.ulasan.index') }}"
        class="px-4 py-2 text-sm font-medium transition-colors border-b-2
               {{ !request('tab') || request('tab') === 'menunggu'
-                  ? 'border-[#3b6fd4] text-[#3b6fd4]'
+                  ? 'border-primary-600 text-primary-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700' }}">
         {{ __('Menunggu') }}
         @if($jumlahMenunggu > 0)
@@ -25,7 +25,7 @@
     <a href="{{ route('admin.ulasan.index', ['tab' => 'semua']) }}"
        class="px-4 py-2 text-sm font-medium transition-colors border-b-2
               {{ request('tab') === 'semua'
-                  ? 'border-[#3b6fd4] text-[#3b6fd4]'
+                  ? 'border-primary-600 text-primary-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700' }}">
         {{ __('Semua') }}
     </a>
@@ -53,7 +53,7 @@
                             <div>
                                 <p class="font-medium text-gray-900">{{ $ulasan->user->name }}</p>
                                 <a href="{{ route('admin.pemesanan.show', $ulasan->pemesanan) }}"
-                                   class="text-xs text-[#3b6fd4] hover:underline">
+                                   class="text-xs text-primary-600 hover:underline">
                                     Pesanan #{{ $ulasan->pemesanan_id }}
                                 </a>
                             </div>

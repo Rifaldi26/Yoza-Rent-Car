@@ -26,8 +26,8 @@
                                   outline-none focus:ring-2 focus:ring-white/50 bg-white">
                 </div>
                 <button type="submit"
-                        class="h-11 rounded-xl bg-[#3b6fd4] px-6 text-sm font-semibold text-white
-                               hover:bg-[#2e5bb8] transition-colors whitespace-nowrap">
+                        class="h-11 rounded-xl bg-primary-600 px-6 text-sm font-semibold text-white
+                               hover:bg-primary-700 transition-colors whitespace-nowrap">
                     {{ __('Cari Mobil') }}
                 </button>
             </form>
@@ -64,7 +64,7 @@
                             class="whitespace-nowrap rounded-full border px-3 py-1 text-xs font-medium
                                    transition-colors
                                    {{ request('status', '') === $val
-                                       ? 'border-[#3b6fd4] bg-[#3b6fd4] text-white'
+                                       ? 'border-primary-600 bg-primary-600 text-white'
                                        : 'border-[#e5e9f2] bg-white text-[#7a8499] hover:bg-[#f1f4fa]' }}">
                         {{ $label }}
                     </button>
@@ -78,7 +78,7 @@
                     class="flex-shrink-0 whitespace-nowrap rounded-full border px-3 py-1 text-xs
                            font-medium transition-colors
                            {{ request('supir')
-                               ? 'border-[#3b6fd4] bg-[#3b6fd4] text-white'
+                               ? 'border-primary-600 bg-primary-600 text-white'
                                : 'border-[#e5e9f2] bg-white text-[#7a8499] hover:bg-[#f1f4fa]' }}">
                 <x-icon name="user" class="inline w-3 h-3 mr-1" />
                 {{ __('Ada Supir') }}
@@ -87,7 +87,7 @@
             {{-- Urutkan Harga --}}
             <select name="sort_harga" onchange="this.form.submit()"
                     class="flex-shrink-0 h-7 rounded-full border border-[#e5e9f2] bg-white
-                           px-3 text-xs text-[#7a8499] outline-none focus:border-[#3b6fd4]">
+                           px-3 text-xs text-[#7a8499] outline-none focus:border-primary-600">
                 <option value="">{{ __('Urutkan Harga') }}</option>
                 <option value="asc" @selected(request('sort_harga') == 'asc')>
                     {{ __('Harga Terendah') }}
@@ -136,8 +136,8 @@
                              loading="lazy">
                     @else
                         <div class="grid h-44 place-items-center bg-gradient-to-br
-                                    from-[#eef2fb] to-[#f4f6fb]">
-                            <x-icon name="car" class="w-16 h-16 text-[#3b6fd4]/30" />
+                                    from-primary-50 to-[#f4f6fb]">
+                            <x-icon name="car" class="w-16 h-16 text-primary-600/30" />
                         </div>
                     @endif
 
@@ -196,8 +196,8 @@
                     {{-- Tags --}}
                     <div class="mt-2.5 flex flex-wrap gap-1.5">
                         @if($mobil->adaSupir())
-                            <span class="inline-flex items-center gap-1 rounded-full bg-[#eef2fb]
-                                         px-2 py-0.5 text-[11px] font-medium text-[#3b6fd4]">
+                            <span class="inline-flex items-center gap-1 rounded-full bg-primary-50
+                                         px-2 py-0.5 text-[11px] font-medium text-primary-600">
                                 <x-icon name="user" class="w-3 h-3" />
                                 {{ __('Ada Supir') }}
                             </span>
@@ -213,14 +213,14 @@
                     <div class="mt-3 flex items-end justify-between border-t border-[#e5e9f2] pt-3">
                         <div>
                             <p class="text-[10px] text-[#7a8499]">{{ __('Mulai dari') }}</p>
-                            <p class="text-base font-bold text-[#3b6fd4]">
+                            <p class="text-base font-bold text-primary-600">
                                 Rp {{ number_format($mobil->harga_per_hari, 0, ',', '.') }}
                             </p>
                             <p class="text-[10px] text-[#7a8499]">{{ __('/ hari') }}</p>
                         </div>
                         <a href="{{ route('mobil.show', $mobil) }}"
-                           class="rounded-lg bg-[#3b6fd4] px-3 py-1.5 text-xs font-semibold
-                                  text-white hover:bg-[#2e5bb8] transition-colors">
+                           class="rounded-lg bg-primary-600 px-3 py-1.5 text-xs font-semibold
+                                  text-white hover:bg-primary-700 transition-colors">
                             {{ __('Lihat Detail') }}
                         </a>
                     </div>
@@ -240,8 +240,8 @@
 @guest
 <section class="border-t border-[#e5e9f2] bg-white py-14">
     <div class="mx-auto max-w-2xl px-4 text-center">
-        <div class="mx-auto mb-4 grid h-14 w-14 place-items-center rounded-2xl bg-[#eef2fb]">
-            <x-icon name="shield" class="w-7 h-7 text-[#3b6fd4]" />
+        <div class="mx-auto mb-4 grid h-14 w-14 place-items-center rounded-2xl bg-primary-50">
+            <x-icon name="shield" class="w-7 h-7 text-primary-600" />
         </div>
         <h2 class="text-xl font-bold text-[#18213a]">{{ __('Siap untuk perjalanan?') }}</h2>
         <p class="mt-2 text-sm text-[#7a8499]">
@@ -250,8 +250,8 @@
         <div class="mt-5 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             {{-- Tombol Daftar --}}
             <button @click="$dispatch('open-register')"
-                    class="w-full sm:w-auto rounded-xl bg-[#3b6fd4] px-6 py-2.5 text-sm
-                           font-semibold text-white hover:bg-[#2e5bb8] transition-colors">
+                    class="w-full sm:w-auto rounded-xl bg-primary-600 px-6 py-2.5 text-sm
+                           font-semibold text-white hover:bg-primary-700 transition-colors">
                 {{ __('Daftar Sekarang — Gratis') }}
             </button>
             {{-- Tombol Masuk --}}

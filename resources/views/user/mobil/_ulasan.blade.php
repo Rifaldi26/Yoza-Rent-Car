@@ -18,7 +18,7 @@
     <div class="flex items-center justify-between mb-4">
         <h3 class="text-sm font-semibold text-[#18213a]">{{ __('Ulasan Penyewa') }}</h3>
         @if($jumlahUlasan > 0)
-            <span class="text-xs text-[#7a8499]">{{ $jumlahUlasan }} ulasan</span>
+            <span class="text-xs text-[#7a8499]">{{ $jumlahUlasan }} {{ __('ulasan') }}</span>
         @endif
     </div>
 
@@ -37,7 +37,7 @@
                         </svg>
                     @endfor
                 </div>
-                <p class="text-xs text-[#7a8499] mt-0.5">dari 5 bintang</p>
+                <p class="text-xs text-[#7a8499] mt-0.5">{{ __('dari 5 bintang') }}</p>
             </div>
         </div>
 
@@ -131,8 +131,8 @@
                               placeholder="{{ __('Ceritakan pengalaman Anda (opsional)...') }}"
                               class="w-full rounded-xl border border-[#e5e9f2] bg-[#f4f6fb] px-3 py-2.5
                                      text-sm text-[#18213a] placeholder-[#b0b8cc]
-                                     focus:border-[#3b6fd4] focus:bg-white focus:outline-none focus:ring-2
-                                     focus:ring-[#3b6fd4]/20 transition resize-none">{{ old('komentar') }}</textarea>
+                                     focus:border-primary-600 focus:bg-white focus:outline-none focus:ring-2
+                                     focus:ring-primary-600/20 transition resize-none">{{ old('komentar') }}</textarea>
 
                     @error('komentar')
                         <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
@@ -142,7 +142,7 @@
                             :disabled="rating === 0"
                             :class="rating === 0
                                 ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                : 'bg-[#3b6fd4] text-white hover:bg-[#2e5bb8]'"
+                                : 'bg-primary-600 text-white hover:bg-primary-700'"
                             class="mt-3 flex w-full items-center justify-center gap-2 rounded-xl
                                    py-2.5 text-sm font-semibold transition-colors">
                         <x-icon name="star" class="w-4 h-4" />
@@ -157,7 +157,7 @@
         <div class="mt-3 rounded-xl border border-[#e5e9f2] bg-[#f4f6fb] p-3 text-center">
             <p class="text-xs text-[#7a8499]">
                 <button @click="$dispatch('open-login')"
-                        class="font-semibold text-[#3b6fd4] hover:underline">
+                        class="font-semibold text-primary-600 hover:underline">
                     {{ __('Masuk') }}
                 </button>
                 {{ __(' untuk menulis ulasan setelah menyewa.') }}

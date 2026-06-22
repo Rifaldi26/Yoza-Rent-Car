@@ -15,8 +15,8 @@ $variants = match($variant) {
     'danger'    => 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500',
     'success'   => 'bg-green-600 text-white hover:bg-green-700 focus:ring-green-500',
     'ghost'     => 'text-gray-600 hover:bg-gray-100 focus:ring-gray-300',
-    'link'      => 'text-blue-600 hover:underline focus:ring-blue-500 p-0',
-    default     => 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
+    'link'      => 'text-primary-600 hover:underline focus:ring-primary-500 p-0',
+    default     => 'bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500',
 };
 
 $sizes = match($size) {

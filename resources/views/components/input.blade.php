@@ -39,7 +39,7 @@
                     ' . ($prefix ? 'rounded-r-lg' : ($suffix ? 'rounded-l-lg' : 'rounded-lg')) . '
                     ' . ($error
                         ? 'border-red-300 focus:border-red-400 focus:ring-red-200 bg-red-50'
-                        : 'border-gray-300 focus:border-blue-400 focus:ring-blue-200 bg-white')
+                        : 'border-gray-300 focus:border-primary-400 focus:ring-primary-200 bg-white')
             ]) }}
         >
 

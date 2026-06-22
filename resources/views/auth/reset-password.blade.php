@@ -27,7 +27,7 @@
                                required autofocus
                                class="h-10 w-full rounded-xl border border-[#e5e9f2] bg-[#f4f6fb]
                                       px-3 pr-10 text-sm outline-none placeholder:text-[#aab0bf]
-                                      focus:border-[#3b6fd4] focus:ring-2 focus:ring-[#3b6fd4]/20
+                                      focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20
                                       transition-colors
                                       @error('password') border-red-300 bg-red-50 @enderror">
                         <button type="button" @click="show = !show"
@@ -50,13 +50,13 @@
                            required
                            class="h-10 w-full rounded-xl border border-[#e5e9f2] bg-[#f4f6fb] px-3
                                   text-sm outline-none placeholder:text-[#aab0bf]
-                                  focus:border-[#3b6fd4] focus:ring-2 focus:ring-[#3b6fd4]/20
+                                  focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20
                                   transition-colors">
                 </div>
 
                 <button type="submit"
-                        class="flex h-10 w-full items-center justify-center rounded-xl bg-[#3b6fd4]
-                               text-sm font-semibold text-white hover:bg-[#2e5bb8] transition-colors">
+                        class="flex h-10 w-full items-center justify-center rounded-xl bg-primary-600
+                               text-sm font-semibold text-white hover:bg-primary-700 transition-colors">
                     {{ __('Reset Kata Sandi') }}
                 </button>
             </form>

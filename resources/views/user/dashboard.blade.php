@@ -22,7 +22,7 @@
             ['label' => __('Menunggu Bayar'),  'value' => $stats['pending'],         'icon' => 'clock',     'color' => 'orange'],
         ];
         $colorMap = [
-            'blue'   => 'bg-[#eef2fb] text-[#3b6fd4]',
+            'blue'   => 'bg-primary-50 text-primary-600',
             'green'  => 'bg-green-50 text-green-600',
             'purple' => 'bg-purple-50 text-purple-600',
             'orange' => 'bg-orange-50 text-orange-600',
@@ -48,7 +48,7 @@
             <div class="mb-4 flex items-center justify-between">
                 <h2 class="text-sm font-semibold text-[#18213a]">{{ __('Pemesanan Terbaru') }}</h2>
                 <a href="{{ route('pemesanan.index') }}"
-                   class="text-xs font-medium text-[#3b6fd4] hover:underline">{{ __('Lihat semua') }}</a>
+                   class="text-xs font-medium text-primary-600 hover:underline">{{ __('Lihat semua') }}</a>
             </div>
 
             @if($pemesanan_terbaru->isEmpty())
@@ -56,8 +56,8 @@
                     description="{{ __('Mulai sewa mobil pertama Anda sekarang.') }}">
                     <x-slot:action>
                         <a href="{{ route('home') }}"
-                           class="inline-flex items-center gap-1.5 rounded-lg bg-[#3b6fd4] px-4 py-2
-                                  text-sm font-medium text-white hover:bg-[#2e5bb8] transition-colors">
+                           class="inline-flex items-center gap-1.5 rounded-lg bg-primary-600 px-4 py-2
+                                  text-sm font-medium text-white hover:bg-primary-700 transition-colors">
                             <x-icon name="car" class="w-4 h-4" />
                             {{ __('Lihat Katalog') }}
                         </a>
@@ -69,8 +69,8 @@
                     <a href="{{ route('pemesanan.show', $p) }}"
                        class="flex items-start gap-3 rounded-xl border border-[#e5e9f2] p-3
                               hover:bg-[#f4f6fb] transition-colors group">
-                        <div class="grid h-10 w-10 flex-shrink-0 place-items-center rounded-xl bg-[#eef2fb]">
-                            <x-icon name="car" class="w-5 h-5 text-[#3b6fd4]" />
+                        <div class="grid h-10 w-10 flex-shrink-0 place-items-center rounded-xl bg-primary-50">
+                            <x-icon name="car" class="w-5 h-5 text-primary-600" />
                         </div>
                         <div class="min-w-0 flex-1">
                             <div class="flex items-start justify-between gap-2">
@@ -121,11 +121,11 @@
                     @foreach($quickActions as $qa)
                     <a href="{{ $qa['href'] }}"
                        class="group flex flex-col items-center gap-1.5 rounded-xl border border-[#e5e9f2]
-                              bg-[#f4f6fb] p-3 text-center hover:bg-[#eef2fb] hover:border-[#3b6fd4]/30
+                              bg-[#f4f6fb] p-3 text-center hover:bg-primary-50 hover:border-primary-600/30
                               transition-colors">
                         <x-icon :name="$qa['icon']"
-                            class="w-5 h-5 text-[#7a8499] group-hover:text-[#3b6fd4]" />
-                        <span class="text-xs font-medium text-[#7a8499] group-hover:text-[#3b6fd4]">
+                            class="w-5 h-5 text-[#7a8499] group-hover:text-primary-600" />
+                        <span class="text-xs font-medium text-[#7a8499] group-hover:text-primary-600">
                             {{ $qa['label'] }}
                         </span>
                     </a>
@@ -138,7 +138,7 @@
                 <div class="mb-3 flex items-center justify-between">
                     <h3 class="text-sm font-semibold text-[#18213a]">{{ __('Notifikasi') }}</h3>
                     <a href="{{ route('notifikasi.index') }}"
-                       class="text-xs text-[#3b6fd4] hover:underline">{{ __('Semua') }}</a>
+                       class="text-xs text-primary-600 hover:underline">{{ __('Semua') }}</a>
                 </div>
                 @php
                     $notifs = auth()->user()->notifikasis()
@@ -149,7 +149,7 @@
                     <div class="grid h-7 w-7 flex-shrink-0 place-items-center rounded-full
                         {{ $notif->tipe === 'success' ? 'bg-green-100 text-green-600'
                            : ($notif->tipe === 'warning' ? 'bg-yellow-100 text-yellow-600'
-                           : 'bg-[#eef2fb] text-[#3b6fd4]') }}">
+                           : 'bg-primary-50 text-primary-600') }}">
                         <x-icon name="{{ $notif->tipe === 'success' ? 'check-circle'
                             : ($notif->tipe === 'warning' ? 'warning' : 'info') }}"
                             class="w-3.5 h-3.5" />

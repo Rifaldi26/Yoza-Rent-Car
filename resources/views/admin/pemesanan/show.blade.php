@@ -114,7 +114,7 @@
                 {{-- Konfirmasi Pembayaran (jika sudah WA tapi belum dikonfirmasi) --}}
                 @if($pemesanan->payment && $pemesanan->payment->status === 'menunggu_konfirmasi')
                     <div class="mb-3 rounded-xl border border-blue-200 bg-blue-50 p-3">
-                        <p class="text-xs font-semibold text-[#3b6fd4] mb-1">{{ __('Info Pembayaran') }}</p>
+                        <p class="text-xs font-semibold text-blue-700 mb-1">{{ __('Info Pembayaran') }}</p>
                         <div class="text-xs text-gray-700 space-y-1">
                             <div class="flex justify-between">
                                 <span class="text-gray-500">{{ __('Metode') }}</span>
@@ -134,8 +134,8 @@
                         @csrf @method('PATCH')
                         <button type="submit"
                                 class="flex w-full items-center justify-center gap-2 rounded-lg
-                                       bg-[#3b6fd4] px-4 py-2.5 text-sm font-medium text-white
-                                       hover:bg-[#2e5bb8] transition-colors">
+                                       bg-primary-600 px-4 py-2.5 text-sm font-medium text-white
+                                       hover:bg-primary-700 transition-colors">
                             <x-icon name="check-circle" class="w-4 h-4" />
                             {{ __('Konfirmasi Pembayaran Diterima') }}
                         </button>
@@ -170,8 +170,8 @@
                         @csrf @method('PATCH')
                         <button type="submit"
                                 class="flex w-full items-center justify-center gap-2 rounded-lg
-                                       bg-blue-600 px-4 py-2.5 text-sm font-medium text-white
-                                       hover:bg-blue-700 transition-colors">
+                                       bg-primary-600 px-4 py-2.5 text-sm font-medium text-white
+                                       hover:bg-primary-700 transition-colors">
                             <x-icon name="check-circle" class="w-4 h-4" />
                             {{ __('Tandai Selesai') }}
                         </button>
@@ -220,7 +220,7 @@
             <ol class="space-y-3">
                 <li class="flex gap-3">
                     <div class="flex flex-col items-center">
-                        <div class="h-2 w-2 rounded-full bg-blue-600 mt-1.5 flex-shrink-0"></div>
+                        <div class="h-2 w-2 rounded-full bg-primary-600 mt-1.5 flex-shrink-0"></div>
                         <div class="w-px flex-1 bg-gray-200 mt-1"></div>
                     </div>
                     <div class="pb-3">

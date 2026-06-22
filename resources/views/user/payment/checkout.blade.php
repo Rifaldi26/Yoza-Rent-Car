@@ -31,8 +31,8 @@
                      alt="{{ $pemesanan->mobil->nama }}">
             @else
                 <div class="grid h-16 w-24 flex-shrink-0 place-items-center
-                            rounded-xl bg-[#eef2fb]">
-                    <x-icon name="car" class="w-8 h-8 text-[#3b6fd4]" />
+                            rounded-xl bg-primary-50">
+                    <x-icon name="car" class="w-8 h-8 text-primary-600" />
                 </div>
             @endif
             <div class="min-w-0 flex-1">
@@ -42,7 +42,7 @@
                     &ndash; {{ $pemesanan->tanggal_selesai->format('d M Y') }}
                     &middot; {{ $pemesanan->durasi() }} {{ __('hari') }}
                 </p>
-                <p class="mt-1 text-lg font-bold text-[#3b6fd4]">
+                <p class="mt-1 text-lg font-bold text-primary-600">
                     Rp {{ number_format($pemesanan->total_harga, 0, ',', '.') }}
                 </p>
             </div>
@@ -63,13 +63,13 @@
                        x-model="selected"
                        class="sr-only">
                 <div :class="selected === '{{ $key }}'
-                        ? 'border-[#3b6fd4] bg-[#eef2fb] ring-2 ring-[#3b6fd4]/20'
-                        : 'border-[#e5e9f2] bg-white hover:border-[#3b6fd4]/40 hover:bg-[#f9fbff]'"
+                        ? 'border-primary-600 bg-primary-50 ring-2 ring-primary-600/20'
+                        : 'border-[#e5e9f2] bg-white hover:border-primary-600/40 hover:bg-primary-50'"
                      class="flex items-start gap-4 rounded-2xl border p-4 transition-all duration-150">
 
                     {{-- Ikon Metode --}}
                     <div :class="selected === '{{ $key }}'
-                            ? 'bg-[#3b6fd4] text-white'
+                            ? 'bg-primary-600 text-white'
                             : 'bg-[#f1f4fa] text-[#7a8499]'"
                          class="grid h-11 w-11 flex-shrink-0 place-items-center
                                 rounded-xl transition-colors">
@@ -99,7 +99,7 @@
                             {{-- Checkmark --}}
                             <div x-show="selected === '{{ $key }}'"
                                  class="grid h-5 w-5 flex-shrink-0 place-items-center
-                                        rounded-full bg-[#3b6fd4]" x-cloak>
+                                        rounded-full bg-primary-600" x-cloak>
                                 <svg class="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24"
                                      stroke="currentColor" stroke-width="3">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
@@ -150,7 +150,7 @@
         <div x-show="selected === '{{ $key }}'" x-cloak
              class="mb-4 flex items-start gap-2.5 rounded-xl border border-blue-200
                     bg-blue-50 p-3">
-            <x-icon name="info" class="w-4 h-4 flex-shrink-0 mt-0.5 text-[#3b6fd4]" />
+            <x-icon name="info" class="w-4 h-4 flex-shrink-0 mt-0.5 text-blue-600" />
             <p class="text-xs text-[#18213a]">{{ $info['instruksi'] }}</p>
         </div>
         @endforeach

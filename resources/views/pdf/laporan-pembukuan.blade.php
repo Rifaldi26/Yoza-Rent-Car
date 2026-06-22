@@ -18,11 +18,11 @@ body {
 .brand-name { font-size: 20px; font-weight: 700; color: #18213a; }
 .brand-sub { font-size: 9px; color: #7a8499; letter-spacing: 2px; text-transform: uppercase; }
 .report-meta { text-align: right; }
-.report-title { font-size: 16px; font-weight: 700; color: #3b6fd4; }
+.report-title { font-size: 16px; font-weight: 700; color: #E6212A; }
 .report-period { font-size: 10px; color: #7a8499; margin-top: 2px; }
 .report-generated { font-size: 9px; color: #aab0bf; margin-top: 2px; }
 
-.divider { height: 2px; background: linear-gradient(to right, #3b6fd4, #e5e9f2); margin: 16px 0; border-radius: 2px; }
+.divider { height: 2px; background: linear-gradient(to right, #E6212A, #e5e9f2); margin: 16px 0; border-radius: 2px; }
 
 /* ── Summary Cards ── */
 .summary-grid { display: flex; gap: 12px; margin-bottom: 24px; }
@@ -90,7 +90,7 @@ body {
 }
 .lr-total {
     display: flex; justify-content: space-between;
-    padding: 10px 12px; border-top: 2px solid #3b6fd4;
+    padding: 10px 12px; border-top: 2px solid #E6212A;
     font-weight: 700; font-size: 13px;
 }
 

@@ -26,7 +26,7 @@
         $style = match($notif->tipe) {
             'success' => ['cls' => 'bg-green-100 text-green-600', 'icon' => 'check-circle'],
             'warning' => ['cls' => 'bg-yellow-100 text-yellow-600', 'icon' => 'warning'],
-            default   => ['cls' => 'bg-[#eef2fb] text-[#3b6fd4]', 'icon' => 'info'],
+            default   => ['cls' => 'bg-primary-50 text-primary-600', 'icon' => 'info'],
         };
         @endphp
         <div class="flex items-start gap-3 border-b border-[#e5e9f2] p-4 last:border-0
@@ -38,7 +38,7 @@
                 <div class="flex items-center gap-2">
                     <p class="text-sm font-semibold text-[#18213a]">{{ $notif->judul }}</p>
                     @if(!$notif->dibaca)
-                        <span class="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-[#3b6fd4]"></span>
+                        <span class="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary-600"></span>
                     @endif
                 </div>
                 <p class="mt-0.5 text-sm text-[#7a8499]">{{ $notif->pesan }}</p>
@@ -48,7 +48,7 @@
             <form method="POST" action="{{ route('notifikasi.baca', $notif) }}">
                 @csrf @method('PATCH')
                 <button type="submit"
-                        class="text-xs text-[#3b6fd4] hover:underline whitespace-nowrap flex-shrink-0">
+                        class="text-xs text-primary-600 hover:underline whitespace-nowrap flex-shrink-0">
                     {{ __('Baca') }}
                 </button>
             </form>

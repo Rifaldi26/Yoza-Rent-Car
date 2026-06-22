@@ -171,8 +171,8 @@
 
                 {{-- Periode sewa --}}
                 <div class="flex items-start gap-3 px-5 py-4">
-                    <div class="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-[#eef2fb]">
-                        <x-icon name="calendar-days" class="h-4 w-4 text-[#3b6fd4]" />
+                    <div class="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-primary-50">
+                        <x-icon name="calendar-days" class="h-4 w-4 text-primary-600" />
                     </div>
                     <div class="flex-1">
                         <p class="text-xs font-medium uppercase tracking-wider text-[#7a8499]">{{ __('Periode Sewa') }}</p>
@@ -197,8 +197,8 @@
 
                 {{-- Opsi supir --}}
                 <div class="flex items-start gap-3 px-5 py-4">
-                    <div class="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-[#eef2fb]">
-                        <x-icon name="user" class="h-4 w-4 text-[#3b6fd4]" />
+                    <div class="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-primary-50">
+                        <x-icon name="user" class="h-4 w-4 text-primary-600" />
                     </div>
                     <div class="flex-1">
                         <p class="text-xs font-medium uppercase tracking-wider text-[#7a8499]">{{ __('Opsi Mengemudi') }}</p>
@@ -216,8 +216,8 @@
                 {{-- Catatan --}}
                 @if($pemesanan->catatan)
                 <div class="flex items-start gap-3 px-5 py-4">
-                    <div class="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-[#eef2fb]">
-                        <x-icon name="chat-bubble-bottom-center-text" class="h-4 w-4 text-[#3b6fd4]" />
+                    <div class="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-primary-50">
+                        <x-icon name="chat-bubble-bottom-center-text" class="h-4 w-4 text-primary-600" />
                     </div>
                     <div class="flex-1">
                         <p class="text-xs font-medium uppercase tracking-wider text-[#7a8499]">{{ __('Catatan') }}</p>
@@ -295,13 +295,13 @@
                                 {{-- Connector line --}}
                                 @if($i < count($steps) - 1)
                                 <div class="absolute left-1/2 top-3.5 h-0.5 w-full
-                                            {{ $steps[$i+1]['done'] ? 'bg-[#3b6fd4]' : 'bg-[#e5e9f2]' }}">
+                                            {{ $steps[$i+1]['done'] ? 'bg-primary-600' : 'bg-[#e5e9f2]' }}">
                                 </div>
                                 @endif
                                 {{-- Dot --}}
                                 <div class="relative z-10 grid h-7 w-7 place-items-center rounded-full border-2 text-xs font-bold
                                             {{ $step['done']
-                                                ? 'border-[#3b6fd4] bg-[#3b6fd4] text-white'
+                                                ? 'border-primary-600 bg-primary-600 text-white'
                                                 : 'border-[#e5e9f2] bg-white text-[#c0c8d8]' }}">
                                     @if($step['done'])
                                         <x-icon name="check" class="h-3.5 w-3.5" />
@@ -328,8 +328,8 @@
                 <p class="text-xs text-[#7a8499]">{{ __('Lanjutkan ke halaman pembayaran untuk memilih metode.') }}</p>
                 @if($pemesanan->status === 'pending')
                 <a href="{{ route('payment.checkout', $pemesanan) }}"
-                   class="mt-1 inline-flex items-center gap-1.5 rounded-lg bg-[#3b6fd4] px-4 py-2
-                          text-sm font-semibold text-white hover:bg-[#2e5bb8] transition-colors">
+                   class="mt-1 inline-flex items-center gap-1.5 rounded-lg bg-primary-600 px-4 py-2
+                          text-sm font-semibold text-white hover:bg-primary-700 transition-colors">
                     {{ __('Pilih Metode Pembayaran') }}
                 </a>
                 @endif
@@ -374,7 +374,7 @@
                 <div class="flex items-center justify-between border-t border-[#f1f4fa] pt-3
                              text-base font-bold text-[#18213a]">
                     <span>{{ __('Total') }}</span>
-                    <span class="text-[#3b6fd4]">
+                    <span class="text-primary-600">
                         Rp {{ number_format($pemesanan->total_harga, 0, ',', '.') }}
                     </span>
                 </div>
@@ -426,8 +426,8 @@
             {{-- Pesan lagi --}}
             @if(in_array($pemesanan->status, ['selesai','dibatalkan','kadaluarsa']))
             <a href="{{ route('mobil.show', $pemesanan->mobil) }}"
-               class="inline-flex items-center gap-1.5 rounded-xl bg-[#3b6fd4] px-4 py-2.5
-                      text-sm font-semibold text-white shadow-sm hover:bg-[#2e5bb8] transition-colors">
+               class="inline-flex items-center gap-1.5 rounded-xl bg-primary-600 px-4 py-2.5
+                      text-sm font-semibold text-white shadow-sm hover:bg-primary-700 transition-colors">
                 <x-icon name="arrow-path" class="h-4 w-4" />
                 {{ __('Pesan Lagi') }}
             </a>

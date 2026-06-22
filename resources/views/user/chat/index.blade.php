@@ -31,7 +31,7 @@
                 <div :class="msg.pengirim_id === myId ? 'justify-end' : 'justify-start'"
                      class="flex">
                     <div :class="msg.pengirim_id === myId
-                                     ? 'rounded-br-sm bg-[#3b6fd4] text-white'
+                                     ? 'rounded-br-sm bg-primary-600 text-white'
                                      : 'rounded-bl-sm border border-[#e5e9f2] bg-white text-[#18213a]'"
                          class="max-w-[80%] rounded-2xl px-3 py-2 text-sm shadow-sm">
 
@@ -42,9 +42,9 @@
                                     <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125"/>
                                     </svg>
-                                    Lampiran Pemesanan
+                                    {{ __('Lampiran Pemesanan') }}
                                 </div>
-                                <p class="font-mono text-xs text-[#3b6fd4]" x-text="'#' + msg.pemesanan.id"></p>
+                                <p class="font-mono text-xs text-primary-600" x-text="'#' + msg.pemesanan.id"></p>
                                 <p class="font-semibold" x-text="msg.pemesanan.nama_mobil"></p>
                                 <p class="text-xs text-[#7a8499]"
                                    x-text="msg.pemesanan.tanggal_mulai + ' — ' + msg.pemesanan.tanggal_selesai"></p>
@@ -63,8 +63,8 @@
 
             <template x-if="pesan.length === 0">
                 <div class="flex h-full flex-col items-center justify-center py-12 text-center">
-                    <div class="grid h-12 w-12 place-items-center rounded-full bg-[#eef2fb] mb-3">
-                        <svg class="h-6 w-6 text-[#3b6fd4]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
+                    <div class="grid h-12 w-12 place-items-center rounded-full bg-primary-50 mb-3">
+                        <svg class="h-6 w-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133"/>
                         </svg>
                     </div>
@@ -76,9 +76,9 @@
 
         {{-- Lampiran Preview --}}
         <template x-if="selectedPemesananId">
-            <div class="mx-4 mt-0 mb-0 rounded-xl border border-[#3b6fd4]/30 bg-[#eef2fb] px-3 py-2 text-xs
+            <div class="mx-4 mt-0 mb-0 rounded-xl border border-primary-600/30 bg-primary-50 px-3 py-2 text-xs
                         flex items-center justify-between">
-                <span class="text-[#3b6fd4] font-medium" x-text="'{{ __('Melampirkan: ') }}' + selectedPemesananLabel"></span>
+                <span class="text-primary-600 font-medium" x-text="'{{ __('Melampirkan: ') }}' + selectedPemesananLabel"></span>
                 <button @click="selectedPemesananId = null; selectedPemesananLabel = ''"
                         class="text-[#7a8499] hover:text-red-500 transition-colors">
                     <x-icon name="x" class="w-3.5 h-3.5" />
@@ -92,7 +92,7 @@
             {{-- Lampiran Pemesanan --}}
             <div class="relative" x-data="{ showList: false }">
                 <button type="button" @click="showList = !showList"
-                        :class="selectedPemesananId ? 'border-[#3b6fd4] text-[#3b6fd4] bg-[#eef2fb]' : 'border-[#e5e9f2] text-[#7a8499] hover:bg-[#f1f4fa]'"
+                        :class="selectedPemesananId ? 'border-primary-600 text-primary-600 bg-primary-50' : 'border-[#e5e9f2] text-[#7a8499] hover:bg-[#f1f4fa]'"
                         class="grid h-9 w-9 place-items-center rounded-lg border transition-colors">
                     <x-icon name="paper-clip" class="w-4 h-4" />
                 </button>
@@ -131,13 +131,13 @@
                    @keydown.enter.prevent="kirim()"
                    placeholder="{{ __('Tulis pesan...') }}"
                    class="h-9 flex-1 rounded-lg border border-[#e5e9f2] bg-[#f4f6fb] px-3 text-sm
-                          outline-none focus:border-[#3b6fd4] focus:ring-2 focus:ring-[#3b6fd4]/20
+                          outline-none focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20
                           transition-colors">
 
             <button type="button" @click="kirim()"
                     :disabled="!isiPesan.trim()"
-                    class="inline-flex h-9 items-center gap-1.5 rounded-lg bg-[#3b6fd4] px-3
-                           text-sm font-medium text-white hover:bg-[#2e5bb8] disabled:opacity-40
+                    class="inline-flex h-9 items-center gap-1.5 rounded-lg bg-primary-600 px-3
+                           text-sm font-medium text-white hover:bg-primary-700 disabled:opacity-40
                            disabled:cursor-not-allowed transition-colors">
                 <x-icon name="send" class="w-4 h-4" />
                 {{ __('Kirim') }}

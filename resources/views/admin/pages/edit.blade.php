@@ -18,7 +18,7 @@
         <div class="rounded-xl border border-[#e5e9f2] bg-white p-6 shadow-sm">
             <label class="mb-1.5 block text-sm font-medium text-[#18213a]">{{ __('Judul Halaman') }}</label>
             <input type="text" name="title" value="{{ old('title', $page->title) }}" required
-                   class="w-full rounded-lg border border-[#e5e9f2] px-4 py-2.5 text-sm focus:border-[#3b6fd4] focus:ring-1 focus:ring-[#3b6fd4] outline-none transition-all">
+                   class="w-full rounded-lg border border-[#e5e9f2] px-4 py-2.5 text-sm focus:border-primary-600 focus:ring-1 focus:ring-primary-600 outline-none transition-all">
         </div>
 
         {{-- Sections --}}
@@ -36,13 +36,13 @@
                 <div>
                     <label class="mb-1.5 block text-sm font-medium text-[#18213a]">{{ __('Judul Section') }}</label>
                     <input type="text" name="sections[{{ $si }}][title]" value="{{ $section['title'] }}"
-                           class="w-full rounded-lg border border-[#e5e9f2] px-4 py-2.5 text-sm focus:border-[#3b6fd4] focus:ring-1 focus:ring-[#3b6fd4] outline-none transition-all">
+                           class="w-full rounded-lg border border-[#e5e9f2] px-4 py-2.5 text-sm focus:border-primary-600 focus:ring-1 focus:ring-primary-600 outline-none transition-all">
                 </div>
 
                 <div>
                     <label class="mb-1.5 block text-sm font-medium text-[#18213a]">{{ __('Paragraf Pembuka') }} <span class="text-[#7a8499] font-normal">({{ __('opsional') }})</span></label>
                     <textarea name="sections[{{ $si }}][intro]" rows="2"
-                              class="w-full rounded-lg border border-[#e5e9f2] px-4 py-2.5 text-sm focus:border-[#3b6fd4] focus:ring-1 focus:ring-[#3b6fd4] outline-none transition-all resize-none">{{ $section['intro'] }}</textarea>
+                              class="w-full rounded-lg border border-[#e5e9f2] px-4 py-2.5 text-sm focus:border-primary-600 focus:ring-1 focus:ring-primary-600 outline-none transition-all resize-none">{{ $section['intro'] }}</textarea>
                 </div>
 
                 <div class="items-wrapper space-y-3">
@@ -55,19 +55,19 @@
                         <div>
                             <label class="mb-1 block text-xs text-[#18213a]">{{ __('Label') }} <span class="text-[#7a8499]">({{ __('bold, opsional') }})</span></label>
                             <input type="text" name="sections[{{ $si }}][items][{{ $ii }}][label]" value="{{ $item['label'] }}"
-                                   class="w-full rounded-lg border border-[#e5e9f2] px-3 py-2 text-sm focus:border-[#3b6fd4] outline-none transition-all">
+                                   class="w-full rounded-lg border border-[#e5e9f2] px-3 py-2 text-sm focus:border-primary-600 outline-none transition-all">
                         </div>
                         <div>
                             <label class="mb-1 block text-xs text-[#18213a]">{{ __('Isi') }}</label>
                             <textarea name="sections[{{ $si }}][items][{{ $ii }}][text]" rows="2"
-                                      class="w-full rounded-lg border border-[#e5e9f2] px-3 py-2 text-sm focus:border-[#3b6fd4] outline-none transition-all resize-none">{{ $item['text'] }}</textarea>
+                                      class="w-full rounded-lg border border-[#e5e9f2] px-3 py-2 text-sm focus:border-primary-600 outline-none transition-all resize-none">{{ $item['text'] }}</textarea>
                         </div>
                     </div>
                     @endforeach
                 </div>
 
                 <button type="button" onclick="addItem(this)"
-                        class="w-full rounded-lg border border-dashed border-[#3b6fd4] py-2 text-sm text-[#3b6fd4] hover:bg-[#f0f4fc] transition-colors">
+                        class="w-full rounded-lg border border-dashed border-primary-600 py-2 text-sm text-primary-600 hover:bg-[#f0f4fc] transition-colors">
                     + {{ __('Tambah Poin') }}
                 </button>
             </div>
@@ -81,7 +81,7 @@
         </button>
 
         <div class="flex justify-end">
-            <button type="submit" class="rounded-lg bg-[#3b6fd4] px-6 py-2.5 text-sm font-semibold text-white hover:bg-[#2e5bb8] transition-colors">
+            <button type="submit" class="rounded-lg bg-primary-600 px-6 py-2.5 text-sm font-semibold text-white hover:bg-primary-700 transition-colors">
                 {{ __('Simpan Perubahan') }}
             </button>
         </div>
@@ -136,12 +136,12 @@
             '<div>' +
                 '<label class="mb-1 block text-xs text-[#18213a]">' + _lang.label + ' <span class="text-[#7a8499]">(' + _lang.boldOpsional + ')</span></label>' +
                 '<input type="text" name="sections[' + si + '][items][' + ii + '][label]" value=""' +
-                       ' class="w-full rounded-lg border border-[#e5e9f2] px-3 py-2 text-sm focus:border-[#3b6fd4] outline-none transition-all">' +
+                       ' class="w-full rounded-lg border border-[#e5e9f2] px-3 py-2 text-sm focus:border-primary-600 outline-none transition-all">' +
             '</div>' +
             '<div>' +
                 '<label class="mb-1 block text-xs text-[#18213a]">' + _lang.isi + '</label>' +
                 '<textarea name="sections[' + si + '][items][' + ii + '][text]" rows="2"' +
-                          ' class="w-full rounded-lg border border-[#e5e9f2] px-3 py-2 text-sm focus:border-[#3b6fd4] outline-none transition-all resize-none"></textarea>' +
+                          ' class="w-full rounded-lg border border-[#e5e9f2] px-3 py-2 text-sm focus:border-primary-600 outline-none transition-all resize-none"></textarea>' +
             '</div>';
         wrapper.appendChild(div);
         reindex();
@@ -167,16 +167,16 @@
             '<div>' +
                 '<label class="mb-1.5 block text-sm font-medium text-[#18213a]">' + _lang.judulSection + '</label>' +
                 '<input type="text" name="sections[' + si + '][title]" value=""' +
-                       ' class="w-full rounded-lg border border-[#e5e9f2] px-4 py-2.5 text-sm focus:border-[#3b6fd4] focus:ring-1 focus:ring-[#3b6fd4] outline-none transition-all">' +
+                       ' class="w-full rounded-lg border border-[#e5e9f2] px-4 py-2.5 text-sm focus:border-primary-600 focus:ring-1 focus:ring-primary-600 outline-none transition-all">' +
             '</div>' +
             '<div>' +
                 '<label class="mb-1.5 block text-sm font-medium text-[#18213a]">' + _lang.paragrafPembuka + ' <span class="text-[#7a8499] font-normal">(' + _lang.opsional + ')</span></label>' +
                 '<textarea name="sections[' + si + '][intro]" rows="2"' +
-                          ' class="w-full rounded-lg border border-[#e5e9f2] px-4 py-2.5 text-sm focus:border-[#3b6fd4] focus:ring-1 focus:ring-[#3b6fd4] outline-none transition-all resize-none"></textarea>' +
+                          ' class="w-full rounded-lg border border-[#e5e9f2] px-4 py-2.5 text-sm focus:border-primary-600 focus:ring-1 focus:ring-primary-600 outline-none transition-all resize-none"></textarea>' +
             '</div>' +
             '<div class="items-wrapper space-y-3"></div>' +
             '<button type="button" onclick="addItem(this)"' +
-                    ' class="w-full rounded-lg border border-dashed border-[#3b6fd4] py-2 text-sm text-[#3b6fd4] hover:bg-[#f0f4fc] transition-colors">' +
+                    ' class="w-full rounded-lg border border-dashed border-primary-600 py-2 text-sm text-primary-600 hover:bg-[#f0f4fc] transition-colors">' +
                 '+ ' + _lang.tambahPoin +
             '</button>';
         wrapper.appendChild(div);

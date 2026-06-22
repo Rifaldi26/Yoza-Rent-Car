@@ -19,7 +19,7 @@
             <a href="{{ route('pemesanan.index', array_filter(['status' => $val])) }}"
                class="whitespace-nowrap rounded-full border px-3 py-1 text-xs font-medium transition-colors
                       {{ request('status', '') === $val
-                          ? 'border-[#3b6fd4] bg-[#3b6fd4] text-white'
+                          ? 'border-primary-600 bg-primary-600 text-white'
                           : 'border-[#e5e9f2] bg-white text-[#7a8499] hover:bg-[#f1f4fa]' }}">
                 {{ $label }}
             </a>
@@ -40,25 +40,19 @@
 
         {{-- Body --}}
         <div class="flex items-start gap-4 px-4 py-3">
-            <div class="grid h-12 w-12 flex-shrink-0 place-items-center rounded-xl bg-[#eef2fb]">
-                <x-icon name="car" class="w-6 h-6 text-[#3b6fd4]" />
+            <div class="grid h-12 w-12 flex-shrink-0 place-items-center rounded-xl bg-primary-50">
+                <x-icon name="car" class="w-6 h-6 text-primary-600" />
             </div>
             <div class="flex-1 min-w-0">
                 <p class="font-semibold text-[#18213a]">{{ $p->mobil->nama }}</p>
                 <p class="text-sm text-[#7a8499]">
-<<<<<<< Updated upstream
                     {{ $p->tanggal_mulai->format('d M Y') }}
                     @if(!$p->adalah12Jam())
                         &ndash; {{ $p->tanggal_selesai->format('d M Y') }}
-                        &middot; {{ $p->durasi() }} hari
+                        &middot; {{ $p->durasi() }} {{ __('hari') }}
                     @else
-                        &middot; Sewa 12 Jam
+                        &middot; {{ __('Sewa 12 Jam') }}
                     @endif
-=======
-                    {{ $p->tanggal_mulai->format('d M Y') }} &ndash;
-                    {{ $p->tanggal_selesai->format('d M Y') }}
-                    &middot; {{ $p->durasi() }} {{ __('hari') }}
->>>>>>> Stashed changes
                 </p>
                 <p class="text-xs text-[#7a8499]">{{ $p->opsi_supir ? __('Dengan Supir') : __('Self-Drive') }}</p>
             </div>
@@ -74,8 +68,8 @@
             <div class="flex gap-2">
                 @if($p->status === 'pending')
                     <a href="{{ route('payment.checkout', $p) }}"
-                       class="rounded-lg bg-[#3b6fd4] px-3 py-1.5 text-xs font-medium text-white
-                              hover:bg-[#2e5bb8] transition-colors">
+                       class="rounded-lg bg-primary-600 px-3 py-1.5 text-xs font-medium text-white
+                              hover:bg-primary-700 transition-colors">
                         {{ __('Bayar Sekarang') }}
                     </a>
                     <form method="POST" action="{{ route('pemesanan.cancel', $p) }}">
@@ -97,7 +91,7 @@
                 @endif
             </div>
             <a href="{{ route('pemesanan.show', $p) }}"
-               class="text-xs font-medium text-[#3b6fd4] hover:underline">
+               class="text-xs font-medium text-primary-600 hover:underline">
                 {{ __('Detail') }}
             </a>
         </div>
@@ -107,8 +101,8 @@
             description="{{ __('Belum ada pemesanan dengan status ini.') }}">
             <x-slot:action>
                 <a href="{{ route('home') }}"
-                   class="inline-flex items-center gap-1.5 rounded-lg bg-[#3b6fd4] px-4 py-2
-                          text-sm font-medium text-white hover:bg-[#2e5bb8] transition-colors">
+                   class="inline-flex items-center gap-1.5 rounded-lg bg-primary-600 px-4 py-2
+                          text-sm font-medium text-white hover:bg-primary-700 transition-colors">
                     {{ __('Lihat Katalog Mobil') }}
                 </a>
             </x-slot:action>

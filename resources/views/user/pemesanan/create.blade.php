@@ -34,8 +34,8 @@
                                  alt="{{ $mobil->nama }}">
                         @else
                             <div class="grid h-16 w-24 flex-shrink-0 place-items-center
-                                        rounded-xl bg-[#eef2fb]">
-                                <x-icon name="car" class="w-8 h-8 text-[#3b6fd4]" />
+                                        rounded-xl bg-primary-50">
+                                <x-icon name="car" class="w-8 h-8 text-primary-600" />
                             </div>
                         @endif
                         <div>
@@ -43,7 +43,7 @@
                             <p class="text-xs text-[#7a8499]">
                                 {{ $mobil->merek }} &middot; {{ $mobil->plat_nomor }}
                             </p>
-                            <p class="text-sm font-bold text-[#3b6fd4] mt-0.5">
+                            <p class="text-sm font-bold text-primary-600 mt-0.5">
                                 Rp {{ number_format($mobil->harga_per_hari, 0, ',', '.') }} / hari
                             </p>
                         </div>
@@ -79,12 +79,12 @@
                     <h3 class="text-sm font-semibold text-[#18213a] mb-3">{{ __('Opsi Layanan') }}</h3>
                     <label class="flex cursor-pointer items-start gap-3 rounded-xl border border-[#e5e9f2]
                                   p-4 hover:bg-[#f4f6fb] transition-colors"
-                           :class="opsiSupir ? 'border-[#3b6fd4] bg-[#eef2fb]' : ''">
+                           :class="opsiSupir ? 'border-primary-600 bg-primary-50' : ''">
                         <input type="checkbox" name="opsi_supir" value="1"
                                x-model="opsiSupir"
                                @change="hitungHarga()"
-                               class="mt-0.5 h-4 w-4 rounded border-[#e5e9f2] text-[#3b6fd4]
-                                      focus:ring-[#3b6fd4]">
+                               class="mt-0.5 h-4 w-4 rounded border-[#e5e9f2] text-primary-600
+                                      focus:ring-primary-600">
                         <div>
                             <p class="text-sm font-medium text-[#18213a]">{{ __('Sewa dengan Supir') }}</p>
                             <p class="text-xs text-[#7a8499] mt-0.5">
@@ -125,7 +125,7 @@
                         </template>
                         <div class="border-t border-[#e5e9f2] pt-2 flex justify-between font-semibold text-[#18213a]">
                             <span>{{ __('Total') }}</span>
-                            <span class="text-[#3b6fd4] tabular-nums text-base"
+                            <span class="text-primary-600 tabular-nums text-base"
                                   x-text="durasi > 0 ? 'Rp ' + formatRp(total) : '—'"></span>
                         </div>
                     </div>
@@ -133,8 +133,8 @@
                     <button type="submit"
                             :disabled="durasi <= 0"
                             class="mt-5 flex w-full items-center justify-center gap-2 rounded-xl
-                                   bg-[#3b6fd4] py-3 text-sm font-semibold text-white
-                                   hover:bg-[#2e5bb8] disabled:bg-gray-200 disabled:text-gray-400
+                                   bg-primary-600 py-3 text-sm font-semibold text-white
+                                   hover:bg-primary-700 disabled:bg-gray-200 disabled:text-gray-400
                                    disabled:cursor-not-allowed transition-colors">
                         <x-icon name="calendar" class="w-4 h-4" />
                         {{ __('Lanjutkan ke Pembayaran') }}

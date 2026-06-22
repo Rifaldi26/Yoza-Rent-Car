@@ -23,7 +23,7 @@
                     <td class="px-6 py-4">{{ $page->updated_at->translatedFormat('d M Y, H:i') }} WIB</td>
                     <td class="px-6 py-4 text-right">
                         <a href="{{ route('admin.pages.edit', $page->slug) }}" 
-                           class="inline-flex items-center gap-1.5 rounded-lg bg-[#eef2fb] px-3 py-1.5 text-xs font-semibold text-[#3b6fd4] hover:bg-[#3b6fd4] hover:text-white transition-colors">
+                           class="inline-flex items-center gap-1.5 rounded-lg bg-primary-50 px-3 py-1.5 text-xs font-semibold text-primary-600 hover:bg-primary-600 hover:text-white transition-colors">
                             <x-icon name="pencil" class="w-3.5 h-3.5" />
                             {{ __('Edit') }}
                         </a>
