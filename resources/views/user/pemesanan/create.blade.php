@@ -95,6 +95,119 @@
                 </div>
                 @endif
 
+                {{-- Tujuan Perjalanan --}}
+                <div class="rounded-2xl border border-[#e5e9f2] bg-white p-5 shadow-sm">
+                    <h3 class="text-sm font-semibold text-[#18213a] mb-4">{{ __('Data Tambahan') }}</h3>
+                    <div class="space-y-4">
+                        <x-textarea name="alamat" label="{{ __('Alamat') }}"
+                            placeholder="{{ __('Alamat lengkap domisili Anda saat ini') }}"
+                            rows="2" required>{{ old('alamat') }}</x-textarea>
+
+                        <div class="grid gap-4 sm:grid-cols-2">
+                            <x-input name="tujuan_sewa" label="{{ __('Tujuan Sewa') }}"
+                                placeholder="{{ __('Mis. liburan, perjalanan dinas') }}"
+                                :value="old('tujuan_sewa')" required />
+                            <x-input name="kota_tujuan" label="{{ __('Kota Tujuan') }}"
+                                placeholder="{{ __('Mis. Bandung') }}"
+                                :value="old('kota_tujuan')" required />
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Media Sosial --}}
+                <div class="rounded-2xl border border-[#e5e9f2] bg-white p-5 shadow-sm">
+                    <h3 class="text-sm font-semibold text-[#18213a] mb-1">{{ __('Akun Media Sosial') }}</h3>
+                    <p class="text-xs text-[#7a8499] mb-4">
+                        {{ __('Isi minimal salah satu. Lampirkan screenshot profil saat konfirmasi via WhatsApp.') }}
+                    </p>
+                    <div class="grid gap-4 sm:grid-cols-2">
+                        <x-input name="instagram" label="{{ __('Instagram') }}"
+                            placeholder="@username" :value="old('instagram')" />
+                        <x-input name="tiktok" label="{{ __('Tiktok') }}"
+                            placeholder="@username" :value="old('tiktok')" />
+                    </div>
+                </div>
+
+                {{-- Status Pekerjaan / Pendidikan --}}
+                <div class="rounded-2xl border border-[#e5e9f2] bg-white p-5 shadow-sm">
+                    <h3 class="text-sm font-semibold text-[#18213a] mb-3">{{ __('Status') }}</h3>
+                    <div class="grid gap-3 sm:grid-cols-2">
+                        <label class="flex cursor-pointer items-start gap-3 rounded-xl border border-[#e5e9f2]
+                                      p-4 hover:bg-[#f4f6fb] transition-colors"
+                               :class="statusPekerjaan === 'bekerja' ? 'border-primary-600 bg-primary-50' : ''">
+                            <input type="radio" name="status_pekerjaan" value="bekerja"
+                                   x-model="statusPekerjaan"
+                                   class="mt-0.5 h-4 w-4 border-[#e5e9f2] text-primary-600 focus:ring-primary-600"
+                                   required>
+                            <span class="text-sm font-medium text-[#18213a]">{{ __('Sudah Bekerja') }}</span>
+                        </label>
+                        <label class="flex cursor-pointer items-start gap-3 rounded-xl border border-[#e5e9f2]
+                                      p-4 hover:bg-[#f4f6fb] transition-colors"
+                               :class="statusPekerjaan === 'mahasiswa' ? 'border-primary-600 bg-primary-50' : ''">
+                            <input type="radio" name="status_pekerjaan" value="mahasiswa"
+                                   x-model="statusPekerjaan"
+                                   class="mt-0.5 h-4 w-4 border-[#e5e9f2] text-primary-600 focus:ring-primary-600"
+                                   required>
+                            <span class="text-sm font-medium text-[#18213a]">{{ __('Mahasiswa') }}</span>
+                        </label>
+                    </div>
+
+                    <div class="mt-4" x-show="statusPekerjaan === 'bekerja'" x-cloak>
+                        <x-input name="tempat_kerja" label="{{ __('Kerja Dimana?') }}"
+                            placeholder="{{ __('Nama perusahaan/instansi') }}"
+                            :value="old('tempat_kerja')" />
+                        <p class="mt-1 text-xs text-[#7a8499]">
+                            {{ __('Lampirkan foto ID Card / Kartu Nama saat konfirmasi via WhatsApp.') }}
+                        </p>
+                    </div>
+                    <div class="mt-4" x-show="statusPekerjaan === 'mahasiswa'" x-cloak>
+                        <x-input name="kampus" label="{{ __('Kuliah Dimana?') }}"
+                            placeholder="{{ __('Nama kampus') }}"
+                            :value="old('kampus')" />
+                        <p class="mt-1 text-xs text-[#7a8499]">
+                            {{ __('Lampirkan foto KTM / KRS aktif saat konfirmasi via WhatsApp.') }}
+                        </p>
+                    </div>
+                </div>
+
+                {{-- Info Tambahan --}}
+                <div class="rounded-2xl border border-[#e5e9f2] bg-white p-5 shadow-sm">
+                    <h3 class="text-sm font-semibold text-[#18213a] mb-4">{{ __('Info Tambahan') }}</h3>
+                    <div class="space-y-4">
+                        <x-input name="sumber_info" label="{{ __('Tau Yoza Rent Car Darimana?') }}"
+                            placeholder="{{ __('Mis. Instagram, teman, Google') }}"
+                            :value="old('sumber_info')" required />
+                        <x-input name="kontak_darurat" label="{{ __('Nomor WA Kontak Darurat') }}"
+                            type="tel" placeholder="08xxxxxxxxxx"
+                            :value="old('kontak_darurat')" required />
+
+                        {{-- Share Lokasi Alamat Rumah --}}
+                        <div>
+                            <x-input name="share_lokasi" id="share_lokasi" label="{{ __('Share Lokasi Alamat Rumah') }}"
+                                type="url" placeholder="https://maps.app.goo.gl/..."
+                                helper="{{ __('Klik tombol di bawah untuk mengisi otomatis dari lokasi Anda saat ini, atau buka Google Maps dan bagikan link-nya secara manual.') }}"
+                                x-model="shareLokasi"
+                                :value="old('share_lokasi')" required />
+
+                            <button type="button"
+                                @click="getCurrentLocation()"
+                                :disabled="loadingLokasi"
+                                class="mt-2 inline-flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg border border-[#e5e9f2]
+                                       text-[#18213a] hover:bg-[#f4f6fb] disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                                <x-icon name="map-pin" class="w-4 h-4" x-show="!loadingLokasi" />
+                                <svg x-show="loadingLokasi" class="w-4 h-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                                </svg>
+                                <span x-text="loadingLokasi ? '{{ __('Mengambil lokasi...') }}' : '{{ __('Gunakan Lokasi Saat Ini') }}'"></span>
+                            </button>
+
+                            <p x-show="errorLokasi" x-text="errorLokasi" x-cloak
+                               class="mt-1 text-xs text-red-600"></p>
+                        </div>
+                    </div>
+                </div>
+
                 {{-- Catatan --}}
                 <div class="rounded-2xl border border-[#e5e9f2] bg-white p-5 shadow-sm">
                     <x-textarea name="catatan" label="{{ __('Catatan (Opsional)') }}"
@@ -156,6 +269,10 @@ function pemesananForm(hargaPerHari, biayaSupirPerHari) {
         tanggalMulai: '{{ old('tanggal_mulai') }}',
         tanggalSelesai: '{{ old('tanggal_selesai') }}',
         opsiSupir: {{ old('opsi_supir') ? 'true' : 'false' }},
+        statusPekerjaan: '{{ old('status_pekerjaan') }}',
+        shareLokasi: '{{ old('share_lokasi') }}',
+        loadingLokasi: false,
+        errorLokasi: '',
         hargaPerHari, biayaSupirPerHari,
         durasi: 0, biayaSewa: 0, biayaSupirTotal: 0, total: 0,
 
@@ -171,6 +288,46 @@ function pemesananForm(hargaPerHari, biayaSupirPerHari) {
 
         formatRp(n) {
             return n.toLocaleString('id-ID');
+        },
+
+        getCurrentLocation() {
+            if (!navigator.geolocation) {
+                this.errorLokasi = '{{ __('Browser Anda tidak mendukung geolokasi') }}';
+                return;
+            }
+
+            this.loadingLokasi = true;
+            this.errorLokasi = '';
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    this.shareLokasi = `https://maps.google.com/?q=${lat},${lng}`;
+                    this.loadingLokasi = false;
+                },
+                (err) => {
+                    this.loadingLokasi = false;
+                    switch (err.code) {
+                        case err.PERMISSION_DENIED:
+                            this.errorLokasi = '{{ __('Izin lokasi ditolak. Mohon aktifkan izin lokasi di browser.') }}';
+                            break;
+                        case err.POSITION_UNAVAILABLE:
+                            this.errorLokasi = '{{ __('Lokasi tidak dapat ditemukan.') }}';
+                            break;
+                        case err.TIMEOUT:
+                            this.errorLokasi = '{{ __('Waktu permintaan lokasi habis.') }}';
+                            break;
+                        default:
+                            this.errorLokasi = '{{ __('Terjadi kesalahan saat mengambil lokasi.') }}';
+                    }
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
         }
     }
 }

@@ -128,6 +128,16 @@ final class PaymentService
             ? ' pukul '.substr($pemesanan->waktu_mulai, 0, 5)
             : '';
 
+        $statusPekerjaanLabel = match ($pemesanan->status_pekerjaan) {
+            'bekerja' => 'Sudah Bekerja',
+            'mahasiswa' => 'Mahasiswa',
+            default => $pemesanan->status_pekerjaan ?? '-',
+        };
+
+        $tempatKerjaKampus = $pemesanan->status_pekerjaan === 'bekerja'
+            ? ($pemesanan->tempat_kerja ?? '-')
+            : ($pemesanan->kampus ?? '-');
+
         $pesan = strtr($template, [
             '{id}' => $pemesanan->id,
             '{nama}' => $pemesanan->user->name,
@@ -140,6 +150,19 @@ final class PaymentService
             '{bank}' => $config['bank'] ?? '',
             '{rekening}' => $config['rekening'] ?? '',
             '{atas_nama}' => $config['atas_nama'] ?? '',
+
+            // ── Data tambahan pemesanan ─────────────────────────────────
+            '{no_hp}' => $pemesanan->user->no_hp ?? '-',
+            '{alamat}' => $pemesanan->alamat ?? '-',
+            '{tujuan_sewa}' => $pemesanan->tujuan_sewa ?? '-',
+            '{kota_tujuan}' => $pemesanan->kota_tujuan ?? '-',
+            '{instagram}' => $pemesanan->instagram ?? '-',
+            '{tiktok}' => $pemesanan->tiktok ?? '-',
+            '{status_pekerjaan}' => $statusPekerjaanLabel,
+            '{tempat_kerja_kampus}' => $tempatKerjaKampus,
+            '{sumber_info}' => $pemesanan->sumber_info ?? '-',
+            '{kontak_darurat}' => $pemesanan->kontak_darurat ?? '-',
+            '{share_lokasi}' => $pemesanan->share_lokasi ?? '-',
         ]);
 
         return 'https://wa.me/'.config('payment.wa_number')

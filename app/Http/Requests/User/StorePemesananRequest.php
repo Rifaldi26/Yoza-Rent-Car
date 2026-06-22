@@ -22,7 +22,7 @@ final class StorePemesananRequest extends FormRequest
     public function rules(): array
     {
         $is12Jam = $this->input('tipe_sewa') === '12_jam';
-    
+
         return [
             'mobil_id'      => ['required', 'integer', 'exists:mobils,id'],
             'tipe_sewa'     => ['nullable', 'in:harian,12_jam'],
@@ -35,9 +35,33 @@ final class StorePemesananRequest extends FormRequest
             ],
             'opsi_supir'    => ['nullable', 'boolean'],
             'catatan'       => ['nullable', 'string', 'max:500'],
+
+            // ── Data tambahan (wajib) ──────────────────────────────
+            'alamat'        => ['required', 'string', 'max:500'],
+            'tujuan_sewa'   => ['required', 'string', 'max:255'],
+            'kota_tujuan'   => ['required', 'string', 'max:255'],
+
+            // Minimal salah satu media sosial wajib diisi. Screenshot-nya
+            // TIDAK diupload di web — dikirim manual lewat WhatsApp saat
+            // user klik "Konfirmasi via WA".
+            'instagram'     => ['nullable', 'required_without:tiktok', 'string', 'max:255'],
+            'tiktok'        => ['nullable', 'required_without:instagram', 'string', 'max:255'],
+
+            // Saling eksklusif: pilih salah satu, lalu isi field turunannya.
+            // Lampiran (foto ID card / KTM/KRS) juga dikirim via WhatsApp,
+            // bukan upload di web.
+            'status_pekerjaan' => ['required', 'in:bekerja,mahasiswa'],
+            'tempat_kerja'  => ['required_if:status_pekerjaan,bekerja', 'nullable', 'string', 'max:255'],
+            'kampus'        => ['required_if:status_pekerjaan,mahasiswa', 'nullable', 'string', 'max:255'],
+
+            'sumber_info'   => ['required', 'string', 'max:255'],
+            'kontak_darurat' => ['required', 'string', 'max:30'],
+
+            // Link share lokasi Google Maps (mis. https://maps.app.goo.gl/...)
+            'share_lokasi'  => ['required', 'string', 'max:500', 'starts_with:http://,https://'],
         ];
     }
-    
+
     public function messages(): array
     {
         return [
@@ -52,15 +76,39 @@ final class StorePemesananRequest extends FormRequest
             'tanggal_selesai.after'       => 'Tanggal selesai harus setelah tanggal mulai.',
             'tanggal_selesai.same'        => 'Sewa 12 jam harus di tanggal yang sama.',
             'catatan.max'                 => 'Catatan maksimal 500 karakter.',
+
+            'alamat.required'             => 'Alamat wajib diisi.',
+            'tujuan_sewa.required'        => 'Tujuan sewa wajib diisi.',
+            'kota_tujuan.required'        => 'Kota tujuan wajib diisi.',
+            'instagram.required_without'  => 'Isi salah satu: Instagram atau Tiktok.',
+            'tiktok.required_without'     => 'Isi salah satu: Instagram atau Tiktok.',
+            'status_pekerjaan.required'   => 'Pilih status: sudah bekerja atau mahasiswa.',
+            'status_pekerjaan.in'         => 'Status tidak valid.',
+            'tempat_kerja.required_if'    => 'Tempat kerja wajib diisi.',
+            'kampus.required_if'          => 'Nama kampus wajib diisi.',
+            'sumber_info.required'        => 'Mohon isi tahu Yoza Rent Car dari mana.',
+            'kontak_darurat.required'     => 'Nomor WA kontak darurat wajib diisi.',
+            'share_lokasi.required'       => 'Share lokasi alamat rumah wajib diisi.',
+            'share_lokasi.starts_with'    => 'Mohon kirim link share lokasi Google Maps yang valid.',
         ];
     }
-    
+
     public function dataValid(): array
     {
         return array_merge($this->validated(), [
             'tipe_sewa'   => $this->input('tipe_sewa', 'harian'),
             'waktu_mulai' => $this->input('waktu_mulai'),
             'opsi_supir'  => $this->boolean('opsi_supir'),
+
+            // Pastikan hanya field yang relevan dengan status terpilih yang
+            // tersimpan — mencegah data "bocor" antar status kalau user
+            // sempat ganti pilihan sebelum submit.
+            'tempat_kerja' => $this->input('status_pekerjaan') === 'bekerja'
+                ? $this->input('tempat_kerja')
+                : null,
+            'kampus' => $this->input('status_pekerjaan') === 'mahasiswa'
+                ? $this->input('kampus')
+                : null,
         ]);
     }
 }

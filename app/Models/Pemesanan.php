@@ -26,6 +26,17 @@ class Pemesanan extends Model
         'total_harga',
         'status',
         'catatan',
+        'alamat',
+        'tujuan_sewa',
+        'kota_tujuan',
+        'instagram',
+        'tiktok',
+        'status_pekerjaan',
+        'tempat_kerja',
+        'kampus',
+        'sumber_info',
+        'kontak_darurat',
+        'share_lokasi',
     ];
 
     protected $casts = [
@@ -61,6 +72,21 @@ class Pemesanan extends Model
 
         // Fallback: durasi 0 berarti tanggal mulai == tanggal selesai
         return $this->durasi() === 0;
+    }
+
+    /**
+     * True bila user mengisi statusnya sebagai "sudah bekerja" saat
+     * memesan (lihat juga isMahasiswa() — keduanya saling eksklusif).
+     */
+    public function isBekerja(): bool
+    {
+        return $this->status_pekerjaan === 'bekerja';
+    }
+
+    /** True bila user mengisi statusnya sebagai "mahasiswa" saat memesan. */
+    public function isMahasiswa(): bool
+    {
+        return $this->status_pekerjaan === 'mahasiswa';
     }
 
     // ── Delegasi ke Enum (hilangkan duplikasi) ────────────

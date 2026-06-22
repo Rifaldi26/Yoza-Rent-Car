@@ -109,6 +109,17 @@ final class PemesananService
             'total_harga'     => $totalHarga,
             'status'          => StatusPemesanan::Pending->value,
             'catatan'         => $data['catatan'] ?? null,
+            'alamat'          => $data['alamat'],
+            'tujuan_sewa'     => $data['tujuan_sewa'],
+            'kota_tujuan'     => $data['kota_tujuan'],
+            'instagram'       => $data['instagram'] ?? null,
+            'tiktok'          => $data['tiktok'] ?? null,
+            'status_pekerjaan'=> $data['status_pekerjaan'],
+            'tempat_kerja'    => $data['tempat_kerja'] ?? null,
+            'kampus'          => $data['kampus'] ?? null,
+            'sumber_info'     => $data['sumber_info'],
+            'kontak_darurat'  => $data['kontak_darurat'],
+            'share_lokasi'    => $data['share_lokasi'],
         ]);
 
         $this->notifikasiService->kirimKePengguna(

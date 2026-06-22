@@ -62,6 +62,35 @@
                 </div>
             </div>
 
+            <div class="mt-4 rounded-lg bg-gray-50 p-3 space-y-2 text-sm">
+                <p class="text-xs font-medium text-gray-500">{{ __('Data Tambahan') }}</p>
+                <p class="text-gray-700"><span class="text-gray-500">{{ __('Alamat') }}:</span> {{ $pemesanan->alamat }}</p>
+                <p class="text-gray-700"><span class="text-gray-500">{{ __('Tujuan Sewa') }}:</span> {{ $pemesanan->tujuan_sewa }} &middot; {{ $pemesanan->kota_tujuan }}</p>
+                <p class="text-gray-700">
+                    <span class="text-gray-500">{{ __('Akun Media Sosial') }}:</span>
+                    @if($pemesanan->instagram) IG {{ $pemesanan->instagram }} @endif
+                    @if($pemesanan->instagram && $pemesanan->tiktok) &middot; @endif
+                    @if($pemesanan->tiktok) Tiktok {{ $pemesanan->tiktok }} @endif
+                </p>
+                <p class="text-gray-700">
+                    <span class="text-gray-500">{{ __('Status') }}:</span>
+                    @if($pemesanan->isBekerja())
+                        {{ __('Sudah Bekerja') }} &middot; {{ $pemesanan->tempat_kerja }}
+                    @elseif($pemesanan->isMahasiswa())
+                        {{ __('Mahasiswa') }} &middot; {{ $pemesanan->kampus }}
+                    @endif
+                </p>
+                <p class="text-gray-700"><span class="text-gray-500">{{ __('Tau Yoza Rent Car Darimana?') }}:</span> {{ $pemesanan->sumber_info }}</p>
+                <p class="text-gray-700"><span class="text-gray-500">{{ __('Nomor WA Kontak Darurat') }}:</span> {{ $pemesanan->kontak_darurat }}</p>
+                @if($pemesanan->share_lokasi)
+                <p class="text-gray-700">
+                    <span class="text-gray-500">{{ __('Share Lokasi Alamat Rumah') }}:</span>
+                    <a href="{{ $pemesanan->share_lokasi }}" target="_blank" rel="noopener"
+                       class="text-primary-600 hover:underline break-all">{{ $pemesanan->share_lokasi }}</a>
+                </p>
+                @endif
+            </div>
+
             @if($pemesanan->catatan)
                 <div class="mt-4 rounded-lg bg-gray-50 p-3">
                     <p class="text-xs font-medium text-gray-500">{{ __('Catatan pelanggan') }}</p>

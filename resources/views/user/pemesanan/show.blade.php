@@ -213,6 +213,58 @@
                     </div>
                 </div>
 
+                {{-- Data Tambahan --}}
+                <div class="flex items-start gap-3 px-5 py-4">
+                    <div class="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-primary-50">
+                        <x-icon name="location" class="h-4 w-4 text-primary-600" />
+                    </div>
+                    <div class="flex-1 space-y-3">
+                        <div>
+                            <p class="text-xs font-medium uppercase tracking-wider text-[#7a8499]">{{ __('Alamat') }}</p>
+                            <p class="mt-1 text-sm text-[#18213a]">{{ $pemesanan->alamat }}</p>
+                        </div>
+                        <div>
+                            <p class="text-xs font-medium uppercase tracking-wider text-[#7a8499]">{{ __('Tujuan Sewa') }}</p>
+                            <p class="mt-1 text-sm text-[#18213a]">{{ $pemesanan->tujuan_sewa }} &middot; {{ $pemesanan->kota_tujuan }}</p>
+                        </div>
+                        <div>
+                            <p class="text-xs font-medium uppercase tracking-wider text-[#7a8499]">{{ __('Akun Media Sosial') }}</p>
+                            <p class="mt-1 text-sm text-[#18213a]">
+                                @if($pemesanan->instagram) Instagram: {{ $pemesanan->instagram }} @endif
+                                @if($pemesanan->instagram && $pemesanan->tiktok) &middot; @endif
+                                @if($pemesanan->tiktok) Tiktok: {{ $pemesanan->tiktok }} @endif
+                            </p>
+                        </div>
+                        <div>
+                            <p class="text-xs font-medium uppercase tracking-wider text-[#7a8499]">{{ __('Status') }}</p>
+                            <p class="mt-1 text-sm text-[#18213a]">
+                                @if($pemesanan->isBekerja())
+                                    {{ __('Sudah Bekerja') }} &middot; {{ $pemesanan->tempat_kerja }}
+                                @elseif($pemesanan->isMahasiswa())
+                                    {{ __('Mahasiswa') }} &middot; {{ $pemesanan->kampus }}
+                                @endif
+                            </p>
+                        </div>
+                        <div>
+                            <p class="text-xs font-medium uppercase tracking-wider text-[#7a8499]">{{ __('Tau Yoza Rent Car Darimana?') }}</p>
+                            <p class="mt-1 text-sm text-[#18213a]">{{ $pemesanan->sumber_info }}</p>
+                        </div>
+                        <div>
+                            <p class="text-xs font-medium uppercase tracking-wider text-[#7a8499]">{{ __('Nomor WA Kontak Darurat') }}</p>
+                            <p class="mt-1 text-sm text-[#18213a]">{{ $pemesanan->kontak_darurat }}</p>
+                        </div>
+                        @if($pemesanan->share_lokasi)
+                        <div>
+                            <p class="text-xs font-medium uppercase tracking-wider text-[#7a8499]">{{ __('Share Lokasi Alamat Rumah') }}</p>
+                            <a href="{{ $pemesanan->share_lokasi }}" target="_blank" rel="noopener"
+                               class="mt-1 inline-flex items-center gap-1 text-sm text-primary-600 hover:underline break-all">
+                                {{ $pemesanan->share_lokasi }}
+                            </a>
+                        </div>
+                        @endif
+                    </div>
+                </div>
+
                 {{-- Catatan --}}
                 @if($pemesanan->catatan)
                 <div class="flex items-start gap-3 px-5 py-4">
