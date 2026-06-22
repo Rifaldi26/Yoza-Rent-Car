@@ -521,6 +521,8 @@
     "Link verifikasi baru telah dikirim ke email kamu.": "A new verification link has been sent to your email.",
     "Cek folder Spam jika tidak menemukan email dalam 2 menit.": "Check the Spam folder if you don't see the email within 2 minutes.",
     "Kirim Ulang Email Verifikasi": "Resend Verification Email",
+    "Silakan verifikasi email Anda untuk mendapatkan notifikasi lengkap.": "Please verify your email to receive complete notifications.",
+    "Verifikasi Sekarang": "Verify Now",
     "Keluar dari Akun Ini": "Log Out of This Account",
     "Konfirmasi Kata Sandi": "Confirm Password",
     "Ini adalah area aman. Konfirmasi kata sandi untuk melanjutkan.": "This is a secure area. Please confirm your password to continue.",
@@ -575,5 +577,8 @@
     "Selesaikan pembayaran segera agar pemesanan Anda tidak otomatis kadaluarsa.": "Complete your payment promptly to prevent the booking from expiring automatically.",
     "Sewa 12 Jam": "12-Hour Rental",
     "Terima kasih telah mempercayai Yoza Rent Car. Sampai jumpa lagi!": "Thank you for trusting Yoza Rent Car. See you again!",
-    "Verifikasi\nAdmin": "Admin\nVerification"
+    "Verifikasi\nAdmin": "Admin\nVerification",
+    "pukul": "at",
+    "ulasan": "review(s)",
+    "dari 5 bintang": "out of 5 stars"
 }
