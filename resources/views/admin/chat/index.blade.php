@@ -16,7 +16,7 @@
                 <div class="relative">
                     <x-icon name="search"
                         class="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                    <input x-model="searchQuery" placeholder="{{ __('Cari pelanggan...') }}" class="h-9 w-full rounded-lg border border-gray-200 bg-gray-50 pl-8 pr-3 text-sm outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-200">
+                    <input x-model="searchQuery" placeholder="{{ __('Cari pelanggan...') }}" class="h-9 w-full rounded-lg border border-gray-200 bg-gray-50 pl-8 pr-3 text-sm outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-200">
                 </div>
             </div>
 
@@ -25,13 +25,13 @@
                 <li x-show="'{{ strtolower($user->name) }}'.includes(searchQuery.toLowerCase())">
                     <button
                         @click="selectUser({{ $user->id }}, '{{ $user->name }}')"
-                        :class="activeUserId === {{ $user->id }} ? 'bg-blue-50' : 'hover:bg-gray-50'"
+                        :class="activeUserId === {{ $user->id }} ? 'bg-primary-50' : 'hover:bg-gray-50'"
                         class="flex w-full items-center gap-3 p-3 text-left transition-colors">
                         <div class="relative flex-shrink-0">
                             <x-avatar :name="$user->name" size="sm" />
                             @if($user->unread > 0)
                                 <span class="absolute -right-1 -top-1 grid h-4 min-w-4 place-items-center
-                                             rounded-full bg-blue-600 px-0.5 text-[10px] font-bold text-white">
+                                             rounded-full bg-primary-600 px-0.5 text-[10px] font-bold text-white">
                                     {{ $user->unread }}
                                 </span>
                             @endif
@@ -104,7 +104,7 @@
                     <div :class="msg.pengirim_id === {{ auth()->id() }} ? 'justify-end' : 'justify-start'"
                          class="flex">
                         <div :class="msg.pengirim_id === {{ auth()->id() }}
-                                         ? 'rounded-br-sm bg-blue-600 text-white'
+                                         ? 'rounded-br-sm bg-primary-600 text-white'
                                          : 'rounded-bl-sm border border-gray-200 bg-white text-gray-900'"
                              class="max-w-[78%] rounded-2xl px-3 py-2 text-sm shadow-sm">
 
@@ -116,7 +116,7 @@
                                         <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125"/></svg>
                                         {{ __('Lampiran Pemesanan') }}
                                     </div>
-                                    <p class="mt-1 font-mono text-xs text-blue-600"
+                                    <p class="mt-1 font-mono text-xs text-primary-600"
                                        x-text="'#' + msg.pemesanan.id"></p>
                                     <p class="font-semibold text-gray-900"
                                        x-text="msg.pemesanan.nama_mobil"></p>
@@ -146,7 +146,7 @@
                 {{-- Lampirkan Pemesanan --}}
                 <div class="relative" x-data="{ showList: false }">
                     <button @click="showList = !showList"
-                            :class="selectedPemesananId ? 'border-blue-400 text-blue-600 bg-blue-50' : 'border-gray-200 text-gray-500 hover:bg-gray-100'"
+                            :class="selectedPemesananId ? 'border-primary-400 text-primary-600 bg-primary-50' : 'border-gray-200 text-gray-500 hover:bg-gray-100'"
                             class="grid h-9 w-9 place-items-center rounded-lg border transition-colors">
                         <x-icon name="paper-clip" class="w-4 h-4" />
                     </button>
@@ -193,12 +193,12 @@
                        @keydown.enter.prevent="kirim()"
                        placeholder="{{ __('Tulis pesan...') }}"
                        class="h-9 flex-1 rounded-lg border border-gray-200 bg-gray-50 px-3 text-sm
-                              outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-200 transition-colors">
+                              outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-200 transition-colors">
 
                 <button @click="kirim()"
                         :disabled="!isiPesan.trim()"
-                        class="inline-flex h-9 items-center gap-1.5 rounded-lg bg-blue-600 px-3
-                               text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-40
+                        class="inline-flex h-9 items-center gap-1.5 rounded-lg bg-primary-600 px-3
+                               text-sm font-medium text-white hover:bg-primary-700 disabled:opacity-40
                                disabled:cursor-not-allowed transition-colors">
                     <x-icon name="send" class="w-4 h-4" />
                     {{ __('Kirim') }}

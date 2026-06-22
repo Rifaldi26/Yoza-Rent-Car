@@ -82,8 +82,8 @@
 
         <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
             <button type="submit"
-                    class="flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600
-                           py-2.5 text-sm font-medium text-white hover:bg-blue-700 transition-colors">
+                    class="flex w-full items-center justify-center gap-2 rounded-lg bg-primary-600
+                           py-2.5 text-sm font-medium text-white hover:bg-primary-700 transition-colors">
                 <x-icon name="plus" class="w-4 h-4" />
                 {{ __('Simpan Mobil') }}
             </button>

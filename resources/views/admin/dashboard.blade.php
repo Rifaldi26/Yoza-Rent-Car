@@ -95,7 +95,7 @@
         <div class="mb-4 flex items-center justify-between">
             <h2 class="text-sm font-semibold text-gray-900">{{ __('Pemesanan Terbaru') }}</h2>
             <a href="{{ route('admin.pemesanan.index') }}"
-               class="text-xs font-medium text-blue-600 hover:underline">
+               class="text-xs font-medium text-primary-600 hover:underline">
                 {{ __('Lihat semua') }}
             </a>
         </div>
@@ -193,7 +193,7 @@
         </div>
 
         <a href="{{ route('admin.mobil.index') }}"
-           class="mt-5 flex items-center gap-1 text-xs font-medium text-blue-600 hover:underline">
+           class="mt-5 flex items-center gap-1 text-xs font-medium text-primary-600 hover:underline">
             {{ __('Kelola armada') }}
             <x-icon name="chevron-right" class="w-3 h-3" />
         </a>

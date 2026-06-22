@@ -23,7 +23,7 @@ $initials = collect(explode(' ', $name))
         {{ $attributes->merge(['class' => "rounded-full object-cover $sizes"]) }}
     >
 @else
-    <span {{ $attributes->merge(['class' => "inline-flex items-center justify-center rounded-full bg-blue-600 font-semibold text-white flex-shrink-0 $sizes"]) }}>
+    <span {{ $attributes->merge(['class' => "inline-flex items-center justify-center rounded-full bg-primary-600 font-semibold text-white flex-shrink-0 $sizes"]) }}>
         {{ $initials }}
     </span>
 @endif

@@ -21,8 +21,8 @@
     <x-input name="tanggal_sampai" label="{{ __('Sampai Tanggal') }}" type="date"
         :value="request('tanggal_sampai', now()->format('Y-m-d'))" />
     <button type="submit"
-            class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white
-                   hover:bg-blue-700 transition-colors">
+            class="rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white
+                   hover:bg-primary-700 transition-colors">
         {{ __('Filter') }}
     </button>
 </form>

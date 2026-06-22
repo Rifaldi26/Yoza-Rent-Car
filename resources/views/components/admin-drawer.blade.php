@@ -40,7 +40,7 @@ $groups = [
 {{-- Header Drawer --}}
 <div class="flex items-center justify-between border-b border-gray-200 p-4">
     <div class="flex items-center gap-2.5">
-        <div class="grid h-9 w-9 place-items-center rounded-lg bg-blue-600 text-white">
+        <div class="grid h-9 w-9 place-items-center rounded-lg bg-primary-600 text-white">
             <x-icon name="car" class="w-5 h-5" />
         </div>
         <div class="leading-tight">
@@ -71,8 +71,8 @@ $groups = [
                        class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium
                               transition-colors
                               {{ $item['active']
-                                  ? 'bg-blue-600 text-white'
-                                  : 'text-gray-700 hover:bg-blue-50 hover:text-blue-600' }}">
+                                  ? 'bg-primary-600 text-white'
+                                  : 'text-gray-700 hover:bg-primary-50 hover:text-primary-600' }}">
                         <x-icon :name="$item['icon']" class="w-4 h-4" />
                         {{ $item['label'] }}
                     </a>

@@ -26,7 +26,7 @@ $active = request('status', '');
         <a href="{{ route('admin.pemesanan.index', array_filter(['status' => $value])) }}"
            class="whitespace-nowrap rounded-full border px-3 py-1 text-xs font-medium transition-colors
                   {{ $active === $value
-                      ? 'border-blue-600 bg-blue-600 text-white'
+                      ? 'border-primary-600 bg-primary-600 text-white'
                       : 'border-gray-200 bg-white text-gray-500 hover:bg-gray-50' }}">
             {{ $label }}
         </a>

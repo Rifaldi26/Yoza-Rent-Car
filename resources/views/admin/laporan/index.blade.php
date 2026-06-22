@@ -8,7 +8,7 @@
         <form method="GET" class="flex items-center gap-2">
             <select name="tahun" onchange="this.form.submit()"
                     class="h-9 rounded-lg border border-gray-200 bg-white px-3 text-sm
-                           focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-200">
+                           focus:border-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-200">
                 @foreach(range(now()->year, now()->year - 4) as $y)
                     <option value="{{ $y }}" @selected($y == $tahun)>{{ $y }}</option>
                 @endforeach

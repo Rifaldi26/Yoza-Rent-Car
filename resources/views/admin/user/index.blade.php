@@ -11,7 +11,7 @@
     <div class="relative w-64">
         <x-icon name="search"
             class="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-        <input x-model="searchQuery" placeholder="{{ __('Cari pelanggan...') }}" class="h-9 w-full rounded-lg border border-gray-200 bg-gray-50 pl-8 pr-3 text-sm outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-200">
+        <input x-model="searchQuery" placeholder="{{ __('Cari pelanggan...') }}" class="h-9 w-full rounded-lg border border-gray-200 bg-gray-50 pl-8 pr-3 text-sm outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-200">
     </div>
 </div>
 

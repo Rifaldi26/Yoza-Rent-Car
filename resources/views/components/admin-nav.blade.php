@@ -42,7 +42,7 @@ $groups = [
            class="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium
                   transition-colors
                   {{ $group['active']
-                      ? 'bg-blue-50 text-blue-600'
+                      ? 'bg-primary-50 text-primary-600'
                       : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900' }}">
             <x-icon :name="$group['icon']" class="w-4 h-4" />
             {{ $group['label'] }}
@@ -52,7 +52,7 @@ $groups = [
             <button class="inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-sm font-medium
                            transition-colors
                            {{ $group['active']
-                               ? 'bg-blue-50 text-blue-600'
+                               ? 'bg-primary-50 text-primary-600'
                                : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900' }}">
                 {{ $group['label'] }}
                 <x-icon name="chevron-down"
@@ -69,8 +69,8 @@ $groups = [
                     <a href="{{ route($item['route']) }}"
                        class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm transition-colors
                               {{ $itemActive
-                                  ? 'bg-blue-600 text-white'
-                                  : 'text-gray-700 hover:bg-blue-50 hover:text-blue-600' }}">
+                                  ? 'bg-primary-600 text-white'
+                                  : 'text-gray-700 hover:bg-primary-50 hover:text-primary-600' }}">
                         <x-icon :name="$item['icon']" class="w-4 h-4" />
                         {{ $item['label'] }}
                     </a>

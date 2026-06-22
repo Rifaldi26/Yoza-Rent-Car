@@ -132,7 +132,7 @@
                         <div class="min-w-0 flex-1">
                             <div class="flex items-center gap-2 flex-wrap">
                                 <a href="{{ route('admin.pemesanan.show', $pemesanan) }}"
-                                   class="text-sm font-semibold text-gray-900 hover:text-blue-600 transition-colors">
+                                   class="text-sm font-semibold text-gray-900 hover:text-primary-600 transition-colors">
                                     #{{ $pemesanan->id }} — {{ $pemesanan->mobil->nama }}
                                 </a>
                                 <x-status-badge :status="$pemesanan->status">
@@ -147,9 +147,9 @@
                                     @if($pemesanan->adalah12Jam())
                                         {{ $pemesanan->tanggal_mulai->format('d M Y') }}
                                         @if($pemesanan->waktu_mulai)
-                                            · pukul {{ substr($pemesanan->waktu_mulai, 0, 5) }}
+                                            · {{ __('pukul') }} {{ substr($pemesanan->waktu_mulai, 0, 5) }}
                                         @endif
-                                        · <span class="font-medium text-gray-700">Sewa 12 Jam</span>
+                                        · <span class="font-medium text-gray-700">{{ __('Sewa 12 Jam') }}</span>
                                     @else
                                         {{ $pemesanan->tanggal_mulai->format('d M Y') }}
                                         &ndash;

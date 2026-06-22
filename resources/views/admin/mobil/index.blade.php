@@ -6,8 +6,8 @@
 <x-page-header title="{{ __('Armada Mobil') }}" description="{{ __('Daftar armada dan ketersediaan.') }}">
     <x-slot:actions>
         <a href="{{ route('admin.mobil.create') }}"
-           class="inline-flex items-center gap-1.5 rounded-lg bg-blue-600 px-3 py-1.5
-                  text-sm font-medium text-white hover:bg-blue-700 transition-colors">
+           class="inline-flex items-center gap-1.5 rounded-lg bg-primary-600 px-3 py-1.5
+                  text-sm font-medium text-white hover:bg-primary-700 transition-colors">
             <x-icon name="plus" class="w-4 h-4" />
             {{ __('Tambah') }}
         </a>
@@ -25,8 +25,8 @@
                  alt="{{ $mobil->nama }}"
                  class="h-40 w-full object-cover">
         @else
-            <div class="grid h-40 place-items-center bg-gradient-to-br from-blue-50 to-gray-100">
-                <x-icon name="car" class="w-16 h-16 text-blue-300" />
+            <div class="grid h-40 place-items-center bg-gradient-to-br from-primary-50 to-gray-100">
+                <x-icon name="car" class="w-16 h-16 text-primary-300" />
             </div>
         @endif
 
@@ -62,7 +62,7 @@
             <div class="mt-3 flex items-end justify-between border-t border-gray-100 pt-3">
                 <div>
                     <p class="text-xs text-gray-400">{{ __('/ hari') }}</p>
-                    <p class="text-base font-bold text-blue-600">
+                    <p class="text-base font-bold text-primary-600">
                         Rp {{ number_format($mobil->harga_per_hari, 0, ',', '.') }}
                     </p>
                 </div>
@@ -122,8 +122,8 @@
             description="{{ __('Tambah armada pertama Anda.') }}">
             <x-slot:action>
                 <a href="{{ route('admin.mobil.create') }}"
-                   class="inline-flex items-center gap-1.5 rounded-lg bg-blue-600 px-4 py-2
-                          text-sm font-medium text-white hover:bg-blue-700 transition-colors">
+                   class="inline-flex items-center gap-1.5 rounded-lg bg-primary-600 px-4 py-2
+                          text-sm font-medium text-white hover:bg-primary-700 transition-colors">
                     <x-icon name="plus" class="w-4 h-4" />
                     {{ __('Tambah Mobil') }}
                 </a>
