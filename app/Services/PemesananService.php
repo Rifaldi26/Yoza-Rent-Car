@@ -43,12 +43,14 @@ final class PemesananService
      *   - mobil_id        : int (wajib)
      *   - tanggal_mulai   : string date (wajib)
      *   - tanggal_selesai : string date (wajib)
-     *   - waktu_mulai     : string time HH:MM (opsional, untuk sewa 12 jam)
+     *   - waktu_mulai     : string time HH:MM (jam mulai sewa, untuk semua tipe sewa)
+     *   - waktu_selesai   : string time HH:MM (jam selesai sewa, untuk semua tipe sewa)
      *   - tipe_sewa       : 'harian' | '12_jam' (default: 'harian')
      *   - opsi_supir      : bool (default: false)
      *   - catatan         : string|null
      *
-     * @throws ValidationException bila mobil tidak tersedia atau ada konflik tanggal
+     * @throws ValidationException bila mobil tidak tersedia, user sudah punya
+     *         pemesanan aktif lain yang tumpang tindih, atau ada konflik tanggal
      */
     public function buat(array $data, int $userId): Pemesanan
     {
@@ -57,6 +59,14 @@ final class PemesananService
         if (! $mobil->tersedia()) {
             throw ValidationException::withMessages([
                 'mobil_id' => 'Mobil ini sedang tidak tersedia untuk dipesan.',
+            ]);
+        }
+
+        // Satu user tidak boleh memiliki lebih dari satu pemesanan aktif
+        // yang tumpang tindih waktunya — meskipun mobilnya berbeda.
+        if (Pemesanan::adaKonflikUser($userId, $data['tanggal_mulai'], $data['tanggal_selesai'])) {
+            throw ValidationException::withMessages([
+                'tanggal_mulai' => 'Anda sudah memiliki pemesanan aktif pada rentang tanggal tersebut. Selesaikan atau batalkan pemesanan tersebut sebelum membuat pemesanan baru.',
             ]);
         }
 
@@ -87,15 +97,14 @@ final class PemesananService
 
         $totalHarga = $hargaSewa + $biayaSupir;
 
-        // Normalisasi waktu_mulai ke format H:i:s — kolom database bertipe
-        // TIME, dan beberapa view (mis. admin/user/show.blade.php) memakai
-        // substr(...,0,5) yang mengasumsikan format ini konsisten.
-        // Tanpa normalisasi, input form 'H:i' (mis. '08:00') akan tersimpan
-        // tanpa detik dan inkonsisten dengan asumsi tersebut.
-        $waktuMulai = null;
-        if ($tipe === '12_jam' && ! empty($data['waktu_mulai'])) {
-            $waktuMulai = Carbon::createFromFormat('H:i', $data['waktu_mulai'])->format('H:i:s');
-        }
+        // Normalisasi jam mulai & jam selesai ke format H:i:s — kolom
+        // database bertipe TIME, dan beberapa view (mis.
+        // admin/user/show.blade.php) memakai substr(...,0,5) yang
+        // mengasumsikan format ini konsisten.
+        // Jam mulai & selesai kini diisi untuk SEMUA tipe sewa (harian
+        // maupun 12 jam), bukan hanya untuk 12_jam seperti sebelumnya.
+        $waktuMulai = $this->normalisasiWaktu($data['waktu_mulai'] ?? null);
+        $waktuSelesai = $this->normalisasiWaktu($data['waktu_selesai'] ?? null);
 
         $pemesanan = Pemesanan::create([
             'user_id'         => $userId,
@@ -103,6 +112,7 @@ final class PemesananService
             'tanggal_mulai'   => $data['tanggal_mulai'],
             'tanggal_selesai' => $data['tanggal_selesai'],
             'waktu_mulai'     => $waktuMulai,
+            'waktu_selesai'   => $waktuSelesai,
             'tipe_sewa'       => $tipe,
             'opsi_supir'      => $opsiSupir,
             'biaya_supir'     => $biayaSupir > 0 ? $biayaSupir : null,
@@ -303,6 +313,21 @@ final class PemesananService
     }
 
     // ── Hitung harga (untuk preview sebelum simpan) ───────────────────────
+
+    /**
+     * Normalisasi input jam dari form (format 'H:i', mis. '08:00') ke
+     * format kolom database TIME ('H:i:s'). Mengembalikan null bila
+     * kosong/tidak diisi — beberapa pemanggil (mis. test/seeder) tidak
+     * selalu mengirim jam.
+     */
+    private function normalisasiWaktu(?string $waktu): ?string
+    {
+        if (empty($waktu)) {
+            return null;
+        }
+
+        return Carbon::createFromFormat('H:i', $waktu)->format('H:i:s');
+    }
 
     /**
      * @param  string  $tipe  'harian' | '12_jam'

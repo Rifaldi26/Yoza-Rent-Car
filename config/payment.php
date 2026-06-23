@@ -52,7 +52,7 @@ return [
     |--------------------------------------------------------------------------
     | Placeholder umum:
     | {nama}, {id}, {mobil}, {tanggal_mulai}, {tanggal_selesai},
-    | {durasi}, {total}, {metode_label}, {detail_metode}
+    | {jam_mulai}, {jam_selesai}, {durasi}, {total}, {metode_label}, {detail_metode}
     |
     | Placeholder data tambahan pemesanan:
     | {no_hp}, {alamat}, {tujuan_sewa}, {kota_tujuan},
@@ -68,8 +68,8 @@ return [
             '2. NO HP : {no_hp}',
             '3. Alamat : {alamat}',
             '4. Lama Sewa : {durasi}',
-            '5. Mulai Tanggal : {tanggal_mulai}',
-            '6. Kembali Tanggal : {tanggal_selesai}',
+            '5. Mulai Tanggal : {tanggal_mulai} Jam {jam_mulai}',
+            '6. Kembali Tanggal : {tanggal_selesai} Jam {jam_selesai}',
             '7. Tipe Mobil : {mobil}',
             '8. Tujuan Sewa : {tujuan_sewa}',
             '9. Kota Tujuan : {kota_tujuan}',
@@ -97,8 +97,8 @@ return [
             '2. NO HP : {no_hp}',
             '3. Alamat : {alamat}',
             '4. Lama Sewa : {durasi}',
-            '5. Mulai Tanggal : {tanggal_mulai}',
-            '6. Kembali Tanggal : {tanggal_selesai}',
+            '5. Mulai Tanggal : {tanggal_mulai} Jam {jam_mulai}',
+            '6. Kembali Tanggal : {tanggal_selesai} Jam {jam_selesai}',
             '7. Tipe Mobil : {mobil}',
             '8. Tujuan Sewa : {tujuan_sewa}',
             '9. Kota Tujuan : {kota_tujuan}',
@@ -127,8 +127,8 @@ return [
             '2. NO HP : {no_hp}',
             '3. Alamat : {alamat}',
             '4. Lama Sewa : {durasi}',
-            '5. Mulai Tanggal : {tanggal_mulai}',
-            '6. Kembali Tanggal : {tanggal_selesai}',
+            '5. Mulai Tanggal : {tanggal_mulai} Jam {jam_mulai}',
+            '6. Kembali Tanggal : {tanggal_selesai} Jam {jam_selesai}',
             '7. Tipe Mobil : {mobil}',
             '8. Tujuan Sewa : {tujuan_sewa}',
             '9. Kota Tujuan : {kota_tujuan}',
@@ -156,8 +156,8 @@ return [
             '2. NO HP : {no_hp}',
             '3. Alamat : {alamat}',
             '4. Lama Sewa : {durasi}',
-            '5. Mulai Tanggal : {tanggal_mulai}',
-            '6. Kembali Tanggal : {tanggal_selesai}',
+            '5. Mulai Tanggal : {tanggal_mulai} Jam {jam_mulai}',
+            '6. Kembali Tanggal : {tanggal_selesai} Jam {jam_selesai}',
             '7. Tipe Mobil : {mobil}',
             '8. Tujuan Sewa : {tujuan_sewa}',
             '9. Kota Tujuan : {kota_tujuan}',

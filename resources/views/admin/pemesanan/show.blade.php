@@ -53,6 +53,11 @@
                         {{ __('s/d') }} {{ $pemesanan->tanggal_selesai->format('d M Y') }}
                         ({{ $pemesanan->durasi() }} {{ __('hari') }})
                     </p>
+                    @if($pemesanan->waktu_mulai && $pemesanan->waktu_selesai)
+                        <p class="text-xs text-gray-500">
+                            {{ __('Jam') }} {{ \Carbon\Carbon::parse($pemesanan->waktu_mulai)->format('H:i') }}–{{ \Carbon\Carbon::parse($pemesanan->waktu_selesai)->format('H:i') }} WIB
+                        </p>
+                    @endif
                 </div>
                 <div>
                     <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">{{ __('Opsi') }}</p>

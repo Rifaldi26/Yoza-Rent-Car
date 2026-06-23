@@ -36,6 +36,7 @@ class PemesananFactory extends Factory
             'tanggal_mulai'   => $tanggalMulai->format('Y-m-d'),
             'tanggal_selesai' => $tanggalSelesai->format('Y-m-d'),
             'waktu_mulai'     => null,
+            'waktu_selesai'   => null,
             'tipe_sewa'       => 'harian',
             'opsi_supir'      => false,
             'biaya_supir'     => null,
@@ -78,6 +79,7 @@ class PemesananFactory extends Factory
                 'tanggal_mulai'   => $tanggal,
                 'tanggal_selesai' => $tanggal,
                 'waktu_mulai'     => '08:00',
+                'waktu_selesai'   => '20:00',
             ];
         });
     }

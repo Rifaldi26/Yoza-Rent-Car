@@ -185,11 +185,13 @@
                         <p class="text-xs text-[#7a8499]">
                             @if($pemesanan->adalah12Jam())
                                 {{ __('Sewa 12 Jam') }}
-                                @if($pemesanan->waktu_mulai)
-                                    · {{ __('Mulai pukul') }} {{ \Carbon\Carbon::parse($pemesanan->waktu_mulai)->format('H:i') }} WIB
-                                @endif
                             @else
                                 {{ $pemesanan->durasi() }} {{ __('hari') }}
+                            @endif
+                            @if($pemesanan->waktu_mulai && $pemesanan->waktu_selesai)
+                                · {{ __('Pukul') }} {{ \Carbon\Carbon::parse($pemesanan->waktu_mulai)->format('H:i') }}–{{ \Carbon\Carbon::parse($pemesanan->waktu_selesai)->format('H:i') }} WIB
+                            @elseif($pemesanan->waktu_mulai)
+                                · {{ __('Mulai pukul') }} {{ \Carbon\Carbon::parse($pemesanan->waktu_mulai)->format('H:i') }} WIB
                             @endif
                         </p>
                     </div>

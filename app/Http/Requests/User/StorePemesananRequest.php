@@ -26,7 +26,19 @@ final class StorePemesananRequest extends FormRequest
         return [
             'mobil_id'      => ['required', 'integer', 'exists:mobils,id'],
             'tipe_sewa'     => ['nullable', 'in:harian,12_jam'],
-            'waktu_mulai'   => ['required_if:tipe_sewa,12_jam', 'nullable', 'date_format:H:i'],
+
+            // Jam mulai & jam selesai sewa — wajib diisi untuk SEMUA tipe
+            // sewa (harian maupun 12 jam). Untuk sewa 12 jam (tanggal_mulai
+            // == tanggal_selesai), jam selesai wajib lebih besar dari jam
+            // mulai. Untuk sewa harian, mulai & selesai jatuh di tanggal
+            // yang berbeda sehingga urutan jam tidak perlu dibandingkan.
+            'waktu_mulai'   => ['required', 'date_format:H:i'],
+            'waktu_selesai' => [
+                'required',
+                'date_format:H:i',
+                ...($is12Jam ? ['after:waktu_mulai'] : []),
+            ],
+
             'tanggal_mulai' => ['required', 'date', 'after_or_equal:today'],
             'tanggal_selesai' => [
                 'required',
@@ -68,8 +80,11 @@ final class StorePemesananRequest extends FormRequest
             'mobil_id.required'           => 'Mobil harus dipilih.',
             'mobil_id.exists'             => 'Mobil yang dipilih tidak valid.',
             'tipe_sewa.in'                => 'Tipe sewa tidak valid.',
-            'waktu_mulai.required_if'     => 'Waktu mulai wajib diisi untuk sewa 12 jam.',
-            'waktu_mulai.date_format'     => 'Format waktu mulai tidak valid (HH:MM).',
+            'waktu_mulai.required'        => 'Jam mulai sewa wajib diisi.',
+            'waktu_mulai.date_format'     => 'Format jam mulai tidak valid (HH:MM).',
+            'waktu_selesai.required'      => 'Jam selesai sewa wajib diisi.',
+            'waktu_selesai.date_format'   => 'Format jam selesai tidak valid (HH:MM).',
+            'waktu_selesai.after'         => 'Jam selesai harus setelah jam mulai.',
             'tanggal_mulai.required'      => 'Tanggal mulai harus diisi.',
             'tanggal_mulai.after_or_equal'=> 'Tanggal mulai tidak boleh di masa lalu.',
             'tanggal_selesai.required'    => 'Tanggal selesai harus diisi.',
@@ -96,9 +111,10 @@ final class StorePemesananRequest extends FormRequest
     public function dataValid(): array
     {
         return array_merge($this->validated(), [
-            'tipe_sewa'   => $this->input('tipe_sewa', 'harian'),
-            'waktu_mulai' => $this->input('waktu_mulai'),
-            'opsi_supir'  => $this->boolean('opsi_supir'),
+            'tipe_sewa'     => $this->input('tipe_sewa', 'harian'),
+            'waktu_mulai'   => $this->input('waktu_mulai'),
+            'waktu_selesai' => $this->input('waktu_selesai'),
+            'opsi_supir'    => $this->boolean('opsi_supir'),
 
             // Pastikan hanya field yang relevan dengan status terpilih yang
             // tersimpan — mencegah data "bocor" antar status kalau user

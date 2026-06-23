@@ -19,7 +19,8 @@ class Pemesanan extends Model
         'mobil_id',
         'tanggal_mulai',
         'tanggal_selesai',
-        'waktu_mulai',    // ← BARU: waktu HH:MM untuk sewa 12 jam
+        'waktu_mulai',    // jam mulai sewa (HH:MM) — diisi untuk semua tipe sewa
+        'waktu_selesai',  // jam selesai sewa (HH:MM) — diisi untuk semua tipe sewa
         'tipe_sewa',      // ← BARU: 'harian' | '12_jam'
         'opsi_supir',
         'biaya_supir',
@@ -175,6 +176,32 @@ class Pemesanan extends Model
     public static function adaKonflik(int $mobilId, string $mulai, string $selesai, ?int $excludeId = null): bool
     {
         return static::where('mobil_id', $mobilId)
+            ->whereIn('status', StatusPemesanan::aktif())
+            ->when($excludeId, fn ($q) => $q->where('id', '!=', $excludeId))
+            ->where(function ($q) use ($mulai, $selesai) {
+                $q->whereBetween('tanggal_mulai', [$mulai, $selesai])
+                    ->orWhereBetween('tanggal_selesai', [$mulai, $selesai])
+                    ->orWhere(function ($q2) use ($mulai, $selesai) {
+                        $q2->where('tanggal_mulai', '<=', $mulai)
+                            ->where('tanggal_selesai', '>=', $selesai);
+                    });
+            })
+            ->exists();
+    }
+
+    /**
+     * Cek apakah user tertentu sudah memiliki pemesanan AKTIF lain yang
+     * tumpang tindih dengan rentang tanggal yang diberikan — tanpa
+     * memandang mobil mana yang dipesan.
+     *
+     * Mencegah satu user memesan lebih dari satu mobil pada periode
+     * yang sama (mis. user A sudah punya pemesanan aktif 10–15 Juli,
+     * maka user A tidak bisa membuat pemesanan baru—mobil apapun—yang
+     * tumpang tindih dengan rentang tersebut).
+     */
+    public static function adaKonflikUser(int $userId, string $mulai, string $selesai, ?int $excludeId = null): bool
+    {
+        return static::where('user_id', $userId)
             ->whereIn('status', StatusPemesanan::aktif())
             ->when($excludeId, fn ($q) => $q->where('id', '!=', $excludeId))
             ->where(function ($q) use ($mulai, $selesai) {

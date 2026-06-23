@@ -50,7 +50,7 @@
                     </div>
                 </div>
 
-                {{-- Tanggal --}}
+                {{-- Tanggal & Jam --}}
                 <div class="rounded-2xl border border-[#e5e9f2] bg-white p-5 shadow-sm">
                     <h3 class="text-sm font-semibold text-[#18213a] mb-4">{{ __('Periode Sewa') }}</h3>
                     <div class="grid gap-4 sm:grid-cols-2">
@@ -68,6 +68,18 @@
                                 :min="now()->addDay()->format('Y-m-d')"
                                 x-model="tanggalSelesai"
                                 @change="hitungHarga()"
+                                required />
+                        </div>
+                        <div>
+                            <x-input name="waktu_mulai" label="{{ __('Jam Mulai') }}" type="time"
+                                :value="old('waktu_mulai')"
+                                helper="{{ __('Jam pengambilan kendaraan') }}"
+                                required />
+                        </div>
+                        <div>
+                            <x-input name="waktu_selesai" label="{{ __('Jam Selesai') }}" type="time"
+                                :value="old('waktu_selesai')"
+                                helper="{{ __('Jam pengembalian kendaraan') }}"
                                 required />
                         </div>
                     </div>
