@@ -19,8 +19,11 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        $user->load(['pemesanans.mobil', 'pemesanans.payment']);
+        $pemesanans = $user->pemesanans()
+            ->with(['mobil', 'payment'])
+            ->latest()
+            ->paginate(10);
 
-        return view('admin.user.show', compact('user'));
+        return view('admin.user.show', compact('user', 'pemesanans'));
     }
 }
