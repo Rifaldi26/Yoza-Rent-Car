@@ -17,7 +17,7 @@ use Tests\TestCase;
  * (Bahasa Indonesia), bukan ProfileController/profile bawaan Breeze
  * yang sudah dihapus karena tidak pernah dipakai di layout manapun.
  */
-class ProfilTest extends TestCase
+final class ProfilTest extends TestCase
 {
     use RefreshDatabase;
 
