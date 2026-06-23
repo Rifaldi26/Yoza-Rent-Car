@@ -56,7 +56,7 @@ final class PemesananService
     {
         $mobil = Mobil::findOrFail($data['mobil_id']);
 
-        if (! $mobil->tersedia()) {
+        if (! $mobil->isTersedia()) {
             throw ValidationException::withMessages([
                 'mobil_id' => 'Mobil ini sedang tidak tersedia untuk dipesan.',
             ]);

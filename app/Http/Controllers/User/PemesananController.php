@@ -48,7 +48,7 @@ final class PemesananController extends Controller
     {
         $mobil = Mobil::findOrFail($request->mobil_id);
 
-        if (! $mobil->tersedia()) {
+        if (! $mobil->isTersedia()) {
             return redirect()->route('home')
                 ->with('error', 'Mobil ini sedang tidak tersedia.');
         }

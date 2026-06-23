@@ -154,9 +154,16 @@ final class PemesananServiceTest extends TestCase
         $this->expectException(ValidationException::class);
 
         $this->service->buat([
-            'mobil_id' => $mobil->id,
-            'tanggal_mulai' => now()->addDay()->toDateString(),
+            'mobil_id'        => $mobil->id,
+            'tanggal_mulai'   => now()->addDay()->toDateString(),
             'tanggal_selesai' => now()->addDays(3)->toDateString(),
+            'alamat'          => 'Jl. Test No. 1',
+            'tujuan_sewa'     => 'Liburan',
+            'kota_tujuan'     => 'Jakarta',
+            'status_pekerjaan'=> 'bekerja',
+            'sumber_info'     => 'teman',
+            'kontak_darurat'  => '08123456789',
+            'share_lokasi'    => false,
         ], $user->id);
     }
 
@@ -235,6 +242,13 @@ final class PemesananServiceTest extends TestCase
             'tanggal_selesai' => $tanggal,
             'waktu_mulai'     => '08:00',
             'opsi_supir'      => false,
+            'alamat'          => 'Jl. Test No. 1',
+            'tujuan_sewa'     => 'Liburan',
+            'kota_tujuan'     => 'Jakarta',
+            'status_pekerjaan'=> 'bekerja',
+            'sumber_info'     => 'teman',
+            'kontak_darurat'  => '08123456789',
+            'share_lokasi'    => false,
         ], $user->id);
 
         $this->assertDatabaseHas('pemesanans', [
@@ -269,6 +283,13 @@ final class PemesananServiceTest extends TestCase
             'tanggal_selesai' => $tanggal,
             'waktu_mulai'     => '08:00',
             'opsi_supir'      => false,
+            'alamat'          => 'Jl. Test No. 1',
+            'tujuan_sewa'     => 'Liburan',
+            'kota_tujuan'     => 'Jakarta',
+            'status_pekerjaan'=> 'bekerja',
+            'sumber_info'     => 'teman',
+            'kontak_darurat'  => '08123456789',
+            'share_lokasi'    => false,
         ], $user->id);
 
         // Pemesanan kedua di hari yang sama harus konflik
@@ -281,6 +302,13 @@ final class PemesananServiceTest extends TestCase
             'tanggal_selesai' => $tanggal,
             'waktu_mulai'     => '14:00',
             'opsi_supir'      => false,
+            'alamat'          => 'Jl. Test No. 2',
+            'tujuan_sewa'     => 'Liburan',
+            'kota_tujuan'     => 'Jakarta',
+            'status_pekerjaan'=> 'bekerja',
+            'sumber_info'     => 'teman',
+            'kontak_darurat'  => '08123456789',
+            'share_lokasi'    => false,
         ], $user->id);
     }
 
@@ -337,6 +365,13 @@ final class PemesananServiceTest extends TestCase
             'mobil_id'        => $mobilA->id,
             'tanggal_mulai'   => now()->addDay()->toDateString(),
             'tanggal_selesai' => now()->addDays(4)->toDateString(),
+            'alamat'          => 'Jl. Test No. 1',
+            'tujuan_sewa'     => 'Liburan',
+            'kota_tujuan'     => 'Jakarta',
+            'status_pekerjaan'=> 'bekerja',
+            'sumber_info'     => 'teman',
+            'kontak_darurat'  => '08123456789',
+            'share_lokasi'    => false,
         ], $user->id);
 
         // User yang sama coba pesan mobil B di tanggal yang tumpang tindih
@@ -346,6 +381,13 @@ final class PemesananServiceTest extends TestCase
             'mobil_id'        => $mobilB->id,
             'tanggal_mulai'   => now()->addDays(2)->toDateString(),
             'tanggal_selesai' => now()->addDays(5)->toDateString(),
+            'alamat'          => 'Jl. Test No. 2',
+            'tujuan_sewa'     => 'Liburan',
+            'kota_tujuan'     => 'Jakarta',
+            'status_pekerjaan'=> 'bekerja',
+            'sumber_info'     => 'teman',
+            'kontak_darurat'  => '08123456789',
+            'share_lokasi'    => false,
         ], $user->id);
     }
 }

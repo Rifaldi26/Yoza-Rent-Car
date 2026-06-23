@@ -29,7 +29,7 @@ class Mobil extends Model
     ];
 
     // ── Helpers ───────────────────────────────────────────
-    public function tersedia(): bool
+    public function isTersedia(): bool
     {
         return $this->status === 'tersedia';
     }

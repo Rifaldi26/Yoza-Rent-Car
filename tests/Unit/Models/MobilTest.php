@@ -21,14 +21,14 @@ final class MobilTest extends TestCase
     {
         $mobil = Mobil::factory()->create(['status' => 'tersedia']);
 
-        $this->assertTrue($mobil->tersedia());
+        $this->assertTrue($mobil->isTersedia());
     }
 
     public function test_tersedia_mengembalikan_false_jika_status_bukan_tersedia(): void
     {
         $mobil = Mobil::factory()->create(['status' => 'disewa']);
 
-        $this->assertFalse($mobil->tersedia());
+        $this->assertFalse($mobil->isTersedia());
     }
 
     public function test_ada_supir_true_jika_biaya_supir_diisi(): void
