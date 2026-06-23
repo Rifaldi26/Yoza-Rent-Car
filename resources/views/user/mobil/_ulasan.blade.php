@@ -94,6 +94,22 @@
                 @endif
             </div>
 
+        @elseif($pemesananSelesai && ! auth()->user()->hasVerifiedEmail())
+            {{-- Eligible, tapi email belum diverifikasi --}}
+            <div class="mt-2 rounded-xl border border-amber-200 bg-amber-50 p-4">
+                <p class="text-sm font-medium text-amber-800 flex items-center gap-1.5">
+                    <x-icon name="warning" class="w-4 h-4 flex-shrink-0" />
+                    {{ __('Verifikasi email Anda untuk menulis ulasan') }}
+                </p>
+                <p class="mt-1 text-xs text-amber-700">
+                    {{ __('Kami sudah mengirim link verifikasi ke email Anda saat mendaftar.') }}
+                </p>
+                <a href="{{ route('verification.notice') }}"
+                   class="mt-2 inline-flex items-center gap-1.5 text-xs font-semibold text-amber-800 hover:underline">
+                    {{ __('Verifikasi Sekarang') }}
+                </a>
+            </div>
+
         @elseif($pemesananSelesai)
             {{-- Eligible menulis ulasan --}}
             <div class="mt-2" x-data="{ rating: 0, hover: 0 }">

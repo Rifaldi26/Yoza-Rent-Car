@@ -590,7 +590,7 @@
     "Kota Tujuan": "Destination City",
     "Mis. Bandung": "E.g. Bandung",
     "Akun Media Sosial": "Social Media Account",
-    "Isi minimal salah satu. Lampirkan screenshot profil saat konfirmasi via WhatsApp.": "Fill in at least one. Attach a profile screenshot when confirming via WhatsApp.",
+    "Isi minimal salah satu. Lampirkan screenshot profil saat konfirmasi via WhatsApp.": "Fill in at least one. Attach a profile screenshot when you confirm via WhatsApp.",
     "Instagram": "Instagram",
     "Tiktok": "Tiktok",
     "Sudah Bekerja": "Currently Employed",
@@ -606,14 +606,15 @@
     "Mis. Instagram, teman, Google": "E.g. Instagram, friend, Google",
     "Nomor WA Kontak Darurat": "Emergency Contact WhatsApp Number",
     "Share Lokasi Alamat Rumah": "Share Home Address Location",
-    "Buka Google Maps, cari alamat rumah, lalu bagikan link-nya di sini.": "Open Google Maps, find your home address, then share the link here.",
-    "Gunakan Lokasi Saat Ini": "Use Current Location",
-    "Mengambil lokasi...": "Getting location...",
     "Klik tombol di bawah untuk mengisi otomatis dari lokasi Anda saat ini, atau buka Google Maps dan bagikan link-nya secara manual.": "Click the button below to auto-fill from your current location, or open Google Maps and share the link manually.",
+    "Pastikan Anda sedang berada di rumah saat menggunakan tombol ini, supaya lokasi yang tersimpan akurat.": "Make sure you're at home when using this button, so the saved location is accurate.",
+    "Mengambil lokasi...": "Getting location...",
+    "Gunakan Lokasi Saat Ini": "Use Current Location",
     "Browser Anda tidak mendukung geolokasi": "Your browser doesn't support geolocation",
     "Izin lokasi ditolak. Mohon aktifkan izin lokasi di browser.": "Location permission denied. Please enable location access in your browser.",
-    "Lokasi tidak dapat ditemukan.": "Location could not be determined.",
+    "Lokasi tidak dapat ditemukan.": "Location could not be found.",
     "Waktu permintaan lokasi habis.": "Location request timed out.",
-    "Terjadi kesalahan saat mengambil lokasi.": "An error occurred while getting your location."
-
+    "Terjadi kesalahan saat mengambil lokasi.": "An error occurred while getting your location.",
+    "Verifikasi email Anda untuk menulis ulasan": "Verify your email to write a review",
+    "Kami sudah mengirim link verifikasi ke email Anda saat mendaftar.": "We sent a verification link to your email when you signed up."
 }
