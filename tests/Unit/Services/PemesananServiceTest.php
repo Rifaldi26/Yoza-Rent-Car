@@ -283,4 +283,69 @@ final class PemesananServiceTest extends TestCase
             'opsi_supir'      => false,
         ], $user->id);
     }
+
+    // ── Konflik per-user (anti pesan ganda) ─────────────────────────────────
+
+    public function test_ada_konflik_user_mendeteksi_pemesanan_lain_milik_user_yang_sama(): void
+    {
+        $user = User::factory()->create();
+        $mobil = Mobil::factory()->create();
+
+        Pemesanan::factory()->create([
+            'user_id' => $user->id,
+            'mobil_id' => $mobil->id,
+            'tanggal_mulai' => '2026-07-10',
+            'tanggal_selesai' => '2026-07-15',
+            'status' => StatusPemesanan::Dikonfirmasi->value,
+        ]);
+
+        $this->assertTrue(
+            Pemesanan::adaKonflikUser($user->id, '2026-07-12', '2026-07-17'),
+        );
+    }
+
+    public function test_ada_konflik_user_mengabaikan_pemesanan_milik_user_lain(): void
+    {
+        $userA = User::factory()->create();
+        $userB = User::factory()->create();
+        $mobil = Mobil::factory()->create();
+
+        Pemesanan::factory()->create([
+            'user_id' => $userA->id,
+            'mobil_id' => $mobil->id,
+            'tanggal_mulai' => '2026-07-10',
+            'tanggal_selesai' => '2026-07-15',
+            'status' => StatusPemesanan::Dikonfirmasi->value,
+        ]);
+
+        // userB belum punya pemesanan apapun → tidak konflik
+        $this->assertFalse(
+            Pemesanan::adaKonflikUser($userB->id, '2026-07-12', '2026-07-17'),
+        );
+    }
+
+    public function test_user_tidak_bisa_memesan_mobil_lain_di_tanggal_yang_tumpang_tindih(): void
+    {
+        Bus::fake();
+
+        $user  = User::factory()->create(['email_verified_at' => now()]);
+        $mobilA = Mobil::factory()->create(['status' => 'tersedia']);
+        $mobilB = Mobil::factory()->create(['status' => 'tersedia']);
+
+        // Pemesanan pertama: user memesan mobil A
+        $this->service->buat([
+            'mobil_id'        => $mobilA->id,
+            'tanggal_mulai'   => now()->addDay()->toDateString(),
+            'tanggal_selesai' => now()->addDays(4)->toDateString(),
+        ], $user->id);
+
+        // User yang sama coba pesan mobil B di tanggal yang tumpang tindih
+        $this->expectException(ValidationException::class);
+
+        $this->service->buat([
+            'mobil_id'        => $mobilB->id,
+            'tanggal_mulai'   => now()->addDays(2)->toDateString(),
+            'tanggal_selesai' => now()->addDays(5)->toDateString(),
+        ], $user->id);
+    }
 }
