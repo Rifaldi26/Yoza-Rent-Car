@@ -178,12 +178,18 @@
 
                         {{-- Total harga --}}
                         <div class="flex-shrink-0 text-right">
-                            <p class="text-sm font-semibold text-gray-900 tabular-nums">
-                                Rp {{ number_format($pemesanan->total_harga, 0, ',', '.') }}
-                            </p>
-                            <p class="mt-0.5 text-xs text-gray-400">
-                                {{ $pemesanan->created_at->format('d M Y') }}
-                            </p>
+                        <p class="text-sm font-semibold text-gray-900 tabular-nums">
+                            Rp {{ number_format($pemesanan->total_harga, 0, ',', '.') }}
+                        </p>
+                        <p class="mt-0.5 text-xs text-gray-400">
+                            {{ $pemesanan->created_at->format('d M Y') }}
+                        </p>
+                        <a href="{{ route('admin.pemesanan.show', $pemesanan) }}"
+                           class="mt-1.5 inline-flex items-center gap-0.5 text-xs font-medium
+                                  text-primary-600 hover:text-primary-700 transition-colors">
+                            {{ __('Lihat') }}
+                            <x-icon name="chevron-right" class="w-3 h-3" />
+                        </a>
                         </div>
 
                     </div>
