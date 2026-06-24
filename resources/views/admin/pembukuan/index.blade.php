@@ -123,8 +123,10 @@
     <form method="POST" action="{{ route('admin.pembukuan.pengeluaran') }}"
           class="space-y-4" id="form-pengeluaran">
         @csrf
-        <x-select name="account_id" label="{{ __('Akun Pengeluaran') }}" required
-            :options="$accounts->where('tipe','pengeluaran')->pluck('nama','id')->toArray()" />
+        <x-select name="account_id" label="{{ __('Akun Pengeluaran') }}" 
+            placeholder="{{ __('Pilih...') }}"
+            required
+            :options="$accounts->where('tipe','pengeluaran')->mapWithKeys(fn($a) => [$a->id => __($a->nama)])->toArray()" />
         <x-input name="amount" label="{{ __('Jumlah (Rp)') }}" type="number" prefix="Rp" required />
         <x-input name="date" label="{{ __('Tanggal') }}" type="date"
             :value="now()->format('Y-m-d')" required />

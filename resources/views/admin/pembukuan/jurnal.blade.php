@@ -46,7 +46,7 @@
                     <td class="px-4 py-3 whitespace-nowrap text-gray-500">
                         {{ $j->date->format('d M Y') }}
                     </td>
-                    <td class="px-4 py-3 font-medium text-gray-900">{{ $j->account->nama }}</td>
+                    <td class="px-4 py-3 font-medium text-gray-900">{{ $j->account->nama_translated }}</td>
                     <td class="px-4 py-3 text-gray-500 max-w-xs truncate">
                         @if($j->pemesanan && $j->pemesanan->mobil)
                             {{ $j->pemesanan->mobil->nama }} - {{ $j->pemesanan->mobil->plat_nomor }}

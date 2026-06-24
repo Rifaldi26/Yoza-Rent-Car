@@ -79,7 +79,7 @@
             <tbody>
                 @forelse($pendapatan as $a)
                 <tr class="border-t border-gray-100">
-                    <td class="px-4 py-2.5 text-gray-500">{{ $a['nama'] }}</td>
+                    <td class="px-4 py-2.5 text-gray-500">{{ __($a['nama']) }}</td>
                     <td class="px-4 py-2.5 text-right tabular-nums text-gray-900">
                         Rp {{ number_format($a['total'], 0, ',', '.') }}
                     </td>
@@ -99,7 +99,7 @@
             <tbody>
                 @forelse($pengeluaran as $a)
                 <tr class="border-t border-gray-100">
-                    <td class="px-4 py-2.5 text-gray-500">{{ $a['nama'] }}</td>
+                    <td class="px-4 py-2.5 text-gray-500">{{ __($a['nama']) }}</td>
                     <td class="px-4 py-2.5 text-right tabular-nums text-gray-900">
                         Rp {{ number_format($a['total'], 0, ',', '.') }}
                     </td>

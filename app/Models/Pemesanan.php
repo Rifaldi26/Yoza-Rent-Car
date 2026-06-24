@@ -27,6 +27,7 @@ class Pemesanan extends Model
         'total_harga',
         'status',
         'catatan',
+        'no_hp',
         'alamat',
         'tujuan_sewa',
         'kota_tujuan',

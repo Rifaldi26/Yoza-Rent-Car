@@ -56,7 +56,7 @@ class PembukuanController extends Controller
         $tahun = $request->get('tahun', now()->year);
         $bulan = $request->get('bulan');
 
-        // Laba Rugi
+        // Laba Rugi — Pendapatan
         $pendapatan = Account::where('tipe', 'pendapatan')
             ->with(['journalEntries' => function ($q) use ($tahun, $bulan) {
                 $q->whereYear('date', $tahun);
@@ -68,10 +68,11 @@ class PembukuanController extends Controller
             ->get()
             ->map(fn ($a) => [
                 'kode' => $a->kode,
-                'nama' => $a->nama,
+                'nama' => __($a->nama),
                 'total' => $a->journalEntries->sum('credit'),
             ]);
 
+        // Laba Rugi — Pengeluaran
         $pengeluaran = Account::where('tipe', 'pengeluaran')
             ->with(['journalEntries' => function ($q) use ($tahun, $bulan) {
                 $q->whereYear('date', $tahun);
@@ -83,7 +84,7 @@ class PembukuanController extends Controller
             ->get()
             ->map(fn ($a) => [
                 'kode' => $a->kode,
-                'nama' => $a->nama,
+                'nama' => __($a->nama),
                 'total' => $a->journalEntries->sum('debit'),
             ]);
 
@@ -155,7 +156,6 @@ class PembukuanController extends Controller
         return back()->with('success', 'Pengeluaran berhasil dicatat.');
     }
 
-    // app/Http/Controllers/Admin/pembukuanController.php
     public function export(Request $request)
     {
         $tahun = $request->get('tahun', now()->year);
@@ -165,22 +165,23 @@ class PembukuanController extends Controller
             ->oldest('date')
             ->get();
 
-        // Reuse data dari method laporan()
+        // Reuse data dari method laporan() — Pendapatan
         $pendapatan = Account::where('tipe', 'pendapatan')
             ->with(['journalEntries' => fn ($q) => $q->whereYear('date', $tahun)])
             ->orderBy('kode')->get()
             ->map(fn ($a) => [
                 'kode' => $a->kode,
-                'nama' => $a->nama,
+                'nama' => __($a->nama),
                 'total' => $a->journalEntries->sum('credit'),
             ]);
 
+        // Reuse data dari method laporan() — Pengeluaran
         $pengeluaran = Account::where('tipe', 'pengeluaran')
             ->with(['journalEntries' => fn ($q) => $q->whereYear('date', $tahun)])
             ->orderBy('kode')->get()
             ->map(fn ($a) => [
                 'kode' => $a->kode,
-                'nama' => $a->nama,
+                'nama' => __($a->nama),
                 'total' => $a->journalEntries->sum('debit'),
             ]);
 

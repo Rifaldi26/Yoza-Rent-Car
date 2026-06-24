@@ -49,6 +49,7 @@ final class StorePemesananRequest extends FormRequest
             'catatan'       => ['nullable', 'string', 'max:500'],
 
             // ── Data tambahan (wajib) ──────────────────────────────
+            'no_hp'         => ['required', 'string', 'max:20'],
             'alamat'        => ['required', 'string', 'max:500'],
             'tujuan_sewa'   => ['required', 'string', 'max:255'],
             'kota_tujuan'   => ['required', 'string', 'max:255'],
@@ -92,6 +93,7 @@ final class StorePemesananRequest extends FormRequest
             'tanggal_selesai.same'        => 'Sewa 12 jam harus di tanggal yang sama.',
             'catatan.max'                 => 'Catatan maksimal 500 karakter.',
 
+            'no_hp.required'              => 'Nomor WhatsApp wajib diisi.',
             'alamat.required'             => 'Alamat wajib diisi.',
             'tujuan_sewa.required'        => 'Tujuan sewa wajib diisi.',
             'kota_tujuan.required'        => 'Kota tujuan wajib diisi.',

@@ -111,6 +111,11 @@
                 <div class="rounded-2xl border border-[#e5e9f2] bg-white p-5 shadow-sm">
                     <h3 class="text-sm font-semibold text-[#18213a] mb-4">{{ __('Data Tambahan') }}</h3>
                     <div class="space-y-4">
+                        <x-input name="no_hp" label="{{ __('Nomor WhatsApp') }}"
+                            type="tel" placeholder="08xxxxxxxxxx"
+                            :value="old('no_hp', auth()->user()->no_hp)"
+                            helper="{{ __('Nomor yang aktif untuk konfirmasi pemesanan') }}"
+                            required />
                         <x-textarea name="alamat" label="{{ __('Alamat') }}"
                             placeholder="{{ __('Alamat lengkap domisili Anda saat ini') }}"
                             rows="2" required>{{ old('alamat') }}</x-textarea>
