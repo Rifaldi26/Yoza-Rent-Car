@@ -1,577 +1,325 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 @section('title', __('Detail Pemesanan') . ' #' . $pemesanan->id)
 
 @section('content')
-<div class="mx-auto max-w-3xl px-4 py-8">
 
-    {{-- Back + Header --}}
-    <div class="mb-6">
-        <a href="{{ route('pemesanan.index') }}"
-           class="inline-flex items-center gap-1.5 text-sm text-[#7a8499] hover:text-[#18213a] transition-colors">
-            <x-icon name="arrow-left" class="w-4 h-4" />
-            {{ __('Kembali ke Pemesanan Saya') }}
-        </a>
-        <div class="mt-4 flex items-start justify-between gap-3">
-            <div>
-                <h1>{{ __('Pemesanan') }} #{{ $pemesanan->id }}</h1>
-                <p class="mt-0.5 text-sm text-[#7a8499]">
-                    {{ __('Dibuat') }} {{ $pemesanan->created_at->diffForHumans() }}
-                    &middot; {{ $pemesanan->created_at->format('d M Y, H:i') }} WIB
+<div class="mb-6">
+    <a href="{{ route('admin.pemesanan.index') }}"
+       class="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-700 transition-colors">
+        <x-icon name="arrow-left" class="w-4 h-4" />
+        {{ __('Kembali ke Pemesanan') }}
+    </a>
+</div>
+
+<div class="grid gap-4 lg:grid-cols-3">
+
+    {{-- Detail Utama --}}
+    <div class="lg:col-span-2 space-y-4">
+
+        {{-- Info Pemesanan --}}
+        <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+            <div class="flex items-start justify-between mb-4">
+                <div>
+                    <h2 class="text-base font-semibold text-gray-900">
+                        {{ __('Pemesanan') }} #{{ $pemesanan->id }}
+                    </h2>
+                    <p class="text-xs text-gray-400 mt-0.5">
+                        {{ __('Dibuat') }} {{ $pemesanan->created_at->diffForHumans() }}
+                    </p>
+                </div>
+                <x-status-badge :status="$pemesanan->status">
+                    {{ $pemesanan->labelStatus() }}
+                </x-status-badge>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                    <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">{{ __('Pelanggan') }}</p>
+                    <p class="mt-1 font-medium text-gray-900">{{ $pemesanan->user->name }}</p>
+                    <p class="text-xs text-gray-500">{{ $pemesanan->user->email }}</p>
+                    <p class="text-xs text-gray-500">{{ $pemesanan->user->no_hp ?? '-' }}</p>
+                </div>
+                <div>
+                    <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">{{ __('Kendaraan') }}</p>
+                    <p class="mt-1 font-medium text-gray-900">{{ $pemesanan->mobil->nama }}</p>
+                    <p class="text-xs text-gray-500">{{ $pemesanan->mobil->plat_nomor }}</p>
+                </div>
+                <div>
+                    <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">{{ __('Periode Sewa') }}</p>
+                    <p class="mt-1 font-medium text-gray-900">
+                        {{ $pemesanan->tanggal_mulai->format('d M Y') }}
+                    </p>
+                    <p class="text-xs text-gray-500">
+                        {{ __('s/d') }} {{ $pemesanan->tanggal_selesai->format('d M Y') }}
+                        ({{ $pemesanan->durasi() }} {{ __('hari') }})
+                    </p>
+                    @if($pemesanan->waktu_mulai && $pemesanan->waktu_selesai)
+                        <p class="text-xs text-gray-500">
+                            {{ __('Jam') }} {{ \Carbon\Carbon::parse($pemesanan->waktu_mulai)->format('H:i') }}–{{ \Carbon\Carbon::parse($pemesanan->waktu_selesai)->format('H:i') }} WIB
+                        </p>
+                    @endif
+                </div>
+                <div>
+                    <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">{{ __('Opsi') }}</p>
+                    <p class="mt-1 font-medium text-gray-900">
+                        {{ $pemesanan->opsi_supir ? __('Dengan Supir') : __('Self-Drive') }}
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-4 rounded-lg bg-gray-50 p-3 space-y-2 text-sm">
+                <p class="text-xs font-medium text-gray-500">{{ __('Data Tambahan') }}</p>
+                <p class="text-gray-700"><span class="text-gray-500">{{ __('Alamat') }}:</span> {{ $pemesanan->alamat }}</p>
+                <p class="text-gray-700"><span class="text-gray-500">{{ __('Tujuan Sewa') }}:</span> {{ $pemesanan->tujuan_sewa }} &middot; {{ $pemesanan->kota_tujuan }}</p>
+                <p class="text-gray-700">
+                    <span class="text-gray-500">{{ __('Akun Media Sosial') }}:</span>
+                    @if($pemesanan->instagram) IG {{ $pemesanan->instagram }} @endif
+                    @if($pemesanan->instagram && $pemesanan->tiktok) &middot; @endif
+                    @if($pemesanan->tiktok) Tiktok {{ $pemesanan->tiktok }} @endif
                 </p>
-            </div>
-            <x-status-badge :status="$pemesanan->status" class="mt-1 shrink-0">
-                {{ $pemesanan->statusEnum()->label() }}
-            </x-status-badge>
-        </div>
-    </div>
-
-    {{-- ── Alert sesuai status ─────────────────────────────────────────── --}}
-
-    @if($pemesanan->status === 'pending')
-    <div class="mb-4 flex items-start gap-3 rounded-xl border border-yellow-200 bg-yellow-50 p-4">
-        <x-icon name="clock" class="mt-0.5 h-5 w-5 shrink-0 text-yellow-500" />
-        <div>
-            <p class="text-sm font-semibold text-yellow-800">{{ __('Menunggu Pembayaran') }}</p>
-            <p class="mt-0.5 text-sm text-yellow-700">
-                {{ __('Selesaikan pembayaran segera agar pemesanan Anda tidak otomatis kadaluarsa.') }}
-            </p>
-            <a href="{{ route('payment.checkout', $pemesanan) }}"
-               class="mt-2 inline-flex items-center gap-1.5 rounded-lg bg-yellow-500 px-4 py-2
-                      text-sm font-semibold text-white hover:bg-yellow-600 transition-colors">
-                <x-icon name="credit-card" class="h-4 w-4" />
-                {{ __('Bayar Sekarang') }}
-            </a>
-        </div>
-    </div>
-    @endif
-
-    @if($pemesanan->status === 'menunggu_konfirmasi_admin')
-    <div class="mb-4 flex items-start gap-3 rounded-xl border border-blue-200 bg-blue-50 p-4">
-        <x-icon name="clock" class="mt-0.5 h-5 w-5 shrink-0 text-blue-400" />
-        <div>
-            <p class="text-sm font-semibold text-blue-800">{{ __('Menunggu Konfirmasi Admin') }}</p>
-            <p class="mt-0.5 text-sm text-blue-700">
-                {{ __('Pembayaran via WhatsApp sudah dikirim. Admin kami akan segera memverifikasi dan mengkonfirmasi pemesanan Anda. Biasanya dalam 1×24 jam.') }}
-            </p>
-        </div>
-    </div>
-    @endif
-
-    @if($pemesanan->status === 'dikonfirmasi')
-    <div class="mb-4 flex items-start gap-3 rounded-xl border border-green-200 bg-green-50 p-4">
-        <x-icon name="check-circle" class="mt-0.5 h-5 w-5 shrink-0 text-green-500" />
-        <div>
-            <p class="text-sm font-semibold text-green-800">{{ __('Pemesanan Dikonfirmasi!') }}</p>
-            <p class="mt-0.5 text-sm text-green-700">
-                {{ __('Kendaraan siap diambil pada') }}
-                <strong>{{ $pemesanan->tanggal_mulai->format('d M Y') }}</strong>.
-                {{ __('Hubungi kami jika ada pertanyaan lebih lanjut.') }}
-            </p>
-            <a href="{{ route('chat.index') }}"
-               class="mt-2 inline-flex items-center gap-1.5 rounded-lg bg-green-600 px-4 py-2
-                      text-sm font-semibold text-white hover:bg-green-700 transition-colors">
-                <x-icon name="chat-bubble-left-ellipsis" class="h-4 w-4" />
-                {{ __('Hubungi Admin') }}
-            </a>
-        </div>
-    </div>
-    @endif
-
-    @if($pemesanan->status === 'selesai')
-    <div class="mb-4 flex items-start gap-3 rounded-xl border border-gray-200 bg-gray-50 p-4">
-        <x-icon name="check-circle" class="mt-0.5 h-5 w-5 shrink-0 text-gray-400" />
-        <div>
-            <p class="text-sm font-semibold text-gray-700">{{ __('Pemesanan Selesai') }}</p>
-            <p class="mt-0.5 text-sm text-gray-500">
-                {{ __('Terima kasih telah mempercayai Yoza Rent Car. Sampai jumpa lagi!') }}
-            </p>
-        </div>
-    </div>
-    @endif
-
-    {{-- ── Beri Ulasan (jika sudah selesai) ──────────────────────────────── --}}
-    @if($pemesanan->isSelesai())
-        @if($pemesanan->ulasan)
-            {{-- Sudah pernah memberi ulasan untuk pemesanan ini --}}
-            <div class="mb-4 rounded-xl border border-[#e5e9f2] bg-white p-4">
-                <div class="mb-2 flex items-center justify-between">
-                    <p class="text-sm font-semibold text-[#18213a]">{{ __('Ulasan Anda') }}</p>
-                    <div class="flex gap-0.5">
-                        @for($i = 1; $i <= 5; $i++)
-                            <svg class="w-4 h-4 {{ $i <= $pemesanan->ulasan->rating ? 'text-amber-400' : 'text-gray-200' }}"
-                                 fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                            </svg>
-                        @endfor
-                    </div>
-                </div>
-                @if($pemesanan->ulasan->komentar)
-                    <p class="text-sm text-[#7a8499]">{{ $pemesanan->ulasan->komentar }}</p>
-                @endif
-                @if(! $pemesanan->ulasan->disetujui)
-                    <p class="mt-2 flex items-center gap-1 text-xs text-amber-600">
-                        <x-icon name="clock" class="w-3 h-3" />
-                        {{ __('Menunggu persetujuan admin') }}
-                    </p>
-                @endif
-            </div>
-        @elseif(auth()->user()->hasVerifiedEmail())
-            {{-- Form beri ulasan langsung dari halaman ini --}}
-            <div class="mb-4 rounded-xl border border-[#e5e9f2] bg-white p-4" x-data="{ rating: 0, hover: 0 }">
-                <p class="mb-3 text-sm font-semibold text-[#18213a]">
-                    {{ __('Bagaimana pengalaman sewa Anda?') }}
+                <p class="text-gray-700">
+                    <span class="text-gray-500">{{ __('Status') }}:</span>
+                    @if($pemesanan->isBekerja())
+                        {{ __('Sudah Bekerja') }} &middot; {{ $pemesanan->tempat_kerja }}
+                    @elseif($pemesanan->isMahasiswa())
+                        {{ __('Mahasiswa') }} &middot; {{ $pemesanan->kampus }}
+                    @endif
                 </p>
-
-                <form method="POST" action="{{ route('ulasan.store', $pemesanan->mobil) }}">
-                    @csrf
-                    <input type="hidden" name="pemesanan_id" value="{{ $pemesanan->id }}">
-
-                    <div class="mb-3 flex gap-1">
-                        @for($i = 1; $i <= 5; $i++)
-                            <button type="button"
-                                    @click="rating = {{ $i }}"
-                                    @mouseenter="hover = {{ $i }}"
-                                    @mouseleave="hover = 0"
-                                    class="transition-transform hover:scale-110 focus:outline-none">
-                                <svg class="h-8 w-8 transition-colors"
-                                     :class="(hover || rating) >= {{ $i }} ? 'text-amber-400' : 'text-gray-200'"
-                                     fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                                </svg>
-                            </button>
-                        @endfor
-                        <input type="hidden" name="rating" :value="rating">
-                    </div>
-
-                    @error('rating')
-                        <p class="mb-2 text-xs text-red-500">{{ $message }}</p>
-                    @enderror
-
-                    <textarea name="komentar" rows="3"
-                              placeholder="{{ __('Ceritakan pengalaman Anda (opsional)...') }}"
-                              class="w-full rounded-xl border border-[#e5e9f2] bg-[#f4f6fb] px-3 py-2.5
-                                     text-sm text-[#18213a] placeholder-[#b0b8cc]
-                                     focus:border-primary-600 focus:bg-white focus:outline-none focus:ring-2
-                                     focus:ring-primary-600/20 transition resize-none">{{ old('komentar') }}</textarea>
-
-                    @error('komentar')
-                        <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
-                    @enderror
-
-                    <button type="submit"
-                            :disabled="rating === 0"
-                            :class="rating === 0
-                                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                : 'bg-primary-600 text-white hover:bg-primary-700'"
-                            class="mt-3 flex w-full items-center justify-center gap-2 rounded-xl
-                                   py-2.5 text-sm font-semibold transition-colors">
-                        <x-icon name="star" class="w-4 h-4" />
-                        {{ __('Kirim Ulasan') }}
-                    </button>
-                </form>
-            </div>
-        @endif
-    @endif
-
-    @if(in_array($pemesanan->status, ['dibatalkan', 'kadaluarsa']))
-    <div class="mb-4 flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4">
-        <x-icon name="x-circle" class="mt-0.5 h-5 w-5 shrink-0 text-red-400" />
-        <div>
-            <p class="text-sm font-semibold text-red-800">
-                {{ __('Pemesanan') }} {{ $pemesanan->status === 'kadaluarsa'? __('Kadaluarsa') : __('Dibatalkan') }}
-            </p>
-            <p class="mt-0.5 text-sm text-red-700">
-                @if($pemesanan->status === 'kadaluarsa')
-                    {{ __('Pemesanan ini otomatis kadaluarsa karena pembayaran tidak diselesaikan tepat waktu.') }}
-                @else
-                    {{ __('Pemesanan ini telah dibatalkan.') }}
-                @endif
-            </p>
-            <a href="{{ route('home') }}"
-               class="mt-2 inline-flex items-center gap-1.5 rounded-lg border border-red-200
-                      bg-white px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors">
-                {{ __('Pesan Kembali') }}
-            </a>
-        </div>
-    </div>
-    @endif
-
-    {{-- ── Grid 2 kolom ────────────────────────────────────────────────── --}}
-    <div class="space-y-4">
-
-        {{-- Kartu: Kendaraan --}}
-        <div class="overflow-hidden rounded-2xl border border-[#e5e9f2] bg-white shadow-sm">
-            <div class="border-b border-[#e5e9f2] px-5 py-3.5">
-                <h2 class="text-sm font-semibold text-[#18213a]">{{ __('Kendaraan') }}</h2>
-            </div>
-            <div class="flex items-center gap-4 p-5">
-                <div class="h-20 w-28 shrink-0 overflow-hidden rounded-xl bg-[#f4f6fb]">
-                    <img src="{{ $pemesanan->mobil->fotoUrl() }}"
-                         alt="{{ $pemesanan->mobil->nama }}"
-                         class="h-full w-full object-cover">
-                </div>
-                <div class="min-w-0 flex-1">
-                    <p class="font-semibold text-[#18213a]">{{ $pemesanan->mobil->nama }}</p>
-                    <p class="text-sm text-[#7a8499]">{{ $pemesanan->mobil->plat_nomor }}</p>
-                    <div class="mt-2 flex flex-wrap gap-1.5">
-                        @if($pemesanan->mobil->tahun)
-                        <span class="inline-flex items-center gap-1 rounded-full bg-[#f1f4fa] px-2.5 py-0.5
-                                     text-xs text-[#7a8499]">
-                            <x-icon name="calendar" class="h-3 w-3" />
-                            {{ $pemesanan->mobil->tahun }}
-                        </span>
-                        @endif
-                        @if($pemesanan->mobil->kapasitas)
-                        <span class="inline-flex items-center gap-1 rounded-full bg-[#f1f4fa] px-2.5 py-0.5
-                                     text-xs text-[#7a8499]">
-                            <x-icon name="users" class="h-3 w-3" />
-                            {{ $pemesanan->mobil->kapasitas }} {{ __('Penumpang') }}
-                        </span>
-                        @endif
-                        @if($pemesanan->mobil->transmisi)
-                        <span class="inline-flex items-center gap-1 rounded-full bg-[#f1f4fa] px-2.5 py-0.5
-                                     text-xs text-[#7a8499]">
-                            <x-icon name="cog-6-tooth" class="h-3 w-3" />
-                            {{ ucfirst($pemesanan->mobil->transmisi) }}
-                        </span>
-                        @endif
-                    </div>
-                </div>
-                <div class="shrink-0 text-right">
-                    <p class="text-xs text-[#7a8499]">{{ __('Harga/hari') }}</p>
-                    <p class="font-semibold text-[#18213a]">
-                        Rp {{ number_format($pemesanan->mobil->harga_per_hari, 0, ',', '.') }}
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        {{-- Kartu: Detail Pemesanan --}}
-        <div class="overflow-hidden rounded-2xl border border-[#e5e9f2] bg-white shadow-sm">
-            <div class="border-b border-[#e5e9f2] px-5 py-3.5">
-                <h2 class="text-sm font-semibold text-[#18213a]">{{ __('Detail Pemesanan') }}</h2>
-            </div>
-            <div class="divide-y divide-[#f1f4fa]">
-
-                {{-- Periode sewa --}}
-                <div class="flex items-start gap-3 px-5 py-4">
-                    <div class="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-primary-50">
-                        <x-icon name="calendar-days" class="h-4 w-4 text-primary-600" />
-                    </div>
-                    <div class="flex-1">
-                        <p class="text-xs font-medium uppercase tracking-wider text-[#7a8499]">{{ __('Periode Sewa') }}</p>
-                        <p class="mt-1 font-medium text-[#18213a]">
-                            {{ $pemesanan->tanggal_mulai->format('d M Y') }}
-                            @if(!$pemesanan->adalah12Jam())
-                                &ndash; {{ $pemesanan->tanggal_selesai->format('d M Y') }}
-                            @endif
-                        </p>
-                        <p class="text-xs text-[#7a8499]">
-                            @if($pemesanan->adalah12Jam())
-                                {{ __('Sewa 12 Jam') }}
-                            @else
-                                {{ $pemesanan->durasi() }} {{ __('hari') }}
-                            @endif
-                            @if($pemesanan->waktu_mulai && $pemesanan->waktu_selesai)
-                                · {{ __('Pukul') }} {{ \Carbon\Carbon::parse($pemesanan->waktu_mulai)->format('H:i') }}–{{ \Carbon\Carbon::parse($pemesanan->waktu_selesai)->format('H:i') }} WIB
-                            @elseif($pemesanan->waktu_mulai)
-                                · {{ __('Mulai pukul') }} {{ \Carbon\Carbon::parse($pemesanan->waktu_mulai)->format('H:i') }} WIB
-                            @endif
-                        </p>
-                    </div>
-                </div>
-
-                {{-- Opsi supir --}}
-                <div class="flex items-start gap-3 px-5 py-4">
-                    <div class="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-primary-50">
-                        <x-icon name="user" class="h-4 w-4 text-primary-600" />
-                    </div>
-                    <div class="flex-1">
-                        <p class="text-xs font-medium uppercase tracking-wider text-[#7a8499]">{{ __('Opsi Mengemudi') }}</p>
-                        <p class="mt-1 font-medium text-[#18213a]">
-                            {{ $pemesanan->opsi_supir ? __('Dengan Supir') : __('Self-Drive') }}
-                        </p>
-                        @if($pemesanan->opsi_supir && $pemesanan->biaya_supir)
-                        <p class="text-xs text-[#7a8499]">
-                            {{ __('Biaya supir:') }} Rp {{ number_format($pemesanan->biaya_supir, 0, ',', '.') }}
-                        </p>
-                        @endif
-                    </div>
-                </div>
-
-                {{-- Data Tambahan --}}
-                <div class="flex items-start gap-3 px-5 py-4">
-                    <div class="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-primary-50">
-                        <x-icon name="location" class="h-4 w-4 text-primary-600" />
-                    </div>
-                    <div class="flex-1 space-y-3">
-                        <div>
-                            <p class="text-xs font-medium uppercase tracking-wider text-[#7a8499]">{{ __('Alamat') }}</p>
-                            <p class="mt-1 text-sm text-[#18213a]">{{ $pemesanan->alamat }}</p>
-                        </div>
-                        <div>
-                            <p class="text-xs font-medium uppercase tracking-wider text-[#7a8499]">{{ __('Tujuan Sewa') }}</p>
-                            <p class="mt-1 text-sm text-[#18213a]">{{ $pemesanan->tujuan_sewa }} &middot; {{ $pemesanan->kota_tujuan }}</p>
-                        </div>
-                        <div>
-                            <p class="text-xs font-medium uppercase tracking-wider text-[#7a8499]">{{ __('Akun Media Sosial') }}</p>
-                            <p class="mt-1 text-sm text-[#18213a]">
-                                @if($pemesanan->instagram) Instagram: {{ $pemesanan->instagram }} @endif
-                                @if($pemesanan->instagram && $pemesanan->tiktok) &middot; @endif
-                                @if($pemesanan->tiktok) Tiktok: {{ $pemesanan->tiktok }} @endif
-                            </p>
-                        </div>
-                        <div>
-                            <p class="text-xs font-medium uppercase tracking-wider text-[#7a8499]">{{ __('Status') }}</p>
-                            <p class="mt-1 text-sm text-[#18213a]">
-                                @if($pemesanan->isBekerja())
-                                    {{ __('Sudah Bekerja') }} &middot; {{ $pemesanan->tempat_kerja }}
-                                @elseif($pemesanan->isMahasiswa())
-                                    {{ __('Mahasiswa') }} &middot; {{ $pemesanan->kampus }}
-                                @endif
-                            </p>
-                        </div>
-                        <div>
-                            <p class="text-xs font-medium uppercase tracking-wider text-[#7a8499]">{{ __('Tau Yoza Rent Car Darimana?') }}</p>
-                            <p class="mt-1 text-sm text-[#18213a]">{{ $pemesanan->sumber_info }}</p>
-                        </div>
-                        <div>
-                            <p class="text-xs font-medium uppercase tracking-wider text-[#7a8499]">{{ __('Nomor WA Kontak Darurat') }}</p>
-                            <p class="mt-1 text-sm text-[#18213a]">{{ $pemesanan->kontak_darurat }}</p>
-                        </div>
-                        @if($pemesanan->share_lokasi)
-                        <div>
-                            <p class="text-xs font-medium uppercase tracking-wider text-[#7a8499]">{{ __('Share Lokasi Alamat Rumah') }}</p>
-                            <a href="{{ $pemesanan->share_lokasi }}" target="_blank" rel="noopener"
-                               class="mt-1 inline-flex items-center gap-1 text-sm text-primary-600 hover:underline break-all">
-                                {{ $pemesanan->share_lokasi }}
-                            </a>
-                        </div>
-                        @endif
-                    </div>
-                </div>
-
-                {{-- Catatan --}}
-                @if($pemesanan->catatan)
-                <div class="flex items-start gap-3 px-5 py-4">
-                    <div class="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-primary-50">
-                        <x-icon name="chat-bubble-bottom-center-text" class="h-4 w-4 text-primary-600" />
-                    </div>
-                    <div class="flex-1">
-                        <p class="text-xs font-medium uppercase tracking-wider text-[#7a8499]">{{ __('Catatan') }}</p>
-                        <p class="mt-1 text-sm text-[#18213a]">{{ $pemesanan->catatan }}</p>
-                    </div>
-                </div>
-                @endif
-            </div>
-        </div>
-
-        {{-- Kartu: Status Pembayaran ──────────────────────────────────── --}}
-        <div class="overflow-hidden rounded-2xl border border-[#e5e9f2] bg-white shadow-sm">
-            <div class="flex items-center justify-between border-b border-[#e5e9f2] px-5 py-3.5">
-                <h2 class="text-sm font-semibold text-[#18213a]">{{ __('Pembayaran') }}</h2>
-                @if($pemesanan->payment)
-                    @php
-                        $payBadge = match($pemesanan->payment->status) {
-                            'dikonfirmasi'        => ['bg-green-50 border-green-200 text-green-700', __('Terkonfirmasi')],
-                            'menunggu_konfirmasi' => ['bg-blue-50 border-blue-200 text-blue-700', __('Menunggu Konfirmasi')],
-                            'dibatalkan'          => ['bg-red-50 border-red-200 text-red-600', __('Dibatalkan')],
-                            default               => ['bg-yellow-50 border-yellow-200 text-yellow-700', __('Menunggu')],
-                        };
-                    @endphp
-                    <span class="inline-flex items-center rounded-full border px-2.5 py-0.5
-                                 text-[11px] font-medium {{ $payBadge[0] }}">
-                        {{ $payBadge[1] }}
-                    </span>
+                <p class="text-gray-700"><span class="text-gray-500">{{ __('Tau Yoza Rent Car Darimana?') }}:</span> {{ $pemesanan->sumber_info }}</p>
+                <p class="text-gray-700"><span class="text-gray-500">{{ __('Nomor WA Kontak Darurat') }}:</span> {{ $pemesanan->kontak_darurat }}</p>
+                @if($pemesanan->share_lokasi)
+                <p class="text-gray-700">
+                    <span class="text-gray-500">{{ __('Share Lokasi Alamat Rumah') }}:</span>
+                    <a href="{{ $pemesanan->share_lokasi }}" target="_blank" rel="noopener"
+                       class="text-primary-600 hover:underline break-all">{{ $pemesanan->share_lokasi }}</a>
+                </p>
                 @endif
             </div>
 
-            @if($pemesanan->payment)
-            <div class="divide-y divide-[#f1f4fa]">
-
-                {{-- Metode --}}
-                <div class="flex items-center justify-between px-5 py-3.5">
-                    <p class="text-sm text-[#7a8499]">{{ __('Metode Pembayaran') }}</p>
-                    <p class="text-sm font-semibold text-[#18213a]">
-                        {{ $pemesanan->payment->labelMetode() }}
-                    </p>
+            @if($pemesanan->catatan)
+                <div class="mt-4 rounded-lg bg-gray-50 p-3">
+                    <p class="text-xs font-medium text-gray-500">{{ __('Catatan pelanggan') }}</p>
+                    <p class="mt-1 text-sm text-gray-700">{{ $pemesanan->catatan }}</p>
                 </div>
-
-                {{-- Waktu WA dikirim --}}
-                @if($pemesanan->payment->wa_sent_at)
-                <div class="flex items-center justify-between px-5 py-3.5">
-                    <p class="text-sm text-[#7a8499]">{{ __('Konfirmasi WA Dikirim') }}</p>
-                    <p class="text-sm text-[#18213a]">
-                        {{ $pemesanan->payment->wa_sent_at->format('d M Y, H:i') }} WIB
-                    </p>
-                </div>
-                @endif
-
-                {{-- Waktu dikonfirmasi admin --}}
-                @if($pemesanan->payment->paid_at)
-                <div class="flex items-center justify-between px-5 py-3.5">
-                    <p class="text-sm text-[#7a8499]">{{ __('Dikonfirmasi Admin') }}</p>
-                    <p class="text-sm font-semibold text-green-600">
-                        {{ $pemesanan->payment->paid_at->format('d M Y, H:i') }} WIB
-                    </p>
-                </div>
-                @endif
-
-                {{-- Progress steps --}}
-                <div class="px-5 py-4">
-                    <div class="flex items-center justify-between">
-                        @php
-                            $steps = [
-                                ['label' => __('Pemesanan\nDibuat'),   'done' => true],
-                                ['label' => __('Konfirmasi\nWA'),      'done' => !is_null($pemesanan->payment->wa_sent_at)],
-                                ['label' => __('Verifikasi\nAdmin'),   'done' => $pemesanan->payment->isDikonfirmasi()],
-                                ['label' => __('Pemesanan\nAktif'),    'done' => in_array($pemesanan->status, ['dikonfirmasi','selesai'])],
-                            ];
-                        @endphp
-                        @foreach($steps as $i => $step)
-                            <div class="flex flex-1 flex-col items-center gap-1 {{ $i < count($steps)-1 ? 'relative' : '' }}">
-                                {{-- Connector line --}}
-                                @if($i < count($steps) - 1)
-                                <div class="absolute left-1/2 top-3.5 h-0.5 w-full
-                                            {{ $steps[$i+1]['done'] ? 'bg-primary-600' : 'bg-[#e5e9f2]' }}">
-                                </div>
-                                @endif
-                                {{-- Dot --}}
-                                <div class="relative z-10 grid h-7 w-7 place-items-center rounded-full border-2 text-xs font-bold
-                                            {{ $step['done']
-                                                ? 'border-primary-600 bg-primary-600 text-white'
-                                                : 'border-[#e5e9f2] bg-white text-[#c0c8d8]' }}">
-                                    @if($step['done'])
-                                        <x-icon name="check" class="h-3.5 w-3.5" />
-                                    @else
-                                        {{ $i + 1 }}
-                                    @endif
-                                </div>
-                                <p class="text-center text-[10px] leading-tight text-[#7a8499] whitespace-pre-line">
-                                    {{ $step['label'] }}
-                                </p>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-
-            @else
-            {{-- Belum ada payment record --}}
-            <div class="flex flex-col items-center gap-2 px-5 py-8 text-center">
-                <div class="grid h-12 w-12 place-items-center rounded-full bg-[#f1f4fa]">
-                    <x-icon name="credit-card" class="h-6 w-6 text-[#c0c8d8]" />
-                </div>
-                <p class="text-sm font-medium text-[#18213a]">{{ __('Belum Ada Pembayaran') }}</p>
-                <p class="text-xs text-[#7a8499]">{{ __('Lanjutkan ke halaman pembayaran untuk memilih metode.') }}</p>
-                @if($pemesanan->status === 'pending')
-                <a href="{{ route('payment.checkout', $pemesanan) }}"
-                   class="mt-1 inline-flex items-center gap-1.5 rounded-lg bg-primary-600 px-4 py-2
-                          text-sm font-semibold text-white hover:bg-primary-700 transition-colors">
-                    {{ __('Pilih Metode Pembayaran') }}
-                </a>
-                @endif
-            </div>
             @endif
         </div>
 
-        {{-- Kartu: Rincian Harga --}}
-        <div class="overflow-hidden rounded-2xl border border-[#e5e9f2] bg-white shadow-sm">
-            <div class="border-b border-[#e5e9f2] px-5 py-3.5">
-                <h2 class="text-sm font-semibold text-[#18213a]">{{ __('Rincian Harga') }}</h2>
-            </div>
-            <div class="space-y-3 px-5 py-4 text-sm">
-
-                {{-- Sewa mobil --}}
-                <div class="flex items-center justify-between text-[#7a8499]">
-                    @if($pemesanan->adalah12Jam())
-                        <span>Rp {{ number_format(($pemesanan->total_harga - ($pemesanan->biaya_supir ?? 0)), 0, ',', '.') }}</span>
-                    @else
-                        <span>
-                            {{ __('Sewa') }} {{ $pemesanan->durasi() }} {{ __('hari') }}
-                            × Rp {{ number_format($pemesanan->mobil->harga_per_hari, 0, ',', '.') }}
-                        </span>
-                        <span>Rp {{ number_format($pemesanan->mobil->harga_per_hari * $pemesanan->durasi(), 0, ',', '.') }}</span>
-                    @endif
-                </div>
-
-                {{-- Supir --}}
-                @if($pemesanan->biaya_supir)
-                <div class="flex items-center justify-between text-[#7a8499]">
-                    <span>
-                        {{ __('Jasa supir') }}
-                        @if(!$pemesanan->adalah12Jam())
-                            × {{ $pemesanan->durasi() }} {{ __('hari') }}
-                        @endif
+        {{-- Rincian Harga --}}
+        <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+            <h3 class="text-sm font-semibold text-gray-900 mb-3">{{ __('Rincian Harga') }}</h3>
+            <div class="space-y-2 text-sm">
+                <div class="flex justify-between text-gray-600">
+                    <span>{{ __('Sewa mobil') }} ({{ $pemesanan->durasi() }} {{ __('hari') }} × Rp
+                        {{ number_format($pemesanan->mobil->harga_per_hari, 0, ',', '.') }})
                     </span>
-                    <span>Rp {{ number_format($pemesanan->biaya_supir, 0, ',', '.') }}</span>
+                    <span class="tabular-nums">
+                        Rp {{ number_format($pemesanan->durasi() * $pemesanan->mobil->harga_per_hari, 0, ',', '.') }}
+                    </span>
                 </div>
+                @if($pemesanan->opsi_supir && $pemesanan->biaya_supir)
+                    <div class="flex justify-between text-gray-600">
+                        <span>{{ __('Jasa supir') }} ({{ $pemesanan->durasi() }} {{ __('hari') }} × Rp
+                            {{ number_format($pemesanan->mobil->biaya_supir_per_hari, 0, ',', '.') }})
+                        </span>
+                        <span class="tabular-nums">
+                            Rp {{ number_format($pemesanan->biaya_supir, 0, ',', '.') }}
+                        </span>
+                    </div>
                 @endif
-
-                {{-- Total --}}
-                <div class="flex items-center justify-between border-t border-[#f1f4fa] pt-3
-                             text-base font-bold text-[#18213a]">
+                <div class="flex justify-between border-t border-gray-100 pt-2 font-semibold text-gray-900">
                     <span>{{ __('Total') }}</span>
-                    <span class="text-primary-600">
+                    <span class="tabular-nums">
                         Rp {{ number_format($pemesanan->total_harga, 0, ',', '.') }}
                     </span>
                 </div>
             </div>
         </div>
+    </div>
 
-        {{-- ── Aksi bawah ────────────────────────────────────────────── --}}
-        <div class="flex flex-wrap items-center justify-between gap-3 pb-2">
-            <div class="flex flex-wrap gap-2">
+    {{-- Sidebar Aksi --}}
+    <div class="space-y-4">
 
-                {{-- Invoice --}}
-                @if(in_array($pemesanan->status, ['menunggu_konfirmasi_admin','dikonfirmasi','selesai'])
-                    && $pemesanan->payment?->isDikonfirmasi())
-                <a href="{{ route('payment.invoice', $pemesanan) }}"
-                   class="inline-flex items-center gap-1.5 rounded-xl border border-[#e5e9f2] bg-white
-                          px-4 py-2.5 text-sm font-medium text-[#18213a] shadow-sm
-                          hover:bg-[#f1f4fa] transition-colors">
-                    <x-icon name="arrow-down-tray" class="h-4 w-4" />
-                    {{ __('Unduh Invoice') }}
-                </a>
+        {{-- Aksi Admin --}}
+        <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+            <h3 class="text-sm font-semibold text-gray-900 mb-3">{{ __('Tindakan Admin') }}</h3>
+        
+            <div class="space-y-2">
+        
+                {{-- Konfirmasi Pembayaran (jika sudah WA tapi belum dikonfirmasi) --}}
+                @if($pemesanan->payment && $pemesanan->payment->status === 'menunggu_konfirmasi')
+                    <div class="mb-3 rounded-xl border border-blue-200 bg-blue-50 p-3">
+                        <p class="text-xs font-semibold text-blue-700 mb-1">{{ __('Info Pembayaran') }}</p>
+                        <div class="text-xs text-gray-700 space-y-1">
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">{{ __('Metode') }}</span>
+                                <span class="font-semibold">
+                                    {{ $pemesanan->payment->labelMetode() }}
+                                </span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">{{ __('WA Dikirim') }}</span>
+                                <span>{{ $pemesanan->payment->wa_sent_at?->format('d M Y, H:i') }}</span>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <form method="POST"
+                          action="{{ route('admin.pemesanan.konfirmasi-bayar', $pemesanan) }}">
+                        @csrf @method('PATCH')
+                        <button type="submit"
+                                class="flex w-full items-center justify-center gap-2 rounded-lg
+                                       bg-primary-600 px-4 py-2.5 text-sm font-medium text-white
+                                       hover:bg-primary-700 transition-colors">
+                            <x-icon name="check-circle" class="w-4 h-4" />
+                            {{ __('Konfirmasi Pembayaran Diterima') }}
+                        </button>
+                    </form>
                 @endif
-
-                {{-- Chat admin --}}
-                <a href="{{ route('chat.index') }}"
-                   class="inline-flex items-center gap-1.5 rounded-xl border border-[#e5e9f2] bg-white
-                          px-4 py-2.5 text-sm font-medium text-[#18213a] shadow-sm
-                          hover:bg-[#f1f4fa] transition-colors">
-                    <x-icon name="chat-bubble-left-ellipsis" class="h-4 w-4" />
-                    {{ __('Hubungi Admin') }}
-                </a>
-
-                {{-- Batalkan --}}
-                @if($pemesanan->isBisaDibatalkan())
-                <form method="POST" action="{{ route('pemesanan.cancel', $pemesanan) }}"
-                      x-data
-                      @submit.prevent="if(confirm('Yakin ingin membatalkan pemesanan ini?')) $el.submit()">
-                    @csrf @method('PATCH')
-                    <button type="submit"
-                            class="inline-flex items-center gap-1.5 rounded-xl border border-red-200 bg-white
-                                   px-4 py-2.5 text-sm font-medium text-red-500 shadow-sm
+        
+                {{-- Konfirmasi Pemesanan --}}
+                @if($pemesanan->status === 'menunggu_konfirmasi_admin')
+                    <form method="POST"
+                          action="{{ route('admin.pemesanan.konfirmasi', $pemesanan) }}">
+                        @csrf @method('PATCH')
+                        <button type="submit"
+                                class="flex w-full items-center justify-center gap-2 rounded-lg
+                                       bg-green-600 px-4 py-2.5 text-sm font-medium text-white
+                                       hover:bg-green-700 transition-colors">
+                            <x-icon name="check-circle" class="w-4 h-4" />
+                            {{ __('Konfirmasi Pemesanan') }}
+                        </button>
+                    </form>
+        
+                    <button @click="$dispatch('open-modal-tolak')"
+                            class="flex w-full items-center justify-center gap-2 rounded-lg border
+                                   border-red-200 px-4 py-2.5 text-sm font-medium text-red-600
                                    hover:bg-red-50 transition-colors">
-                        <x-icon name="x-circle" class="h-4 w-4" />
-                        {{ __('Batalkan Pemesanan') }}
+                        <x-icon name="x-circle" class="w-4 h-4" />
+                        {{ __('Tolak Pemesanan') }}
                     </button>
-                </form>
+        
+                @elseif($pemesanan->status === 'dikonfirmasi')
+                    <form method="POST"
+                          action="{{ route('admin.pemesanan.selesai', $pemesanan) }}">
+                        @csrf @method('PATCH')
+                        <button type="submit"
+                                class="flex w-full items-center justify-center gap-2 rounded-lg
+                                       bg-primary-600 px-4 py-2.5 text-sm font-medium text-white
+                                       hover:bg-primary-700 transition-colors">
+                            <x-icon name="check-circle" class="w-4 h-4" />
+                            {{ __('Tandai Selesai') }}
+                        </button>
+                    </form>
+        
+                @else
+                    <p class="text-xs text-center py-2 text-gray-400">
+                        {{ __('Tidak ada tindakan tersedia untuk status ini.') }}
+                    </p>
+                @endif
+        
+                {{-- Chat WA langsung ke pelanggan --}}
+                @php
+                    $noPelanggan = preg_replace('/[^0-9]/', '', $pemesanan->user->no_hp ?? '');
+                    $noPelanggan = $noPelanggan ? '62' . ltrim($noPelanggan, '0') : null;
+                @endphp
+                @if($noPelanggan)
+                    <a href="https://wa.me/{{ $noPelanggan }}"
+                       target="_blank"
+                       class="flex w-full items-center justify-center gap-2 rounded-lg border
+                              border-gray-200 px-4 py-2.5 text-sm font-medium text-gray-700
+                              hover:bg-gray-50 transition-colors">
+                        <svg class="w-4 h-4 text-[#25D366]" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+                        </svg>
+                        {{ __('Chat Pelanggan di WhatsApp') }}
+                    </a>
+                @endif
+        
+                {{-- Download Invoice --}}
+                @if(in_array($pemesanan->status, ['menunggu_konfirmasi_admin','dikonfirmasi','selesai']))
+                    <a href="{{ route('admin.pemesanan.invoice', $pemesanan) }}"
+                       class="flex w-full items-center justify-center gap-2 rounded-lg border
+                              border-gray-200 px-4 py-2.5 text-sm font-medium text-gray-700
+                              hover:bg-gray-50 transition-colors">
+                        <x-icon name="download" class="w-4 h-4" />
+                        {{ __('Download Invoice') }}
+                    </a>
                 @endif
             </div>
-
-            {{-- Pesan lagi --}}
-            @if(in_array($pemesanan->status, ['selesai','dibatalkan','kadaluarsa']))
-            <a href="{{ route('mobil.show', $pemesanan->mobil) }}"
-               class="inline-flex items-center gap-1.5 rounded-xl bg-primary-600 px-4 py-2.5
-                      text-sm font-semibold text-white shadow-sm hover:bg-primary-700 transition-colors">
-                <x-icon name="arrow-path" class="h-4 w-4" />
-                {{ __('Pesan Lagi') }}
-            </a>
-            @endif
         </div>
 
-    </div>{{-- /space-y-4 --}}
+        {{-- Timeline --}}
+        <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+            <h3 class="text-sm font-semibold text-gray-900 mb-3">{{ __('Timeline') }}</h3>
+            <ol class="space-y-3">
+                <li class="flex gap-3">
+                    <div class="flex flex-col items-center">
+                        <div class="h-2 w-2 rounded-full bg-primary-600 mt-1.5 flex-shrink-0"></div>
+                        <div class="w-px flex-1 bg-gray-200 mt-1"></div>
+                    </div>
+                    <div class="pb-3">
+                        <p class="text-xs font-medium text-gray-900">{{ __('Pemesanan dibuat') }}</p>
+                        <p class="text-xs text-gray-400">
+                            {{ $pemesanan->created_at->format('d M Y, H:i') }}
+                        </p>
+                    </div>
+                </li>
+                @if($pemesanan->payment?->paid_at)
+                <li class="flex gap-3">
+                    <div class="flex flex-col items-center">
+                        <div class="h-2 w-2 rounded-full bg-green-500 mt-1.5 flex-shrink-0"></div>
+                        <div class="w-px flex-1 bg-gray-200 mt-1"></div>
+                    </div>
+                    <div class="pb-3">
+                        <p class="text-xs font-medium text-gray-900">{{ __('Pembayaran diterima') }}</p>
+                        <p class="text-xs text-gray-400">
+                            {{ $pemesanan->payment->paid_at->format('d M Y, H:i') }}
+                        </p>
+                    </div>
+                </li>
+                @endif
+                <li class="flex gap-3">
+                    <div class="flex flex-col items-center">
+                        <div class="h-2 w-2 rounded-full
+                            {{ in_array($pemesanan->status, ['dikonfirmasi','selesai'])
+                                ? 'bg-green-500' : 'bg-gray-200' }}
+                            mt-1.5 flex-shrink-0"></div>
+                    </div>
+                    <div>
+                        <p class="text-xs font-medium
+                            {{ in_array($pemesanan->status, ['dikonfirmasi','selesai'])
+                                ? 'text-gray-900' : 'text-gray-300' }}">
+                            {{ __('Dikonfirmasi admin') }}
+                        </p>
+                    </div>
+                </li>
+            </ol>
+        </div>
+
+    </div>
 </div>
+
+{{-- Modal Tolak --}}
+<x-modal id="tolak" title="{{ __('Tolak Pemesanan') }}" size="sm">
+    <p class="text-sm text-gray-600">
+        {!! __('Yakin ingin menolak pemesanan <strong>#:id</strong>?', ['id' => $pemesanan->id]) !!}
+        {{ __('Pelanggan akan diberitahu melalui notifikasi dan email.') }}
+    </p>
+    <x-slot:footer>
+        <button @click="$dispatch('close-modal-tolak')"
+                class="rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium
+                       text-gray-700 hover:bg-gray-50 transition-colors">
+            {{ __('Batal') }}
+        </button>
+        <form method="POST" action="{{ route('admin.pemesanan.tolak', $pemesanan) }}">
+            @csrf @method('PATCH')
+            <button type="submit"
+                    class="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white
+                           hover:bg-red-700 transition-colors">
+                {{ __('Ya, Tolak') }}
+            </button>
+        </form>
+    </x-slot:footer>
+</x-modal>
+
 @endsection
