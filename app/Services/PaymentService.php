@@ -124,9 +124,14 @@ final class PaymentService
             ? 'Sewa 12 Jam'
             : 'Sewa '.$pemesanan->durasi().' Hari';
 
-        $waktuInfo = ($pemesanan->adalah12Jam() && $pemesanan->waktu_mulai)
-            ? ' pukul '.substr($pemesanan->waktu_mulai, 0, 5)
-            : '';
+        // Extract jam dari waktu_mulai dan waktu_selesai (format HH:MM)
+        $jamMulai = $pemesanan->waktu_mulai
+            ? substr($pemesanan->waktu_mulai, 0, 5)
+            : '00:00';
+
+        $jamSelesai = $pemesanan->waktu_selesai
+            ? substr($pemesanan->waktu_selesai, 0, 5)
+            : '00:00';
 
         $statusPekerjaanLabel = match ($pemesanan->status_pekerjaan) {
             'bekerja' => 'Sudah Bekerja',
@@ -145,7 +150,8 @@ final class PaymentService
             '{durasi}' => $labelDurasi,
             '{tanggal_mulai}' => $pemesanan->tanggal_mulai->format('d M Y'),
             '{tanggal_selesai}' => $pemesanan->tanggal_selesai->format('d M Y'),
-            '{waktu_info}' => $waktuInfo,
+            '{jam_mulai}' => $jamMulai,
+            '{jam_selesai}' => $jamSelesai,
             '{total}' => number_format((float) $pemesanan->total_harga, 0, ',', '.'),
             '{bank}' => $config['bank'] ?? '',
             '{rekening}' => $config['rekening'] ?? '',
@@ -168,4 +174,5 @@ final class PaymentService
         return 'https://wa.me/'.config('payment.wa_number')
             .'?text='.rawurlencode($pesan);
     }
+
 }

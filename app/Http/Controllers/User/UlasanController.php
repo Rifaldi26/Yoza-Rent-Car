@@ -34,9 +34,9 @@ final class UlasanController extends Controller
             'pemesanan_id' => $pemesanan->id,
             'rating'       => $request->validated('rating'),
             'komentar'     => $request->validated('komentar'),
-            'disetujui'    => false, // menunggu moderasi admin
+            'disetujui'    => true, // menunggu moderasi admin
         ]);
 
-        return back()->with('success', __('Ulasan Anda telah dikirim dan menunggu persetujuan.'));
+        return back()->with('success', __('Terima kasih! Ulasan Anda telah dipublikasikan.'));
     }
 }

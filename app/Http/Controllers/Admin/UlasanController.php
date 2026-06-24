@@ -11,34 +11,16 @@ use Illuminate\View\View;
 class UlasanController extends Controller
 {
     /**
-     * Tampilkan daftar ulasan dengan tab "Menunggu" dan "Semua".
+     * Tampilkan daftar semua ulasan.
+     * Ulasan sudah langsung public, tidak perlu moderasi.
      */
     public function index(Request $request): View
     {
-        $tab = $request->query('tab', 'menunggu');
+        $ulasans = Ulasan::with(['user', 'mobil', 'pemesanan'])
+            ->latest()
+            ->paginate(15);
 
-        $query = Ulasan::with(['user', 'mobil', 'pemesanan'])
-            ->latest();
-
-        if ($tab === 'semua') {
-            $ulasans = $query->paginate(15)->withQueryString();
-        } else {
-            $ulasans = $query->menunggu()->paginate(15)->withQueryString();
-        }
-
-        $jumlahMenunggu = Ulasan::menunggu()->count();
-
-        return view('admin.ulasan.index', compact('ulasans', 'jumlahMenunggu'));
-    }
-
-    /**
-     * Setujui ulasan agar tampil ke publik.
-     */
-    public function setujui(Ulasan $ulasan): RedirectResponse
-    {
-        $ulasan->update(['disetujui' => true]);
-
-        return back()->with('success', __('Ulasan berhasil disetujui.'));
+        return view('admin.ulasan.index', compact('ulasans'));
     }
 
     /**

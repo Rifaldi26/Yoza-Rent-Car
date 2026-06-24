@@ -113,7 +113,6 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->name('admin.')->group(
     Route::patch('/pemesanan/{pemesanan}/konfirmasi-bayar', [AdminPemesanan::class, 'konfirmasiPembayaran'])->name('pemesanan.konfirmasi-bayar');
     Route::get('/pemesanan/{pemesanan}/invoice', [AdminPemesanan::class, 'invoice'])->name('pemesanan.invoice');
     Route::get('/ulasan', [AdminUlasanController::class, 'index'])->name('ulasan.index');
-    Route::patch('/ulasan/{ulasan}/setujui', [AdminUlasanController::class, 'setujui'])->name('ulasan.setujui');
     Route::delete('/ulasan/{ulasan}', [AdminUlasanController::class, 'destroy'])->name('ulasan.destroy');
 
     // ── Manajemen User ────────────────────────────────────────

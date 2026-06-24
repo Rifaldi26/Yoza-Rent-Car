@@ -5,31 +5,8 @@
 
 <x-page-header
     title="{{ __('Ulasan') }}"
-    description="{{ __('Moderasi ulasan dari penyewa sebelum ditampilkan ke publik.') }}"
+    description="{{ __('Kelola semua ulasan dari penyewa. Ulasan dipublikasikan secara otomatis.') }}"
 />
-
-{{-- Tab menunggu / semua --}}
-<div class="mb-4 flex gap-1 border-b border-gray-200">
-    <a href="{{ route('admin.ulasan.index') }}"
-       class="px-4 py-2 text-sm font-medium transition-colors border-b-2
-              {{ !request('tab') || request('tab') === 'menunggu'
-                  ? 'border-primary-600 text-primary-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700' }}">
-        {{ __('Menunggu') }}
-        @if($jumlahMenunggu > 0)
-            <span class="ml-1.5 rounded-full bg-amber-100 px-1.5 py-0.5 text-xs font-semibold text-amber-700">
-                {{ $jumlahMenunggu }}
-            </span>
-        @endif
-    </a>
-    <a href="{{ route('admin.ulasan.index', ['tab' => 'semua']) }}"
-       class="px-4 py-2 text-sm font-medium transition-colors border-b-2
-              {{ request('tab') === 'semua'
-                  ? 'border-primary-600 text-primary-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700' }}">
-        {{ __('Semua') }}
-    </a>
-</div>
 
 <div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
     <table class="w-full text-sm">
@@ -93,43 +70,19 @@
                         </p>
                     </td>
 
-                    {{-- Aksi --}}
+                    {{-- Aksi: Hanya tombol Hapus --}}
                     <td class="px-4 py-3 text-right">
-                        <div class="inline-flex items-center gap-1">
-                            @if(!$ulasan->disetujui)
-                                <form method="POST"
-                                      action="{{ route('admin.ulasan.setujui', $ulasan) }}">
-                                    @csrf @method('PATCH')
-                                    <button type="submit"
-                                            class="inline-flex items-center gap-1 rounded-lg
-                                                   bg-green-50 border border-green-200 px-2.5 py-1.5
-                                                   text-xs font-medium text-green-700
-                                                   hover:bg-green-100 transition-colors">
-                                        <x-icon name="check-circle" class="w-3.5 h-3.5" />
-                                        {{ __('Setujui') }}
-                                    </button>
-                                </form>
-                            @else
-                                <span class="inline-flex items-center gap-1 rounded-lg
-                                             bg-green-50 border border-green-200 px-2.5 py-1.5
-                                             text-xs font-medium text-green-700">
-                                    <x-icon name="check-circle" class="w-3.5 h-3.5" />
-                                    {{ __('Disetujui') }}
-                                </span>
-                            @endif
-
-                            <form method="POST"
-                                  action="{{ route('admin.ulasan.destroy', $ulasan) }}"
-                                  onsubmit="return confirm('{{ __('Hapus ulasan ini?') }}')">
-                                @csrf @method('DELETE')
-                                <button type="submit"
-                                        class="inline-flex items-center rounded-lg border border-gray-200
-                                               p-1.5 text-gray-400 hover:border-red-200 hover:bg-red-50
-                                               hover:text-red-600 transition-colors">
-                                    <x-icon name="trash" class="w-3.5 h-3.5" />
-                                </button>
-                            </form>
-                        </div>
+                        <form method="POST"
+                              action="{{ route('admin.ulasan.destroy', $ulasan) }}"
+                              onsubmit="return confirm('{{ __('Hapus ulasan ini?') }}')">
+                            @csrf @method('DELETE')
+                            <button type="submit"
+                                    class="inline-flex items-center rounded-lg border border-gray-200
+                                           p-1.5 text-gray-400 hover:border-red-200 hover:bg-red-50
+                                           hover:text-red-600 transition-colors">
+                                <x-icon name="trash" class="w-3.5 h-3.5" />
+                            </button>
+                        </form>
                     </td>
 
                 </tr>
@@ -139,9 +92,7 @@
                         <x-empty-state
                             icon="star"
                             title="{{ __('Tidak ada ulasan') }}"
-                            description="{{ request('tab') === 'semua'
-                                ? __('Belum ada ulasan masuk.')
-                                : __('Tidak ada ulasan yang menunggu persetujuan.') }}"
+                            description="{{ __('Belum ada ulasan masuk.') }}"
                         />
                     </td>
                 </tr>

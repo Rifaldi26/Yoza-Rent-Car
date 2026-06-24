@@ -119,9 +119,22 @@
                                 </div>
                                 <div>
                                     <p class="text-[#7a8499]">{{ __('No. Rekening') }}</p>
-                                    <p class="font-semibold font-mono text-[#18213a]">
-                                        {{ $info['rekening'] }}
-                                    </p>
+                                    <div class="flex items-center gap-1.5" x-data="{ copied: false }">
+                                        <p class="font-semibold font-mono text-[#18213a]">
+                                            {{ $info['rekening'] }}
+                                        </p>
+                                        <button type="button"
+                                                @click.stop="
+                                                    navigator.clipboard.writeText('{{ $info['rekening'] }}');
+                                                    copied = true;
+                                                    setTimeout(() => copied = false, 1500);
+                                                "
+                                                class="text-[#7a8499] hover:text-primary-600 transition-colors"
+                                                :title="copied ? '{{ __('Tersalin') }}' : '{{ __('Salin nomor rekening') }}'">
+                                            <x-icon name="clipboard" class="w-3.5 h-3.5" x-show="!copied" />
+                                            <x-icon name="check-circle" class="w-3.5 h-3.5 text-green-600" x-show="copied" x-cloak />
+                                        </button>
+                                    </div>
                                 </div>
                                 <div class="col-span-2">
                                     <p class="text-[#7a8499]">{{ __('Atas Nama') }}</p>
@@ -137,6 +150,14 @@
                             <img src="{{ Storage::url($info['qris_image']) }}"
                                  alt="QRIS Yoza Rent Car"
                                  class="h-40 w-40 rounded-xl border border-[#e5e9f2] object-contain bg-white p-2">
+                            <a href="{{ Storage::url($info['qris_image']) }}"
+                               download="QRIS-YozaRentCar.png"
+                               @click.stop
+                               class="mt-2 inline-flex items-center gap-1.5 text-xs font-medium
+                                      text-primary-600 hover:text-primary-700 transition-colors">
+                                <x-icon name="download" class="w-3.5 h-3.5" />
+                                {{ __('Unduh QRIS') }}
+                            </a>
                         </div>
                         @endif
                     </div>
