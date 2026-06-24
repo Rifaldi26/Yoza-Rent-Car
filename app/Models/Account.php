@@ -38,4 +38,10 @@ class Account extends Model
     {
         return $this->journalEntries()->sum('credit');
     }
+
+    // Accessor: Nama terjemahan (auto-translate nama account)
+    public function getNamaTranslatedAttribute(): string
+    {
+        return __($this->nama);
+    }
 }

@@ -73,7 +73,7 @@
                     <td class="px-4 py-3 font-mono text-xs text-gray-500">
                         {{ $account->kode }}
                     </td>
-                    <td class="px-4 py-3 font-medium text-gray-900">{{ $account->nama }}</td>
+                    <td class="px-4 py-3 font-medium text-gray-900">{{ $account->nama_translated }}</td>
                     <td class="px-4 py-3 text-right tabular-nums text-gray-900">
                         Rp {{ number_format($account->total_debit ?? 0, 0, ',', '.') }}
                     </td>
