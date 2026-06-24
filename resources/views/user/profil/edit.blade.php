@@ -35,8 +35,13 @@
             <div class="space-y-3">
                 <x-input name="name" label="{{ __('Nama Lengkap') }}"
                     :value="old('name', $user->name)" required />
-                <x-input name="email" label="Email" type="email"
-                    :value="old('email', $user->email)" required />
+                <div>
+                    <label class="mb-1 block text-sm font-medium text-[#18213a]">Email</label>
+                    <input type="email" value="{{ $user->email }}"
+                           class="w-full rounded-xl border border-[#e5e9f2] bg-[#f1f4fa] px-3 py-2 text-sm text-[#7a8499] cursor-not-allowed"
+                           disabled />
+                    <p class="mt-1 text-xs text-[#7a8499]">{{ __('Email tidak dapat diubah.') }}</p>
+                </div>
                 <x-input name="no_hp" label="{{ __('Nomor HP') }}"
                     :value="old('no_hp', $user->no_hp)"
                     placeholder="081234567890" />

@@ -302,6 +302,7 @@
 
     "Self-Drive": "Self-Drive",
     "+ Supir": "+ Driver",
+    "Pukul": "O'clock",
 
     "Kembali ke Pemesanan": "Back to Bookings",
     "Dibuat": "Created",
@@ -616,5 +617,13 @@
     "Waktu permintaan lokasi habis.": "Location request timed out.",
     "Terjadi kesalahan saat mengambil lokasi.": "An error occurred while getting your location.",
     "Verifikasi email Anda untuk menulis ulasan": "Verify your email to write a review",
-    "Kami sudah mengirim link verifikasi ke email Anda saat mendaftar.": "We sent a verification link to your email when you signed up."
+    "Kami sudah mengirim link verifikasi ke email Anda saat mendaftar.": "We sent a verification link to your email when you signed up.",
+    "Bahasa": "Language",
+    "Email tidak dapat diubah.": "Email cannot be changed.",
+    "Mobil sudah dipesan pada rentang tanggal tersebut.": "The vehicle is already booked for the selected dates.",
+    "Mobil ini sedang tidak tersedia untuk dipesan.": "This vehicle is currently unavailable for booking.",
+    "Tidak dapat melakukan aksi ':aksi' pada pemesanan berstatus ':status'.": "Cannot perform ':aksi' on a booking with status ':status'.",
+    "Mobil ini sedang tidak tersedia.": "This vehicle is currently unavailable.",
+    "Pemesanan berhasil dibuat. Selesaikan pembayaran Anda.": "Booking created successfully. Please complete your payment.",
+    "Pemesanan berhasil dibatalkan.": "Booking has been successfully cancelled."
 }

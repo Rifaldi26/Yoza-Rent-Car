@@ -12,11 +12,11 @@ class UserSeeder extends Seeder
     {
         // Admin utama
         User::updateOrCreate(
-            ['email' => 'admin@gmail.com'],
+            ['email' => 'yozarentcar@gmail.com'],
             [
-                'name' => 'Admin Yoza Rent Car',
-                'no_hp' => '081234567890',
-                'password' => Hash::make('admin123'),
+                'name' => 'Admin Yoza',
+                'no_hp' => '085728015695',
+                'password' => Hash::make('admin!23Yoza'),
                 'role' => 'admin',
                 'email_verified_at' => now(),
             ]

@@ -25,17 +25,20 @@ final class PemesananException extends Exception
     public static function statusTidakValid(string $aksi, string $statusSaatIni): self
     {
         return new self(
-            "Tidak dapat melakukan aksi '{$aksi}' pada pemesanan berstatus '{$statusSaatIni}'."
+            __("Tidak dapat melakukan aksi ':aksi' pada pemesanan berstatus ':status'.", [
+                'aksi'   => $aksi,
+                'status' => $statusSaatIni,
+            ])
         );
     }
-
+    
     public static function konflikTanggal(): self
     {
-        return new self('Mobil sudah dipesan pada rentang tanggal tersebut.');
+        return new self(__('Mobil sudah dipesan pada rentang tanggal tersebut.'));
     }
-
+    
     public static function mobilTidakTersedia(): self
     {
-        return new self('Mobil ini sedang tidak tersedia untuk dipesan.');
+        return new self(__('Mobil ini sedang tidak tersedia untuk dipesan.'));
     }
 }

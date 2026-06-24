@@ -34,12 +34,14 @@ final class PemesananController extends Controller
         private readonly PemesananService $pemesananService,
     ) {}
 
-    public function index(): View
+    public function index(Request $request): View
     {
         $pemesanans = Pemesanan::with(['mobil', 'payment'])
             ->where('user_id', Auth::id())
+	        ->when($request->status, fn($q, $status) => $q->where('status', $status))
             ->latest()
-            ->paginate(10);
+            ->paginate(10)
+            ->withQueryString();
 
         return view('user.pemesanan.index', compact('pemesanans'));
     }
@@ -50,7 +52,7 @@ final class PemesananController extends Controller
 
         if (! $mobil->isTersedia()) {
             return redirect()->route('home')
-                ->with('error', 'Mobil ini sedang tidak tersedia.');
+                ->with('error', __('Mobil ini sedang tidak tersedia.'));
         }
 
         return view('user.pemesanan.create', compact('mobil'));
@@ -66,7 +68,7 @@ final class PemesananController extends Controller
 
             return redirect()
                 ->route('payment.checkout', $pemesanan)
-                ->with('success', 'Pemesanan berhasil dibuat. Selesaikan pembayaran Anda.');
+                ->with('success', __('Pemesanan berhasil dibuat. Selesaikan pembayaran Anda.'));
         } catch (ValidationException $e) {
             return back()->withErrors($e->errors());
         }
@@ -80,7 +82,7 @@ final class PemesananController extends Controller
         // - mobil        : foto, harga, spesifikasi
         // - payment      : status, metode, wa_sent_at, paid_at
         // (journalEntries tidak ditampilkan ke user — hanya untuk admin)
-        $pemesanan->load(['mobil', 'payment']);
+        $pemesanan->load(['mobil', 'payment', 'ulasan']);
 
         return view('user.pemesanan.show', compact('pemesanan'));
     }
@@ -94,7 +96,7 @@ final class PemesananController extends Controller
 
             return redirect()
                 ->route('pemesanan.index')
-                ->with('success', 'Pemesanan berhasil dibatalkan.');
+                ->with('success', __('Pemesanan berhasil dibatalkan.'));
         } catch (PemesananException $e) {
             return back()->with('error', $e->getMessage());
         }

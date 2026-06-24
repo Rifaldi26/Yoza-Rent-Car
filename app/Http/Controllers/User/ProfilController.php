@@ -22,7 +22,6 @@ class ProfilController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'no_hp' => 'nullable|string|max:20',
-            'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
             'password' => 'nullable|min:8|confirmed',
             'current_password' => $request->password ? 'required' : 'nullable',
         ]);
@@ -36,7 +35,6 @@ class ProfilController extends Controller
         }
 
         $user->name = $validated['name'];
-        $user->email = $validated['email'];
         $user->no_hp = $validated['no_hp'] ?? null;
         $user->save();
 
