@@ -158,7 +158,7 @@ final class PaymentService
             '{atas_nama}' => $config['atas_nama'] ?? '',
 
             // ── Data tambahan pemesanan ─────────────────────────────────
-            '{no_hp}' => $pemesanan->user->no_hp ?? '-',
+            '{no_hp}' => $pemesanan->no_hp ?? $pemesanan->user->no_hp ?? '-',
             '{alamat}' => $pemesanan->alamat ?? '-',
             '{tujuan_sewa}' => $pemesanan->tujuan_sewa ?? '-',
             '{kota_tujuan}' => $pemesanan->kota_tujuan ?? '-',

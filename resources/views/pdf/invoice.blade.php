@@ -215,7 +215,9 @@
                 <div class="info-label">Ditagihkan Kepada</div>
                 <div class="info-name">{{ $pemesanan->user->name }}</div>
                 <div class="info-sub">{{ $pemesanan->user->email }}</div>
-                @if($pemesanan->user->no_hp)
+                @if($pemesanan->no_hp)
+                    <div class="info-sub">{{ $pemesanan->no_hp }}</div>
+                @elseif($pemesanan->user->no_hp)
                     <div class="info-sub">{{ $pemesanan->user->no_hp }}</div>
                 @endif
             </td>

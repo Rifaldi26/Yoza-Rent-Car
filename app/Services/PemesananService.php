@@ -119,6 +119,7 @@ final class PemesananService
             'total_harga'     => $totalHarga,
             'status'          => StatusPemesanan::Pending->value,
             'catatan'         => $data['catatan'] ?? null,
+            'no_hp'           => $data['no_hp'],
             'alamat'          => $data['alamat'],
             'tujuan_sewa'     => $data['tujuan_sewa'],
             'kota_tujuan'     => $data['kota_tujuan'],

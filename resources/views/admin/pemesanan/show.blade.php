@@ -37,7 +37,7 @@
                     <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">{{ __('Pelanggan') }}</p>
                     <p class="mt-1 font-medium text-gray-900">{{ $pemesanan->user->name }}</p>
                     <p class="text-xs text-gray-500">{{ $pemesanan->user->email }}</p>
-                    <p class="text-xs text-gray-500">{{ $pemesanan->user->no_hp ?? '-' }}</p>
+                    <p class="text-xs text-gray-500">{{ $pemesanan->no_hp ?? $pemesanan->user->no_hp ?? '-' }}</p>
                 </div>
                 <div>
                     <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">{{ __('Kendaraan') }}</p>
@@ -219,7 +219,7 @@
         
                 {{-- Chat WA langsung ke pelanggan --}}
                 @php
-                    $noPelanggan = preg_replace('/[^0-9]/', '', $pemesanan->user->no_hp ?? '');
+                    $noPelanggan = preg_replace('/[^0-9]/', '', $pemesanan->no_hp ?? $pemesanan->user->no_hp ?? '');
                     $noPelanggan = $noPelanggan ? '62' . ltrim($noPelanggan, '0') : null;
                 @endphp
                 @if($noPelanggan)
