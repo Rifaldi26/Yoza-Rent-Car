@@ -221,4 +221,73 @@ class PembukuanController extends Controller
         return redirect()->route('admin.pembukuan.index')
             ->with('success', 'Akun berhasil diperbarui.');
     }
+
+    public function inputTransaksi(Request $request)
+    {
+        $validated = $request->validate([
+            'account_id' => 'required|exists:accounts,id',
+            'tipe_transaksi' => 'required|in:debit,credit',
+            'amount' => 'required|numeric|min:1',
+            'description' => 'required|string|max:500',
+            'date' => 'required|date',
+        ]);
+
+        $account = Account::findOrFail($validated['account_id']);
+
+        // Tentukan debit/kredit berdasarkan input
+        $debit = $validated['tipe_transaksi'] === 'debit' ? $validated['amount'] : 0;
+        $credit = $validated['tipe_transaksi'] === 'credit' ? $validated['amount'] : 0;
+
+        // Jika kredit, ambil kas untuk balanced entry
+        if ($validated['tipe_transaksi'] === 'credit') {
+            $kas = Account::where('kode', '1-001')->firstOrFail();
+
+            // Debit Kas (karena kas berkurang)
+            JournalEntry::create([
+                'account_id' => $kas->id,
+                'debit' => $validated['amount'],
+                'credit' => 0,
+                'description' => "Kas keluar — {$validated['description']}",
+                'date' => $validated['date'],
+            ]);
+
+            // Kredit Akun
+            JournalEntry::create([
+                'account_id' => $account->id,
+                'debit' => 0,
+                'credit' => $validated['amount'],
+                'description' => $validated['description'],
+                'date' => $validated['date'],
+            ]);
+
+            $kas->decrement('balance', $validated['amount']);
+            $account->increment('balance', $validated['amount']);
+        } else {
+            // Jika debit, sebaliknya
+            $kas = Account::where('kode', '1-001')->firstOrFail();
+
+            // Debit Akun
+            JournalEntry::create([
+                'account_id' => $account->id,
+                'debit' => $validated['amount'],
+                'credit' => 0,
+                'description' => $validated['description'],
+                'date' => $validated['date'],
+            ]);
+
+            // Kredit Kas
+            JournalEntry::create([
+                'account_id' => $kas->id,
+                'debit' => 0,
+                'credit' => $validated['amount'],
+                'description' => "Kas masuk — {$validated['description']}",
+                'date' => $validated['date'],
+            ]);
+
+            $account->increment('balance', $validated['amount']);
+            $kas->increment('balance', $validated['amount']);
+        }
+
+        return back()->with('success', __('Transaksi berhasil dicatat.'));
+    }
 }

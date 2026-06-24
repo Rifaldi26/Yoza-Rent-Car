@@ -131,6 +131,7 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->name('admin.')->group(
     Route::get('/pembukuan/laporan', [AdminPembukuan::class, 'laporan'])->name('pembukuan.laporan');
     Route::get('/pembukuan/export', [AdminPembukuan::class, 'export'])->name('pembukuan.export');
     Route::post('/pembukuan/pengeluaran', [AdminPembukuan::class, 'pengeluaran'])->name('pembukuan.pengeluaran');
+    Route::post('/pembukuan/input-transaksi', [AdminPembukuan::class, 'inputTransaksi'])->name('pembukuan.input-transaksi');
     Route::get('/pembukuan/{account}/edit', [AdminPembukuan::class, 'edit'])->name('pembukuan.edit');
     Route::put('/pembukuan/{account}', [AdminPembukuan::class, 'update'])->name('pembukuan.update');
 

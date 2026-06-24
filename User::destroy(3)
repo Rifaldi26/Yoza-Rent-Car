@@ -1,0 +1,34 @@
+[90m= [39m[34;4mIlluminate\Database\Eloquent\Collection[39;24m {#7919
+    [34mall[39m: [
+      [34;4mApp\Models\User[39;24m {#8151
+        [34mid[39m: [35m2[39m,
+        [34mname[39m: [32m"[39m[32mAdmin Yoza[39m[32m"[39m,
+        [34memail[39m: [32m"[39m[32myozarentcar@gmail.com[39m[32m"[39m,
+      },
+      [34;4mApp\Models\User[39;24m {#8152
+        [34mid[39m: [35m3[39m,
+        [34mname[39m: [32m"[39m[32mBudi Santoso[39m[32m"[39m,
+        [34memail[39m: [32m"[39m[32mpelangan@gmail.com[39m[32m"[39m,
+      },
+      [34;4mApp\Models\User[39;24m {#8153
+        [34mid[39m: [35m4[39m,
+        [34mname[39m: [32m"[39m[32mMuhamad Rifaldi[39m[32m"[39m,
+        [34memail[39m: [32m"[39m[32mm.rifaldi.261204@gmail.com[39m[32m"[39m,
+      },
+      [34;4mApp\Models\User[39;24m {#8154
+        [34mid[39m: [35m5[39m,
+        [34mname[39m: [32m"[39m[32mEva Agustina[39m[32m"[39m,
+        [34memail[39m: [32m"[39m[32mevaagustina2506@gmail.com[39m[32m"[39m,
+      },
+      [34;4mApp\Models\User[39;24m {#8155
+        [34mid[39m: [35m6[39m,
+        [34mname[39m: [32m"[39m[32mMuhamad Rifaldi (Rifaldi)[39m[32m"[39m,
+        [34memail[39m: [32m"[39m[32mmr015091@gmail.com[39m[32m"[39m,
+      },
+      [34;4mApp\Models\User[39;24m {#8156
+        [34mid[39m: [35m7[39m,
+        [34mname[39m: [32m"[39m[32mAprian Tri Dwinanta[39m[32m"[39m,
+        [34memail[39m: [32m"[39m[32mnantayann478@gmail.com[39m[32m"[39m,
+      },
+    ],
+  }

@@ -12,7 +12,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             AccountSeeder::class,
             MobilSeeder::class,
-            // DummyActivitySeeder::class,
+            DummyPelangganJuniSeeder::class,
+            
         ]);
     }
 }

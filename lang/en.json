@@ -1,6 +1,5 @@
 {
     "Panel Admin": "Admin Panel",
-    "Beranda": "Home",
     "Operasional": "Operations",
     "Pemesanan": "Bookings",
     "Armada Mobil": "Fleet",
@@ -40,8 +39,6 @@
     "Kelola armada": "Manage fleet",
 
     "Kelola semua pemesanan dari pelanggan.": "Manage all customer bookings.",
-    "Semua": "All",
-    "Menunggu Bayar": "Awaiting Payment",
     "Dikonfirmasi": "Confirmed",
     "Selesai": "Completed",
     "Dibatalkan": "Cancelled",
@@ -54,9 +51,6 @@
     "Status": "Status",
     "Total": "Total",
     "Aksi": "Actions",
-
-    "Tidak ada pemesanan": "No bookings",
-    "Belum ada pemesanan dengan status ini.": "No bookings with this status.",
 
     "Daftar armada dan ketersediaan.": "Fleet list and availability.",
     "Tambah": "Add",
@@ -180,7 +174,6 @@
     "Informasi Penyewa": "Renter Information",
     "Informasi Kendaraan": "Vehicle Information",
     "Informasi Sewa": "Rental Information",
-    "Tanggal Mulai": "Start Date",
     "Tanggal Selesai": "End Date",
     "Durasi": "Duration",
     "hari": "day(s)",
@@ -244,7 +237,6 @@
     "Masuk dengan Google": "Sign in with Google",
 
     "Verifikasi Email": "Email Verification",
-    "Reset Kata Sandi": "Reset Password",
     "Kirim Link Reset": "Send Reset Link",
     "Konfirmasi Kata Sandi Baru": "Confirm New Password",
 
@@ -352,7 +344,6 @@
     "Profil Saya": "My Profile",
     "Pemesanan Saya": "My Bookings",
     "Katalog": "Catalog",
-    "Chat": "Chat",
     "Online": "Online",
 
     "Kelola informasi akun dan kata sandi Anda.": "Manage your account information and password.",
@@ -420,16 +411,12 @@
     "Kembali ke Detail Mobil": "Back to Vehicle Details",
     "Periode Sewa": "Rental Period",
     "Tanggal Mulai": "Start Date",
-    "Tanggal Selesai": "End Date",
     "Opsi Layanan": "Service Options",
     "Sewa dengan Supir": "Rent with Driver",
     "Catatan (Opsional)": "Notes (Optional)",
     "Instruksi khusus, permintaan tambahan, dll.": "Special instructions, additional requests, etc.",
     "Ringkasan Biaya": "Cost Summary",
-    "Durasi": "Duration",
-    "Sewa Mobil": "Vehicle Rental",
     "Jasa Supir": "Driver Service",
-    "Total": "Total",
     "Lanjutkan ke Pembayaran": "Proceed to Payment",
     "Pembayaran akan dikonfirmasi via WhatsApp": "Payment will be confirmed via WhatsApp",
     "Kembali ke Detail Pemesanan": "Back to Booking Details",
@@ -468,8 +455,6 @@
     "Pantau semua aktivitas sewa Anda di sini.": "Monitor all your rental activity here.",
     "Mulai sewa mobil pertama Anda sekarang.": "Start your first car rental now.",
     "Lihat Katalog": "View Catalog",
-    "Kembali ke Armada": "Back to Fleet",
-    "hari": "day(s)",
     "Harga Terendah": "Lowest Price",
     "Harga Tertinggi": "Highest Price",
     "Cari Mobil": "Search Vehicles",
@@ -495,7 +480,6 @@
     "Daftar Sekarang — Gratis": "Register Now — Free",
     "Sudah punya akun? Masuk": "Already have an account? Sign In",
     "Aktif": "Active",
-    "Selesai": "Completed",
     "Menunggu Bayar": "Awaiting Payment",
     "Reset": "Reset",
     "Label": "Label",
@@ -653,5 +637,9 @@
     "Biaya Penyusutan Mobil": "Vehicle Depreciation Expense",
     "Biaya Pajak dan STNK": "Tax and Registration Expenses",
     "Biaya Pemasaran": "Marketing Expenses",
-    "Biaya Listrik dan Air": "Electricity and Water Expenses"
+    "Biaya Listrik dan Air": "Electricity and Water Expenses",
+    "Jam Mulai": "Start Time",
+    "Jam pengambilan kendaraan": "Vehicle Pickup Time",
+    "Jam Selesai": "End Time",
+    "Jam pengembalian kendaraan": "Vehicle Return Time"
 }
