@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\StatusMobil;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -32,6 +33,21 @@ class Mobil extends Model
     public function isTersedia(): bool
     {
         return $this->status === 'tersedia';
+    }
+
+    public function statusEnum(): StatusMobil
+    {
+        return StatusMobil::from($this->status);
+    }
+
+    public function labelStatus(): string
+    {
+        return $this->statusEnum()->label();
+    }
+
+    public function warnaBadgeStatus(): string
+    {
+        return $this->statusEnum()->warnaBadge();
     }
 
     public function adaSupir(): bool

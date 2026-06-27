@@ -356,6 +356,7 @@
 
     "Belum ada pemesanan dengan status ini.": "No bookings with this status yet.",
     "Lihat Katalog Mobil": "View Vehicle Catalog",
+    "Belum ada pemesanan": "No bookings yet",
 
     "Semua notifikasi akan muncul di sini.": "All notifications will appear here.",
 
@@ -474,6 +475,7 @@
     "/ hari": "/ day",
     "Ada Supir": "With Driver",
     "Sedang Disewa": "Currently Rented",
+    "Dalam Perawatan": "Under Maintenance",
     "Perawatan": "Maintenance",
     "Siap untuk perjalanan?": "Ready for a trip?",
     "Daftar gratis untuk memesan, memantau status, dan menyimpan favorit Anda.": "Sign up free to book, monitor status, and save your favorites.",

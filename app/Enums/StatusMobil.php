@@ -13,9 +13,9 @@ enum StatusMobil: string
     public function label(): string
     {
         return match ($this) {
-            self::Tersedia => 'Tersedia',
-            self::Disewa => 'Sedang Disewa',
-            self::Perawatan => 'Dalam Perawatan',
+            self::Tersedia => __('Tersedia'),
+            self::Disewa => __('Sedang Disewa'),
+            self::Perawatan => __('Dalam Perawatan'),
         };
     }
 

@@ -152,6 +152,161 @@ final class PembukuanTest extends TestCase
         $response->assertSessionHasErrors('amount');
     }
 
+    // ── Input transaksi manual (debit/kredit, semua tipe akun) ──────────────
+    //
+    // inputTransaksi() dipakai untuk SEMUA tipe akun (aset, liabilitas,
+    // modal, pendapatan, pengeluaran) lewat satu form yang sama. Arah
+    // perubahan balance HARUS mengikuti sisi saldo normal masing-masing
+    // tipe akun, bukan selalu diperlakukan seperti akun pengeluaran.
+
+    public function test_input_debit_pada_akun_aset_menambah_saldo_dan_mengurangi_kas(): void
+    {
+        $akunAset = Account::factory()->create(['tipe' => 'aset', 'balance' => 0]);
+
+        $response = $this->actingAs($this->admin)->post(route('admin.pembukuan.input-transaksi'), [
+            'account_id' => $akunAset->id,
+            'tipe_transaksi' => 'debit',
+            'amount' => 200_000,
+            'description' => 'Beli perlengkapan kantor',
+            'date' => now()->toDateString(),
+        ]);
+
+        $response->assertRedirect();
+        $response->assertSessionHas('success');
+
+        $this->assertEquals(200_000, (float) $akunAset->fresh()->balance);
+        $this->assertEquals(800_000, (float) $this->kas->fresh()->balance);
+    }
+
+    public function test_input_kredit_pada_akun_aset_mengurangi_saldo_dan_menambah_kas(): void
+    {
+        $akunAset = Account::factory()->create(['tipe' => 'aset', 'balance' => 500_000]);
+
+        $this->actingAs($this->admin)->post(route('admin.pembukuan.input-transaksi'), [
+            'account_id' => $akunAset->id,
+            'tipe_transaksi' => 'credit',
+            'amount' => 200_000,
+            'description' => 'Piutang sewa dilunasi',
+            'date' => now()->toDateString(),
+        ]);
+
+        $this->assertEquals(300_000, (float) $akunAset->fresh()->balance);
+        $this->assertEquals(1_200_000, (float) $this->kas->fresh()->balance);
+    }
+
+    public function test_input_kredit_pada_akun_liabilitas_menambah_saldo_dan_menambah_kas(): void
+    {
+        // Contoh: pinjam uang dari bank — utang bertambah, kas bertambah.
+        $akunLiabilitas = Account::factory()->create(['tipe' => 'liabilitas', 'balance' => 0]);
+
+        $response = $this->actingAs($this->admin)->post(route('admin.pembukuan.input-transaksi'), [
+            'account_id' => $akunLiabilitas->id,
+            'tipe_transaksi' => 'credit',
+            'amount' => 300_000,
+            'description' => 'Pinjaman bank',
+            'date' => now()->toDateString(),
+        ]);
+
+        $response->assertSessionHas('success');
+
+        $this->assertEquals(300_000, (float) $akunLiabilitas->fresh()->balance);
+        $this->assertEquals(1_300_000, (float) $this->kas->fresh()->balance);
+    }
+
+    public function test_input_debit_pada_akun_liabilitas_mengurangi_saldo_dan_mengurangi_kas(): void
+    {
+        // Contoh: bayar utang — utang berkurang, kas berkurang.
+        $akunLiabilitas = Account::factory()->create(['tipe' => 'liabilitas', 'balance' => 500_000]);
+
+        $this->actingAs($this->admin)->post(route('admin.pembukuan.input-transaksi'), [
+            'account_id' => $akunLiabilitas->id,
+            'tipe_transaksi' => 'debit',
+            'amount' => 200_000,
+            'description' => 'Bayar cicilan utang bank',
+            'date' => now()->toDateString(),
+        ]);
+
+        $this->assertEquals(300_000, (float) $akunLiabilitas->fresh()->balance);
+        $this->assertEquals(800_000, (float) $this->kas->fresh()->balance);
+    }
+
+    public function test_input_kredit_pada_akun_modal_menambah_saldo_dan_menambah_kas(): void
+    {
+        // Contoh: pemilik menyuntik modal — modal bertambah, kas bertambah.
+        $akunModal = Account::factory()->create(['tipe' => 'modal', 'balance' => 0]);
+
+        $this->actingAs($this->admin)->post(route('admin.pembukuan.input-transaksi'), [
+            'account_id' => $akunModal->id,
+            'tipe_transaksi' => 'credit',
+            'amount' => 1_000_000,
+            'description' => 'Setoran modal pemilik',
+            'date' => now()->toDateString(),
+        ]);
+
+        $this->assertEquals(1_000_000, (float) $akunModal->fresh()->balance);
+        $this->assertEquals(2_000_000, (float) $this->kas->fresh()->balance);
+    }
+
+    public function test_input_debit_pada_akun_pendapatan_mengurangi_saldo_dan_mengurangi_kas(): void
+    {
+        // Contoh: koreksi/refund pendapatan — pendapatan berkurang, kas berkurang.
+        $akunPendapatan = Account::factory()->pendapatanSewa()->create(['balance' => 500_000]);
+
+        $this->actingAs($this->admin)->post(route('admin.pembukuan.input-transaksi'), [
+            'account_id' => $akunPendapatan->id,
+            'tipe_transaksi' => 'debit',
+            'amount' => 100_000,
+            'description' => 'Koreksi pendapatan sewa',
+            'date' => now()->toDateString(),
+        ]);
+
+        $this->assertEquals(400_000, (float) $akunPendapatan->fresh()->balance);
+        $this->assertEquals(900_000, (float) $this->kas->fresh()->balance);
+    }
+
+    public function test_input_debit_pada_akun_pengeluaran_menambah_saldo_dan_mengurangi_kas(): void
+    {
+        $akunPengeluaran = Account::factory()->create(['tipe' => 'pengeluaran', 'balance' => 0]);
+
+        $this->actingAs($this->admin)->post(route('admin.pembukuan.input-transaksi'), [
+            'account_id' => $akunPengeluaran->id,
+            'tipe_transaksi' => 'debit',
+            'amount' => 150_000,
+            'description' => 'Biaya bahan bakar',
+            'date' => now()->toDateString(),
+        ]);
+
+        $this->assertEquals(150_000, (float) $akunPengeluaran->fresh()->balance);
+        $this->assertEquals(850_000, (float) $this->kas->fresh()->balance);
+    }
+
+    public function test_input_transaksi_mencatat_jurnal_seimbang_debit_dan_kredit(): void
+    {
+        $akunLiabilitas = Account::factory()->create(['tipe' => 'liabilitas', 'balance' => 0]);
+
+        $this->actingAs($this->admin)->post(route('admin.pembukuan.input-transaksi'), [
+            'account_id' => $akunLiabilitas->id,
+            'tipe_transaksi' => 'credit',
+            'amount' => 250_000,
+            'description' => 'Pinjaman bank',
+            'date' => now()->toDateString(),
+        ]);
+
+        // Sisi jurnal akun yang dipilih harus kredit.
+        $this->assertDatabaseHas('journal_entries', [
+            'account_id' => $akunLiabilitas->id,
+            'debit' => '0.00',
+            'credit' => '250000.00',
+        ]);
+
+        // Sisi jurnal Kas harus berlawanan (debit), menjaga jurnal tetap seimbang.
+        $this->assertDatabaseHas('journal_entries', [
+            'account_id' => $this->kas->id,
+            'debit' => '250000.00',
+            'credit' => '0.00',
+        ]);
+    }
+
     // ── Edit akun ────────────────────────────────────────────────────────
 
     public function test_admin_dapat_mengubah_nama_akun_biasa(): void

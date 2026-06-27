@@ -233,59 +233,52 @@ class PembukuanController extends Controller
         ]);
 
         $account = Account::findOrFail($validated['account_id']);
+        $kas = Account::where('kode', '1-001')->firstOrFail();
+        $amount = $validated['amount'];
+        $isDebit = $validated['tipe_transaksi'] === 'debit';
 
-        // Tentukan debit/kredit berdasarkan input
-        $debit = $validated['tipe_transaksi'] === 'debit' ? $validated['amount'] : 0;
-        $credit = $validated['tipe_transaksi'] === 'credit' ? $validated['amount'] : 0;
+        // ── Jurnal: akun yang dipilih ───────────────────────────────────
+        // Sisi jurnal SELALU mengikuti pilihan admin (debit atau kredit),
+        // apa pun jenis akunnya — ini murni representasi pencatatan jurnal.
+        JournalEntry::create([
+            'account_id' => $account->id,
+            'debit' => $isDebit ? $amount : 0,
+            'credit' => $isDebit ? 0 : $amount,
+            'description' => $validated['description'],
+            'date' => $validated['date'],
+        ]);
 
-        // Jika kredit, ambil kas untuk balanced entry
-        if ($validated['tipe_transaksi'] === 'credit') {
-            $kas = Account::where('kode', '1-001')->firstOrFail();
+        // ── Jurnal: Kas sebagai lawan transaksi (balanced entry) ────────
+        // Sisi jurnal Kas selalu berlawanan dengan akun yang dipilih.
+        JournalEntry::create([
+            'account_id' => $kas->id,
+            'debit' => $isDebit ? 0 : $amount,
+            'credit' => $isDebit ? $amount : 0,
+            'description' => $isDebit
+                ? "Kas keluar — {$validated['description']}"
+                : "Kas masuk — {$validated['description']}",
+            'date' => $validated['date'],
+        ]);
 
-            // Debit Kas (karena kas berkurang)
-            JournalEntry::create([
-                'account_id' => $kas->id,
-                'debit' => $validated['amount'],
-                'credit' => 0,
-                'description' => "Kas keluar — {$validated['description']}",
-                'date' => $validated['date'],
-            ]);
+        // ── Update balance akun yang dipilih ────────────────────────────
+        // Arah perubahan saldo riil tergantung sisi normal akun tersebut:
+        // - Aset & Pengeluaran  → saldo normal Debit (debit menambah saldo)
+        // - Liabilitas, Modal, Pendapatan → saldo normal Kredit (kredit menambah saldo)
+        $menambahSaldoAkun = $isDebit === $account->saldoNormalDebit();
 
-            // Kredit Akun
-            JournalEntry::create([
-                'account_id' => $account->id,
-                'debit' => 0,
-                'credit' => $validated['amount'],
-                'description' => $validated['description'],
-                'date' => $validated['date'],
-            ]);
-
-            $kas->decrement('balance', $validated['amount']);
-            $account->increment('balance', $validated['amount']);
+        if ($menambahSaldoAkun) {
+            $account->increment('balance', $amount);
         } else {
-            // Jika debit, sebaliknya
-            $kas = Account::where('kode', '1-001')->firstOrFail();
+            $account->decrement('balance', $amount);
+        }
 
-            // Debit Akun
-            JournalEntry::create([
-                'account_id' => $account->id,
-                'debit' => $validated['amount'],
-                'credit' => 0,
-                'description' => $validated['description'],
-                'date' => $validated['date'],
-            ]);
-
-            // Kredit Kas
-            JournalEntry::create([
-                'account_id' => $kas->id,
-                'debit' => 0,
-                'credit' => $validated['amount'],
-                'description' => "Kas masuk — {$validated['description']}",
-                'date' => $validated['date'],
-            ]);
-
-            $account->increment('balance', $validated['amount']);
-            $kas->increment('balance', $validated['amount']);
+        // ── Update balance Kas ───────────────────────────────────────────
+        // Kas adalah akun Aset (saldo normal Debit): debit Kas = kas
+        // bertambah, kredit Kas = kas berkurang. Lawan dari sisi akun pilihan.
+        if ($isDebit) {
+            $kas->decrement('balance', $amount);
+        } else {
+            $kas->increment('balance', $amount);
         }
 
         return back()->with('success', __('Transaksi berhasil dicatat.'));

@@ -18,12 +18,12 @@ enum StatusPemesanan: string
     public function label(): string
     {
         return match ($this) {
-            self::Pending => 'Menunggu Pembayaran',
-            self::MenungguKonfirmasiAdmin => 'Menunggu Konfirmasi',
-            self::Dikonfirmasi => 'Dikonfirmasi',
-            self::Selesai => 'Selesai',
-            self::Dibatalkan => 'Dibatalkan',
-            self::Kadaluarsa => 'Kadaluarsa',
+            self::Pending => __('Menunggu Pembayaran'),
+            self::MenungguKonfirmasiAdmin => __('Menunggu Konfirmasi'),
+            self::Dikonfirmasi => __('Dikonfirmasi'),
+            self::Selesai => __('Selesai'),
+            self::Dibatalkan => __('Dibatalkan'),
+            self::Kadaluarsa => __('Kadaluarsa'),
         };
     }
 

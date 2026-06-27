@@ -14,10 +14,10 @@ enum StatusPayment: string
     public function label(): string
     {
         return match ($this) {
-            self::Pending => 'Menunggu Pembayaran',
-            self::MenungguKonfirmasi => 'Menunggu Konfirmasi Admin',
-            self::Dikonfirmasi => 'Dikonfirmasi',
-            self::Dibatalkan => 'Dibatalkan',
+            self::Pending => __('Menunggu Pembayaran'),
+            self::MenungguKonfirmasi => __('Menunggu Konfirmasi Admin'),
+            self::Dikonfirmasi => __('Dikonfirmasi'),
+            self::Dibatalkan => __('Dibatalkan'),
         };
     }
 

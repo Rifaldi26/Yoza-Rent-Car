@@ -54,7 +54,7 @@
                             <p class="text-sm text-[#7a8499]">{{ $mobil->merek }} &middot; {{ $mobil->tahun }}</p>
                         </div>
                         <x-status-badge :status="$mobil->status">
-                            {{ ucfirst($mobil->status) }}
+                            {{ $mobil->labelStatus() }}
                         </x-status-badge>
                     </div>
 

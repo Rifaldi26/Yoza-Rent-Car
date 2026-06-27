@@ -298,7 +298,7 @@
                             default        => 'badge-pending'
                         };
                     @endphp
-                    <span class="badge {{ $statusClass }}">{{ ucfirst($p->status) }}</span>
+                    <span class="badge {{ $statusClass }}">{{ $p->labelStatus() }}</span>
                 </td>
                 <td class="text-center">{{ $p->payment?->labelMetode() ?? '&mdash;' }}</td>
                 <td class="text-center nowrap">
