@@ -84,7 +84,7 @@
                     <td class="px-4 py-3 text-center">
                         {{-- Hanya tampilkan tombol untuk akun manual (bukan Kas, Pendapatan Sewa, Pendapatan Jasa Supir) --}}
                         @if(!in_array($account->kode, ['1-001', '4-001', '4-002']))
-                            <button @click="$dispatch('open-modal-transaksi', { account_id: {{ $account->id }}, account_name: '{{ $account->nama_translated }}', tipe: '{{ $account->tipe }}' })"
+                            <button @click="$dispatch('set-data-transaksi', { account_id: {{ $account->id }}, account_name: '{{ $account->nama_translated }}', tipe: '{{ $account->tipe }}' })"
                                     class="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 
                                            bg-white px-2.5 py-1.5 text-xs font-medium text-gray-700
                                            hover:bg-gray-50 transition-colors">
@@ -197,12 +197,12 @@ function transaksiForm() {
         
         init() {
             // Listen untuk event dari tombol Input
-            document.addEventListener('open-modal-transaksi', (e) => {
+            document.addEventListener('set-data-transaksi', (e) => {
                 this.account_id = e.detail.account_id;
                 this.account_name = e.detail.account_name;
                 this.tipe = e.detail.tipe;
                 this.tipe_transaksi = 'debit'; // reset ke default
-                
+
                 // Open modal
                 this.$dispatch('open-modal-transaksi');
             });
